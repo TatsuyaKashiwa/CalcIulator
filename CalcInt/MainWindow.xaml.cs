@@ -45,7 +45,9 @@ namespace CalcInt
             }
             catch (System.FormatException)
             {
-                MessageBox.Show("値の入力を忘れています");
+                MessageBox.Show("値の入力を忘れています" + Environment.NewLine +
+                    "CEを押すか" + Environment.NewLine +
+                    "再び数字を入力してください");
             }
             Result.Content = "";
         }
@@ -145,17 +147,23 @@ namespace CalcInt
             catch (System.DivideByZeroException)
             {
                 Result.Content = "";
-                MessageBox.Show("ゼロ除算です！");
+                MessageBox.Show("ゼロ除算です！"+ Environment.NewLine +
+                    "CEを押してリセットしていただくか" + Environment.NewLine +
+                    "再び数字を入力してください");
             }
             catch (System.OverflowException)
             {
                 Result.Content = "";
-                MessageBox.Show("値が許容範囲を超えています");
+                MessageBox.Show("値が許容範囲を超えています" + Environment.NewLine +
+                    "CEを押してリセットしていただくか" + Environment.NewLine +
+                    "再び数字を入力してください");
             }
             catch (System.FormatException)
             {
                 Result.Content = "";
-                MessageBox.Show("値の入力を忘れています");
+                MessageBox.Show("値の入力を忘れています" + Environment.NewLine +
+                    "CEを押してリセットしていただくか" + Environment.NewLine +
+                    "再び数字を入力してください");
             }
         }
     }
