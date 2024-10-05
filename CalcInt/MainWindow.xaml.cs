@@ -21,6 +21,8 @@ namespace CalcInt
             InitializeComponent();
         }
 
+        int _temp;
+
         void ButtonInput(string s) 
         {
             if (Result.Content is "0")
@@ -31,6 +33,20 @@ namespace CalcInt
             {
                 Result.Content += s;
             }
+        }
+
+        void BringInEntry()
+        {
+            try
+            {
+                PreviousResult.Content = Result.Content;
+                _temp = int.Parse((string)PreviousResult.Content);
+            }
+            catch (System.FormatException)
+            {
+                MessageBox.Show("値の入力を忘れています");
+            }
+            Result.Content = "";
         }
 
         private void seven_Click(object sender, RoutedEventArgs e)
@@ -92,6 +108,31 @@ namespace CalcInt
         private void clear_Click(object sender, RoutedEventArgs e)
         {
             Result.Content = "";
+        }
+
+        private void sum_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void diff_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void multip_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void div_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void equal_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

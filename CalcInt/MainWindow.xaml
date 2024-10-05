@@ -26,17 +26,22 @@
         </Grid.RowDefinitions>
         <Label Name="PreviousResult" Content="" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Background="White"/>
         <Label Name="Result" Content="" Grid.Row="2" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="4" FontSize="18" Background="Azure"/>
+        <Button x:Name="equal" Content="=" Grid.Row="4" Grid.Column="3" FontSize="24" Click="equal_Click"/>
         <Button x:Name="seven" Content="7" Grid.Row="5" Grid.Column="0" FontSize="24" Click="seven_Click"/>
         <Button x:Name="eight" Content="8" Grid.Row="5" Grid.Column="1" FontSize="24" Click="eight_Click"/>
         <Button x:Name="nine" Content="9" Grid.Row="5" Grid.Column="2" FontSize="24" Click="nine_Click"/>
+        <Button x:Name="sum" Content="+" Grid.Row="5" Grid.Column="3" FontSize="24" Click="sum_Click"/>
         <Button x:Name="four" Content="4" Grid.Row="6" Grid.Column="0" FontSize="24" Click="four_Click"/>
         <Button x:Name="five" Content="5" Grid.Row="6" Grid.Column="1" FontSize="24" Click="five_Click"/>
         <Button x:Name="six" Content="6" Grid.Row="6" Grid.Column="2" FontSize="24" Click="six_Click"/>
+        <Button x:Name="diff" Content="-" Grid.Row="6" Grid.Column="3" FontSize="24" Click="diff_Click"/>
         <Button x:Name="one" Content="1" Grid.Row="7" Grid.Column="0" FontSize="24" Click="one_Click"/>
         <Button x:Name="two" Content="2" Grid.Row="7" Grid.Column="1" FontSize="24" Click="two_Click"/>
         <Button x:Name="three" Content="3" Grid.Row="7" Grid.Column="2" FontSize="24" Click="three_Click"/>
+        <Button x:Name="multip" Content="×" Grid.Row="7" Grid.Column="3" FontSize="24" Click="multip_Click"/>
         <Button x:Name="sign" Content="+/-" Grid.Row="8" Grid.Column="0" FontSize="24" Click="sign_Click"/>
         <Button x:Name="zero" Content="0" Grid.Row="8" Grid.Column="1" FontSize="24" Click="zero_Click"/>
         <Button x:Name="clear" Content="c" Grid.Row="8" Grid.Column="2" FontSize="24" Click="clear_Click"/>
+        <Button x:Name="div" Content="÷" Grid.Row="8" Grid.Column="3" FontSize="24" Click="div_Click"/>
     </Grid>
 </Window>
