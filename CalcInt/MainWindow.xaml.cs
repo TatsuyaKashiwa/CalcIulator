@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace CalcInt
 {
@@ -23,6 +24,7 @@ namespace CalcInt
 
         internal static int temp;
         Calculatable calc;
+        bool isTempEntred = false;
 
         void ToBinary()
         {
@@ -59,6 +61,7 @@ namespace CalcInt
             {
                 PreviousResult.Content = Result.Content;
                 ContinuousCalc();
+                isTempEntred = true;
                 temp = int.Parse((string)PreviousResult.Content);
             }
             catch (System.FormatException)
@@ -72,9 +75,15 @@ namespace CalcInt
 
         void ContinuousCalc() 
         {
-            if ((string)PreviousResult.Content != "") {
-                PreviousResult.Content = calc.Calculate((string)Result.Content).ToString();
+            if (isTempEntred) {
+                PreviousResult.Content = calc.Calculate((string)PreviousResult.Content).ToString();
             }
+        }
+
+        /*log.txtは絶対パスを記載してください*/
+        void Logging(string s) 
+        {
+            File.AppendAllText("log.txt", s);
         }
 
         private void seven_Click(object sender, RoutedEventArgs e)
@@ -140,24 +149,32 @@ namespace CalcInt
 
         private void sum_Click(object sender, RoutedEventArgs e)
         {
+            string s = Result.Content + "+";
+            Logging(s);
             calc = new Sum();
             BringInEntry();
         }
 
         private void diff_Click(object sender, RoutedEventArgs e)
         {
+            string s = Result.Content + "-";
+            Logging(s);
             calc = new Diff();
             BringInEntry();
         }
 
         private void multip_Click(object sender, RoutedEventArgs e)
         {
+            string s = Result.Content + "×";
+            Logging(s);
             calc = new Multip();
             BringInEntry();
         }
 
         private void div_Click(object sender, RoutedEventArgs e)
         {
+            string s = Result.Content + "÷";
+            Logging(s);
             calc = new Div();
             BringInEntry();
         }
@@ -169,6 +186,8 @@ namespace CalcInt
                 Result.Content = calc.Calculate((string)Result.Content).ToString();
                 ToBinary();
                 ToHex();
+                string s = PreviousResult.Content + " = " + Result.Content + Environment.NewLine;
+                Logging(s);
                 PreviousResult.Content = Result.Content;
             }
             catch (System.DivideByZeroException)
@@ -200,6 +219,7 @@ namespace CalcInt
             ToBinary();
             ToHex();
             PreviousResult.Content = "";
+            isTempEntred = false;
         }
     }
 }
