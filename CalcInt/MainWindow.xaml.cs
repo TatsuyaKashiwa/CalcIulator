@@ -24,32 +24,57 @@ namespace CalcInt
         internal static int temp;
         Calculatable calc;
 
+        void ToBinary()
+        {
+            BinaryResult.Content = ((string)Result.Content == "") ? 
+                "bin:" : "bin:" + Convert.ToString(int.Parse((string)Result.Content),2);
+        }
+        void ToHex()
+        {
+            HexaDecimalResult.Content = ((string)Result.Content == "") ?
+                "hex:" : "hex:" + Convert.ToString(int.Parse((string)Result.Content), 16);
+        }
+
         void ButtonInput(string s) 
         {
             if (Result.Content is "0")
             {
                 Result.Content = s;
+                ToBinary();
+                ToHex();
             }
             else
             {
                 Result.Content += s;
+                ToBinary();
+                ToHex();
             }
         }
 
+        //入力値の表示位置を前回入力値の部分に変更
+        //入力値をintに変換し変数tempに代入
         void BringInEntry()
         {
             try
             {
                 PreviousResult.Content = Result.Content;
+                ContinuousCalc();
                 temp = int.Parse((string)PreviousResult.Content);
             }
             catch (System.FormatException)
             {
                 MessageBox.Show("値の入力を忘れています" + Environment.NewLine +
-                    "CEを押すか" + Environment.NewLine +
+                    "Cを押してリセットしていただくか" + Environment.NewLine +
                     "再び数字を入力してください");
             }
             Result.Content = "";
+        }
+
+        void ContinuousCalc() 
+        {
+            if ((string)PreviousResult.Content != "") {
+                PreviousResult.Content = calc.Calculate((string)Result.Content).ToString();
+            }
         }
 
         private void seven_Click(object sender, RoutedEventArgs e)
@@ -115,26 +140,26 @@ namespace CalcInt
 
         private void sum_Click(object sender, RoutedEventArgs e)
         {
-            BringInEntry();
             calc = new Sum();
+            BringInEntry();
         }
 
         private void diff_Click(object sender, RoutedEventArgs e)
         {
-            BringInEntry();
             calc = new Diff();
+            BringInEntry();
         }
 
         private void multip_Click(object sender, RoutedEventArgs e)
         {
-            BringInEntry();
             calc = new Multip();
+            BringInEntry();
         }
 
         private void div_Click(object sender, RoutedEventArgs e)
         {
-            BringInEntry();
             calc = new Div();
+            BringInEntry();
         }
 
         private void equal_Click(object sender, RoutedEventArgs e)
@@ -142,29 +167,39 @@ namespace CalcInt
             try
             {
                 Result.Content = calc.Calculate((string)Result.Content).ToString();
+                ToBinary();
+                ToHex();
                 PreviousResult.Content = Result.Content;
             }
             catch (System.DivideByZeroException)
             {
                 Result.Content = "";
                 MessageBox.Show("ゼロ除算です！"+ Environment.NewLine +
-                    "CEを押してリセットしていただくか" + Environment.NewLine +
+                    "Cを押してリセットしていただくか" + Environment.NewLine +
                     "再び数字を入力してください");
             }
             catch (System.OverflowException)
             {
                 Result.Content = "";
                 MessageBox.Show("値が許容範囲を超えています" + Environment.NewLine +
-                    "CEを押してリセットしていただくか" + Environment.NewLine +
+                    "Cを押してリセットしていただくか" + Environment.NewLine +
                     "再び数字を入力してください");
             }
             catch (System.FormatException)
             {
                 Result.Content = "";
                 MessageBox.Show("値の入力を忘れています" + Environment.NewLine +
-                    "CEを押してリセットしていただくか" + Environment.NewLine +
+                    "Cを押してリセットしていただくか" + Environment.NewLine +
                     "再び数字を入力してください");
             }
+        }
+
+        private void c_Click(object sender, RoutedEventArgs e)
+        {
+            Result.Content = "";
+            ToBinary();
+            ToHex();
+            PreviousResult.Content = "";
         }
     }
 }
