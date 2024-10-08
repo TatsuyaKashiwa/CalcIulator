@@ -28,8 +28,8 @@ namespace CalcInt
 
         void ToBinary()
         {
-            BinaryResult.Content = ((string)Result.Content == "") ? 
-                "bin:" : "bin:" + Convert.ToString(int.Parse((string)Result.Content),2);
+            BinaryResult.Content = ((string)Result.Content == "") ?
+                "bin:" : "bin:" + Convert.ToString(int.Parse((string)Result.Content), 2);
         }
         void ToHex()
         {
@@ -37,7 +37,7 @@ namespace CalcInt
                 "hex:" : "hex:" + Convert.ToString(int.Parse((string)Result.Content), 16);
         }
 
-        void ButtonInput(string s) 
+        void ButtonInput(string s)
         {
             if (Result.Content is "0")
             {
@@ -69,9 +69,7 @@ namespace CalcInt
             }
             catch (System.FormatException)
             {
-                MessageBox.Show("値の入力を忘れています" + Environment.NewLine +
-                    "Cを押してリセットしていただくか" + Environment.NewLine +
-                    "再び数字を入力してください");
+                WindowFunctions.ShowErrorMessage("値の入力を忘れています" );
             }
             Result.Content = "";
         }
@@ -84,12 +82,12 @@ namespace CalcInt
         /*log.txtは絶対パスを記載してください*/
         void Logging(string s) 
         {
-            File.AppendAllText("log.txt", s);
+            File.AppendAllText(".\\log.txt", s);
         }
 
         private void seven_Click(object sender, RoutedEventArgs e)
         {
-            ButtonInput((string)seven.Content);
+           ButtonInput((string)seven.Content);
         }
 
         private void eight_Click(object sender, RoutedEventArgs e)
@@ -184,33 +182,28 @@ namespace CalcInt
         {
             try
             {
+                string onePrevious = (string)Result.Content;
                 Result.Content = calc.Calculate((string)Result.Content).ToString();
                 ToBinary();
                 ToHex();
-                string s = PreviousResult.Content + " = " + Result.Content + Environment.NewLine;
+                string s = onePrevious + " = " + Result.Content + Environment.NewLine;
                 Logging(s);
                 PreviousResult.Content = Result.Content;
             }
             catch (System.DivideByZeroException)
             {
                 Result.Content = "";
-                MessageBox.Show("ゼロ除算です！"+ Environment.NewLine +
-                    "Cを押してリセットしていただくか" + Environment.NewLine +
-                    "再び数字を入力してください");
+                WindowFunctions.ShowErrorMessage("ゼロ除算です！");
             }
             catch (System.OverflowException)
             {
                 Result.Content = "";
-                MessageBox.Show("値が許容範囲を超えています" + Environment.NewLine +
-                    "Cを押してリセットしていただくか" + Environment.NewLine +
-                    "再び数字を入力してください");
+                WindowFunctions.ShowErrorMessage("値が許容範囲を超えています" );
             }
             catch (System.FormatException)
             {
                 Result.Content = "";
-                MessageBox.Show("値の入力を忘れています" + Environment.NewLine +
-                    "Cを押してリセットしていただくか" + Environment.NewLine +
-                    "再び数字を入力してください");
+                WindowFunctions.ShowErrorMessage("値の入力を忘れています");
             }
         }
 
@@ -221,6 +214,60 @@ namespace CalcInt
             ToHex();
             PreviousResult.Content = "";
             isTempEnterd = false;
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.NumPad0: 
+                    ButtonInput((string)zero.Content);
+                    break;
+                case Key.NumPad1:
+                    ButtonInput((string)one.Content);
+                    break;
+                case Key.NumPad2:
+                    ButtonInput((string)two.Content);
+                    break;
+                case Key.NumPad3:
+                    ButtonInput((string)three.Content);
+                    break;
+                case Key.NumPad4:
+                    ButtonInput((string)four.Content);
+                    break;
+                case Key.NumPad5:
+                    ButtonInput((string)five.Content);
+                    break;
+                case Key.NumPad6:
+                    ButtonInput((string)six.Content);
+                    break;
+                case Key.NumPad7:
+                    ButtonInput((string)seven.Content);
+                    break;
+                case Key.NumPad8:
+                    ButtonInput((string)eight.Content);
+                    break;
+                case Key.NumPad9:
+                    ButtonInput((string)nine.Content);
+                    break;
+                case Key.Add:
+                    sum_Click(sender, e);
+                    break;
+                case Key.Subtract:
+                    diff_Click(sender, e);
+                    break;
+                case Key.Multiply:
+                    multip_Click(sender, e);
+                    break;
+                case Key.Divide:
+                    div_Click(sender, e);
+                    break;
+                case Key.Enter:
+                    equal_Click(sender, e);
+                    break;
+                default:; ;
+                    break;
+            }
         }
     }
 }

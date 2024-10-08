@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CalcInt"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="400">
+        Title="MainWindow" Height="450" Width="400" KeyDown="Window_KeyDown">
     <Grid Background="DarkGray">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
