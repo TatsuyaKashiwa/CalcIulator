@@ -24,7 +24,7 @@ namespace CalcInt
 
         internal static int temp;
         Calculatable calc;
-        bool isTempEntred = false;
+        bool isTempEnterd = false;
 
         void ToBinary()
         {
@@ -60,8 +60,11 @@ namespace CalcInt
             try
             {
                 PreviousResult.Content = Result.Content;
-                ContinuousCalc();
-                isTempEntred = true;
+                if (isTempEnterd)
+                {
+                    ContinuousCalc();
+                }
+                isTempEnterd = true;
                 temp = int.Parse((string)PreviousResult.Content);
             }
             catch (System.FormatException)
@@ -75,9 +78,7 @@ namespace CalcInt
 
         void ContinuousCalc() 
         {
-            if (isTempEntred) {
-                PreviousResult.Content = calc.Calculate((string)PreviousResult.Content).ToString();
-            }
+            PreviousResult.Content = calc.Calculate((string)PreviousResult.Content).ToString();
         }
 
         /*log.txtは絶対パスを記載してください*/
@@ -151,32 +152,32 @@ namespace CalcInt
         {
             string s = Result.Content + "+";
             Logging(s);
-            calc = new Sum();
             BringInEntry();
+            calc = new Sum();
         }
 
         private void diff_Click(object sender, RoutedEventArgs e)
         {
             string s = Result.Content + "-";
             Logging(s);
-            calc = new Diff();
             BringInEntry();
+            calc = new Diff();
         }
 
         private void multip_Click(object sender, RoutedEventArgs e)
         {
             string s = Result.Content + "×";
             Logging(s);
-            calc = new Multip();
             BringInEntry();
+            calc = new Multip();
         }
 
         private void div_Click(object sender, RoutedEventArgs e)
         {
             string s = Result.Content + "÷";
             Logging(s);
-            calc = new Div();
             BringInEntry();
+            calc = new Div();
         }
 
         private void equal_Click(object sender, RoutedEventArgs e)
@@ -219,7 +220,7 @@ namespace CalcInt
             ToBinary();
             ToHex();
             PreviousResult.Content = "";
-            isTempEntred = false;
+            isTempEnterd = false;
         }
     }
 }
