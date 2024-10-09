@@ -8,7 +8,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.IO;
 
 namespace CalcInt
 {
@@ -23,10 +22,38 @@ namespace CalcInt
         }
 
         internal static int temp;
-        Calculatable calc;
+        internal Calculatable calc;
+        //２回目以降の演算かを示します。２回目以降の演算であればTrueとなります。
         bool isTempEnterd = false;
 
-        void ToBinary()
+        //入力値の表示位置を前回入力値の部分に変更します
+        //入力値をintに変換し変数tempに代入します
+        void BringInEntry()
+        {
+            try
+            {
+                PreviousResult.Content = Result.Content;
+                if (isTempEnterd)
+                {
+                    ContinuousCalc();
+                }
+                isTempEnterd = true;
+                MainWindow.temp = int.Parse((string)PreviousResult.Content);
+            }
+            catch (Exception ex)
+            {
+                WindowFunctions.ShowErrorMessage(ex);
+            }
+            Result.Content = "";
+        }
+
+        //
+        internal void ContinuousCalc() 
+        {
+            PreviousResult.Content = calc.Calculate((string)PreviousResult.Content).ToString();
+        }
+
+         void ToBinary()
         {
             BinaryResult.Content = ((string)Result.Content == "") ?
                 "bin:" : "bin:" + Convert.ToString(int.Parse((string)Result.Content), 2);
@@ -37,7 +64,7 @@ namespace CalcInt
                 "hex:" : "hex:" + Convert.ToString(int.Parse((string)Result.Content), 16);
         }
 
-        void ButtonInput(string s)
+        internal void ButtonInput(string s)
         {
             if (Result.Content is "0")
             {
@@ -53,41 +80,9 @@ namespace CalcInt
             }
         }
 
-        //入力値の表示位置を前回入力値の部分に変更
-        //入力値をintに変換し変数tempに代入
-        void BringInEntry()
-        {
-            try
-            {
-                PreviousResult.Content = Result.Content;
-                if (isTempEnterd)
-                {
-                    ContinuousCalc();
-                }
-                isTempEnterd = true;
-                temp = int.Parse((string)PreviousResult.Content);
-            }
-            catch (System.FormatException)
-            {
-                WindowFunctions.ShowErrorMessage("値の入力を忘れています" );
-            }
-            Result.Content = "";
-        }
-
-        void ContinuousCalc() 
-        {
-            PreviousResult.Content = calc.Calculate((string)PreviousResult.Content).ToString();
-        }
-
-        /*log.txtは絶対パスを記載してください*/
-        void Logging(string s) 
-        {
-            File.AppendAllText(".\\log.txt", s);
-        }
-
         private void seven_Click(object sender, RoutedEventArgs e)
         {
-           ButtonInput((string)seven.Content);
+            ButtonInput((string)seven.Content);
         }
 
         private void eight_Click(object sender, RoutedEventArgs e)
@@ -146,39 +141,39 @@ namespace CalcInt
             Result.Content = "";
         }
 
-        private void sum_Click(object sender, RoutedEventArgs e)
+        internal void sum_Click(object sender, RoutedEventArgs e)
         {
             string s = Result.Content + "+";
-            Logging(s);
+            WindowFunctions.Logging(s);
             BringInEntry();
             calc = new Sum();
         }
 
-        private void diff_Click(object sender, RoutedEventArgs e)
+        internal void diff_Click(object sender, RoutedEventArgs e)
         {
             string s = Result.Content + "-";
-            Logging(s);
+            WindowFunctions.Logging(s);
             BringInEntry();
             calc = new Diff();
         }
 
-        private void multip_Click(object sender, RoutedEventArgs e)
+        internal void multip_Click(object sender, RoutedEventArgs e)
         {
             string s = Result.Content + "×";
-            Logging(s);
+            WindowFunctions.Logging(s);
             BringInEntry();
             calc = new Multip();
         }
 
-        private void div_Click(object sender, RoutedEventArgs e)
+        internal void div_Click(object sender, RoutedEventArgs e)
         {
             string s = Result.Content + "÷";
-            Logging(s);
+            WindowFunctions.Logging(s);
             BringInEntry();
             calc = new Div();
         }
 
-        private void equal_Click(object sender, RoutedEventArgs e)
+        internal void equal_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -187,26 +182,19 @@ namespace CalcInt
                 ToBinary();
                 ToHex();
                 string s = onePrevious + " = " + Result.Content + Environment.NewLine;
-                Logging(s);
+                WindowFunctions.Logging(s);
                 PreviousResult.Content = Result.Content;
             }
-            catch (System.DivideByZeroException)
+            catch (Exception ex)
             {
                 Result.Content = "";
-                WindowFunctions.ShowErrorMessage("ゼロ除算です！");
-            }
-            catch (System.OverflowException)
-            {
-                Result.Content = "";
-                WindowFunctions.ShowErrorMessage("値が許容範囲を超えています" );
-            }
-            catch (System.FormatException)
-            {
-                Result.Content = "";
-                WindowFunctions.ShowErrorMessage("値の入力を忘れています");
+                WindowFunctions.ShowErrorMessage(ex);
             }
         }
 
+        //cボタンクリックに対応するメソッドです。
+        //すべての入力を取り消します
+        //isTempEnterdも初期値に戻します
         private void c_Click(object sender, RoutedEventArgs e)
         {
             Result.Content = "";
@@ -216,11 +204,12 @@ namespace CalcInt
             isTempEnterd = false;
         }
 
+        //テンキー入力とアプリ内キーを連動させるメソッドです
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.Key)
             {
-                case Key.NumPad0: 
+                case Key.NumPad0:
                     ButtonInput((string)zero.Content);
                     break;
                 case Key.NumPad1:
@@ -265,9 +254,10 @@ namespace CalcInt
                 case Key.Enter:
                     equal_Click(sender, e);
                     break;
-                default:; ;
+                default:
                     break;
             }
-        }
+
+        }   
     }
 }
