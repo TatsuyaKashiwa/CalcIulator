@@ -19,23 +19,29 @@ namespace CalcInt
         static bool isTempEnterd = false;
         internal static void ShowErrorMessage(Exception e) 
         {
-            if (e is DivideByZeroException)
+            switch (e)
             {
-                MessageBox.Show("ゼロ除算です！" + Environment.NewLine +
+                case DivideByZeroException:
+                    MessageBox.Show("ゼロ除算です！" + Environment.NewLine +
+                  "Cを押してリセットしていただくか" + Environment.NewLine +
+                  "再び数字を入力してください");
+                    break;
+                case OverflowException:
+                    MessageBox.Show("値が許容範囲を超えています" + Environment.NewLine +
                  "Cを押してリセットしていただくか" + Environment.NewLine +
                  "再び数字を入力してください");
-            }
-            if (e is OverflowException)
-            {
-                MessageBox.Show("値が許容範囲を超えています" + Environment.NewLine +
-                 "Cを押してリセットしていただくか" + Environment.NewLine +
-                 "再び数字を入力してください");
-            }
-            if (e is FormatException)
-            {
-                MessageBox.Show("値の入力を忘れています" + Environment.NewLine +
-                 "Cを押してリセットしていただくか" + Environment.NewLine +
-                 "再び数字を入力してください");
+                    break;
+                case FormatException:
+                    MessageBox.Show("値の入力を忘れています" + Environment.NewLine +
+                  "Cを押してリセットしていただくか" + Environment.NewLine +
+                  "再び数字を入力してください");
+                    break;
+                case NullReferenceException:
+                    MessageBox.Show("演算が選択されていません" + Environment.NewLine +
+                  "演算を選択してください。" );
+                    break;
+                default:
+                    break;
             }
 
         }

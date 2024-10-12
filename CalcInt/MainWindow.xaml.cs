@@ -47,23 +47,44 @@ namespace CalcInt
             Result.Content = "";
         }
 
-        //
+        //メソッド実行時の前回入力値と現在入力値でボタンに応じた演算を行う
         internal void ContinuousCalc() 
         {
             PreviousResult.Content = calc.Calculate((string)PreviousResult.Content).ToString();
         }
 
-         void ToBinary()
+        //現在入力値を2進表記に変換し2進表記部に表示
+        void ToBinary()
         {
-            BinaryResult.Content = ((string)Result.Content == "") ?
-                "bin:" : "bin:" + Convert.ToString(int.Parse((string)Result.Content), 2);
+            try
+            {
+                BinaryResult.Content = ((string)Result.Content == "") ?
+                 "bin:" : "bin:" + Convert.ToString(int.Parse((string)Result.Content), 2);
+            }
+            catch (Exception ex)
+            {
+                WindowFunctions.ShowErrorMessage(ex);
+                Result.Content = "0";
+            }
         }
+        //現在入力値を16進表記に変換し16進表記部に表示
         void ToHex()
         {
-            HexaDecimalResult.Content = ((string)Result.Content == "") ?
+            try
+            {
+                HexaDecimalResult.Content = ((string)Result.Content == "") ?
                 "hex:" : "hex:" + Convert.ToString(int.Parse((string)Result.Content), 16);
+            }
+            catch (Exception ex)
+            {
+                WindowFunctions.ShowErrorMessage(ex);
+                Result.Content = "0";
+            }
         }
 
+        //ボタン(テンキー)入力した数字を表示部に反映させる
+        //0のみが入力されていたら入力値で上書き
+        //それ以外は右側に入力値を追記する
         internal void ButtonInput(string s)
         {
             if (Result.Content is "0")
@@ -80,6 +101,7 @@ namespace CalcInt
             }
         }
 
+        //数字キー
         private void seven_Click(object sender, RoutedEventArgs e)
         {
             ButtonInput((string)seven.Content);
@@ -125,25 +147,47 @@ namespace CalcInt
             ButtonInput((string)three.Content);
         }
 
-        private void sign_Click(object sender, RoutedEventArgs e)
-        {
-            int result = int.Parse((string)Result.Content);
-            Result.Content = (-result).ToString();
-        }
-
         private void zero_Click(object sender, RoutedEventArgs e)
         {
             ButtonInput((string)zero.Content);
         }
 
+       //機能キー
+       //+/-キーに対応するメソッドです。
+        private void sign_Click(object sender, RoutedEventArgs e)
+        {
+            var result = int.Parse((string)Result.Content);
+            Result.Content = (-result).ToString();
+            if (result == Int32.MinValue) 
+            {
+                MessageBox.Show("入力下限値です。" + Environment.NewLine
+                    +"符号反転はできません" + Environment.NewLine
+                    +"(減算・乗算も出来ません)");
+            }
+        }
+
+       //CEボタンに対応するメソッドです。
         private void clear_Click(object sender, RoutedEventArgs e)
         {
             Result.Content = "";
         }
 
+        //cボタンクリックに対応するメソッドです。
+        //すべての入力を取り消します
+        //isTempEnterdも初期値に戻します
+        private void c_Click(object sender, RoutedEventArgs e)
+        {
+            Result.Content = "";
+            calc = null;
+            ToBinary();
+            ToHex();
+            PreviousResult.Content = "";
+            isTempEnterd = false;
+        }
+
         internal void sum_Click(object sender, RoutedEventArgs e)
         {
-            string s = Result.Content + "+";
+            var s = Result.Content + "+";
             WindowFunctions.Logging(s);
             BringInEntry();
             calc = new Sum();
@@ -151,7 +195,7 @@ namespace CalcInt
 
         internal void diff_Click(object sender, RoutedEventArgs e)
         {
-            string s = Result.Content + "-";
+            var s = Result.Content + "-";
             WindowFunctions.Logging(s);
             BringInEntry();
             calc = new Diff();
@@ -159,7 +203,7 @@ namespace CalcInt
 
         internal void multip_Click(object sender, RoutedEventArgs e)
         {
-            string s = Result.Content + "×";
+            var s = Result.Content + "×";
             WindowFunctions.Logging(s);
             BringInEntry();
             calc = new Multip();
@@ -167,7 +211,7 @@ namespace CalcInt
 
         internal void div_Click(object sender, RoutedEventArgs e)
         {
-            string s = Result.Content + "÷";
+            var s = Result.Content + "÷";
             WindowFunctions.Logging(s);
             BringInEntry();
             calc = new Div();
@@ -177,31 +221,24 @@ namespace CalcInt
         {
             try
             {
-                string onePrevious = (string)Result.Content;
+                var onePrevious = (string)Result.Content;
                 Result.Content = calc.Calculate((string)Result.Content).ToString();
                 ToBinary();
                 ToHex();
-                string s = onePrevious + " = " + Result.Content + Environment.NewLine;
+                var s = onePrevious + " = " + Result.Content + Environment.NewLine;
                 WindowFunctions.Logging(s);
                 PreviousResult.Content = Result.Content;
             }
             catch (Exception ex)
             {
-                Result.Content = "";
                 WindowFunctions.ShowErrorMessage(ex);
-            }
-        }
+                if (ex is NullReferenceException){; }
+                else 
+                {
+                    Result.Content = "";
+                }
 
-        //cボタンクリックに対応するメソッドです。
-        //すべての入力を取り消します
-        //isTempEnterdも初期値に戻します
-        private void c_Click(object sender, RoutedEventArgs e)
-        {
-            Result.Content = "";
-            ToBinary();
-            ToHex();
-            PreviousResult.Content = "";
-            isTempEnterd = false;
+            }
         }
 
         //テンキー入力とアプリ内キーを連動させるメソッドです
