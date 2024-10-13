@@ -23,13 +23,11 @@ namespace CalcInt
             {
                 case DivideByZeroException:
                     MessageBox.Show("ゼロ除算です！" + Environment.NewLine +
-                  "Cを押してリセットしていただくか" + Environment.NewLine +
-                  "再び数字を入力してください");
+                  "値をリセットいたします。" );
                     break;
                 case OverflowException:
                     MessageBox.Show("値が許容範囲を超えています" + Environment.NewLine +
-                 "Cを押してリセットしていただくか" + Environment.NewLine +
-                 "再び数字を入力してください");
+                 "値をリセットいたします。");
                     break;
                 case FormatException:
                     MessageBox.Show("値の入力を忘れています" + Environment.NewLine +

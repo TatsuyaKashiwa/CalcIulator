@@ -10,7 +10,14 @@ namespace CalcInt
     {
         int Calculatable.Calculate(string s)
         {
-            return (MainWindow.temp) + (int.Parse(s));
+            try
+            {
+                return checked((MainWindow.temp) + (int.Parse(s)));
+            }
+            catch(Exception) 
+            {
+                throw;
+            }
         }
     }
 
@@ -18,7 +25,15 @@ namespace CalcInt
     {
         int Calculatable.Calculate(string s)
         {
-            return (MainWindow.temp) - (int.Parse(s));
+            try
+            {
+                return checked(MainWindow.isEqualEntered ?
+                (int.Parse(s)) - (MainWindow.temp) : (MainWindow.temp) - (int.Parse(s)));
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 
@@ -26,7 +41,14 @@ namespace CalcInt
     {
         int Calculatable.Calculate(string s)
         {
-            return (MainWindow.temp) * (int.Parse(s));
+            try
+            {
+                return checked((MainWindow.temp) * (int.Parse(s)));
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 
@@ -34,7 +56,15 @@ namespace CalcInt
     {
         int Calculatable.Calculate(string s)
         {
-            return (MainWindow.temp) / (int.Parse(s));
+            try
+            {
+                return checked(MainWindow.isEqualEntered ?
+                (int.Parse(s)) / (MainWindow.temp) : (MainWindow.temp) / (int.Parse(s)));
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

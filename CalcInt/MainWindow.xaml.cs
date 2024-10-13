@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -25,15 +26,22 @@ namespace CalcInt
         internal Calculatable calc;
         //２回目以降の演算かを示します。２回目以降の演算であればTrueとなります。
         bool isTempEnterd = false;
+        //＝が押されたかを示します。
+        static internal bool isEqualEntered = false;
 
-        //入力値の表示位置を前回入力値の部分に変更します
+        //四則演算キー押下時に入力値の表示位置を前回入力値の部分に変更します
         //入力値をintに変換し変数tempに代入します
         void BringInEntry()
         {
+            string prevResult ="";
+            if (PreviousResult.Content is not null)
+            {
+                prevResult = (string)PreviousResult.Content;
+            }
             try
             {
                 PreviousResult.Content = Result.Content;
-                if (isTempEnterd)
+                if (isTempEnterd && !isEqualEntered)
                 {
                     ContinuousCalc();
                 }
@@ -43,6 +51,10 @@ namespace CalcInt
             catch (Exception ex)
             {
                 WindowFunctions.ShowErrorMessage(ex);
+                if (ex is OverflowException || ex is DivideByZeroException) 
+                {
+                    allReset();
+                }
             }
             Result.Content = "";
         }
@@ -50,9 +62,25 @@ namespace CalcInt
         //メソッド実行時の前回入力値と現在入力値でボタンに応じた演算を行う
         internal void ContinuousCalc() 
         {
-            PreviousResult.Content = calc.Calculate((string)PreviousResult.Content).ToString();
+            int calcResult = checked(calc.Calculate((string)PreviousResult.Content));
+            PreviousResult.Content = calcResult.ToString();
+
         }
 
+        //cボタン押下時と再計算不可の例外に対して。
+        //すべての入力を取り消すメソッドです
+        //isTempEnterdも初期値に戻します
+        void allReset()
+        {
+            Result.Content = "";
+            calc = null;
+            ToBinary();
+            ToHex();
+            PreviousResult.Content = "";
+            isTempEnterd = false;
+            isEqualEntered = false;
+        } 
+        
         //現在入力値を2進表記に変換し2進表記部に表示
         void ToBinary()
         {
@@ -63,8 +91,14 @@ namespace CalcInt
             }
             catch (Exception ex)
             {
-                WindowFunctions.ShowErrorMessage(ex);
-                Result.Content = "0";
+                if (ex is OverflowException)
+                {
+                    BinaryResult.Content = "0";
+                }
+                else {
+                    WindowFunctions.ShowErrorMessage(ex);
+                    Result.Content = "0";
+                }
             }
         }
         //現在入力値を16進表記に変換し16進表記部に表示
@@ -77,8 +111,18 @@ namespace CalcInt
             }
             catch (Exception ex)
             {
-                WindowFunctions.ShowErrorMessage(ex);
-                Result.Content = "0";
+                if (ex is OverflowException)
+                {
+                    MessageBox.Show("値が許容範囲を超えています" + Environment.NewLine +
+                  "Cを押してリセットしていただくか" + Environment.NewLine +
+                  "再び数字を入力してください");
+                    HexaDecimalResult.Content = "0";
+                }
+                else
+                {
+                    WindowFunctions.ShowErrorMessage(ex);
+                    Result.Content = "0";
+                }
             }
         }
 
@@ -156,20 +200,35 @@ namespace CalcInt
        //+/-キーに対応するメソッドです。
         private void sign_Click(object sender, RoutedEventArgs e)
         {
-            var result = int.Parse((string)Result.Content);
-            Result.Content = (-result).ToString();
-            if (result == Int32.MinValue) 
+            try
             {
-                MessageBox.Show("入力下限値です。" + Environment.NewLine
-                    +"符号反転はできません" + Environment.NewLine
-                    +"(減算・乗算も出来ません)");
+                var result = int.Parse((string)Result.Content);
+                Result.Content = (-result).ToString();
+                if (result == Int32.MinValue)
+                {
+                    MessageBox.Show("入力下限値です。" + Environment.NewLine
+                        + "符号反転はできません" + Environment.NewLine
+                        + "(減算・乗算も出来ません)");
+                }
+            }
+            catch (Exception ex)
+            {
+                if (PreviousResult.Content is null)
+                {
+                    WindowFunctions.ShowErrorMessage(ex);
+                }
+                else 
+                {
+                    PreviousResult.Content = (-int.Parse((string)PreviousResult.Content)).ToString();
+                }
+                
             }
         }
 
        //CEボタンに対応するメソッドです。
         private void clear_Click(object sender, RoutedEventArgs e)
         {
-            Result.Content = "";
+            Result.Content = "0";
         }
 
         //cボタンクリックに対応するメソッドです。
@@ -177,19 +236,16 @@ namespace CalcInt
         //isTempEnterdも初期値に戻します
         private void c_Click(object sender, RoutedEventArgs e)
         {
-            Result.Content = "";
-            calc = null;
-            ToBinary();
-            ToHex();
-            PreviousResult.Content = "";
-            isTempEnterd = false;
+            allReset();
         }
 
+        //四則演算キー
         internal void sum_Click(object sender, RoutedEventArgs e)
         {
             var s = Result.Content + "+";
             WindowFunctions.Logging(s);
             BringInEntry();
+            isEqualEntered = false;
             calc = new Sum();
         }
 
@@ -198,6 +254,7 @@ namespace CalcInt
             var s = Result.Content + "-";
             WindowFunctions.Logging(s);
             BringInEntry();
+            isEqualEntered = false;
             calc = new Diff();
         }
 
@@ -206,6 +263,7 @@ namespace CalcInt
             var s = Result.Content + "×";
             WindowFunctions.Logging(s);
             BringInEntry();
+            isEqualEntered = false;
             calc = new Multip();
         }
 
@@ -214,30 +272,39 @@ namespace CalcInt
             var s = Result.Content + "÷";
             WindowFunctions.Logging(s);
             BringInEntry();
+            isEqualEntered = false;
             calc = new Div();
         }
 
+        //＝キー
         internal void equal_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 var onePrevious = (string)Result.Content;
-                Result.Content = calc.Calculate((string)Result.Content).ToString();
+                Result.Content = calc.Calculate(onePrevious).ToString();
                 ToBinary();
                 ToHex();
                 var s = onePrevious + " = " + Result.Content + Environment.NewLine;
                 WindowFunctions.Logging(s);
+                if (!isEqualEntered)
+                {
+                    MainWindow.temp = int.Parse(onePrevious);
+                }
+                isEqualEntered = true;
                 PreviousResult.Content = Result.Content;
             }
             catch (Exception ex)
             {
                 WindowFunctions.ShowErrorMessage(ex);
-                if (ex is NullReferenceException){; }
-                else 
+                if (ex is not NullReferenceException)
                 {
                     Result.Content = "";
                 }
-
+                if (ex is OverflowException || ex is DivideByZeroException)
+                {
+                    allReset();
+                }
             }
         }
 
