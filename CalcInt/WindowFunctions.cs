@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 using System.IO;
+using System.CodeDom;
 
 namespace CalcInt
 {
@@ -22,10 +23,12 @@ namespace CalcInt
             switch (e)
             {
                 case DivideByZeroException:
+                    Logging("DivideByZeroException");
                     MessageBox.Show("ゼロ除算です！" + Environment.NewLine +
                   "値をリセットいたします。" );
                     break;
                 case OverflowException:
+                    Logging("OverflowException");
                     MessageBox.Show("値が許容範囲を超えています" + Environment.NewLine +
                  "値をリセットいたします。");
                     break;
@@ -50,6 +53,29 @@ namespace CalcInt
             File.AppendAllText(@".\log.txt", s);
         }
 
+        internal static string oparatorReturn(Calculatable calc)
+        {
+            if (calc.GetType() == typeof(Sum))
+            {
+                return "+";
+            }
+            if (calc.GetType() == typeof(Diff))
+            {
+                return "-";
+            }
+            if (calc.GetType() == typeof(Multip))
+            {
+                return "×";
+            }
+            if (calc.GetType() == typeof(Div))
+            {
+                return "÷6";
+            }
+            else
+            {
+                return "";
+            }
+        }
         
 
        

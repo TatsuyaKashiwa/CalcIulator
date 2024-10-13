@@ -28,6 +28,8 @@ namespace CalcInt
         bool isTempEnterd = false;
         //＝が押されたかを示します。
         static internal bool isEqualEntered = false;
+        //演算子が押されたかを示します
+        static internal bool isOperatorEntered = false;
 
         //四則演算キー押下時に入力値の表示位置を前回入力値の部分に変更します
         //入力値をintに変換し変数tempに代入します
@@ -51,10 +53,20 @@ namespace CalcInt
             catch (Exception ex)
             {
                 WindowFunctions.ShowErrorMessage(ex);
-                if (ex is OverflowException || ex is DivideByZeroException) 
+                switch (ex) 
                 {
-                    allReset();
+                    case FormatException:
+                        PreviousResult.Content = MainWindow.temp.ToString();
+                        break;
+                    case DivideByZeroException:
+                    case OverflowException:
+                        allReset();
+                        break;
+                    default:
+                        break;
+
                 }
+
             }
             Result.Content = "";
         }
@@ -79,8 +91,10 @@ namespace CalcInt
             PreviousResult.Content = "";
             isTempEnterd = false;
             isEqualEntered = false;
-        } 
-        
+            isOperatorEntered = false;
+            WindowFunctions.Logging(Environment.NewLine);
+        }
+
         //現在入力値を2進表記に変換し2進表記部に表示
         void ToBinary()
         {
@@ -93,7 +107,7 @@ namespace CalcInt
             {
                 if (ex is OverflowException)
                 {
-                    BinaryResult.Content = "0";
+                    BinaryResult.Content = "bin:0";
                 }
                 else {
                     WindowFunctions.ShowErrorMessage(ex);
@@ -114,9 +128,9 @@ namespace CalcInt
                 if (ex is OverflowException)
                 {
                     MessageBox.Show("値が許容範囲を超えています" + Environment.NewLine +
-                  "Cを押してリセットしていただくか" + Environment.NewLine +
+                  "CEを押してリセットしていただくか" + Environment.NewLine +
                   "再び数字を入力してください");
-                    HexaDecimalResult.Content = "0";
+                    HexaDecimalResult.Content = "hex:0";
                 }
                 else
                 {
@@ -148,51 +162,61 @@ namespace CalcInt
         //数字キー
         private void seven_Click(object sender, RoutedEventArgs e)
         {
+            isOperatorEntered = false;
             ButtonInput((string)seven.Content);
         }
 
         private void eight_Click(object sender, RoutedEventArgs e)
         {
+            isOperatorEntered = false;
             ButtonInput((string)eight.Content);
         }
 
         private void nine_Click(object sender, RoutedEventArgs e)
         {
+            isOperatorEntered = false;
             ButtonInput((string)nine.Content);
         }
 
         private void four_Click(object sender, RoutedEventArgs e)
         {
+            isOperatorEntered = false;
             ButtonInput((string)four.Content);
         }
 
         private void five_Click(object sender, RoutedEventArgs e)
         {
+            isOperatorEntered = false;
             ButtonInput((string)five.Content);
         }
 
         private void six_Click(object sender, RoutedEventArgs e)
         {
+            isOperatorEntered = false;
             ButtonInput((string)six.Content);
         }
 
         private void one_Click(object sender, RoutedEventArgs e)
         {
+            isOperatorEntered = false;
             ButtonInput((string)one.Content);
         }
 
         private void two_Click(object sender, RoutedEventArgs e)
         {
+            isOperatorEntered = false;
             ButtonInput((string)two.Content);
         }
 
         private void three_Click(object sender, RoutedEventArgs e)
         {
+            isOperatorEntered = false;
             ButtonInput((string)three.Content);
         }
 
         private void zero_Click(object sender, RoutedEventArgs e)
         {
+            isOperatorEntered = false;
             ButtonInput((string)zero.Content);
         }
 
@@ -202,6 +226,11 @@ namespace CalcInt
         {
             try
             {
+                if (PreviousResult.Content is null)
+                {
+                    WindowFunctions.Logging((string)Result.Content);
+                    PreviousResult.Content = Result.Content;
+                }
                 var result = int.Parse((string)Result.Content);
                 Result.Content = (-result).ToString();
                 if (result == Int32.MinValue)
@@ -209,6 +238,10 @@ namespace CalcInt
                     MessageBox.Show("入力下限値です。" + Environment.NewLine
                         + "符号反転はできません" + Environment.NewLine
                         + "(減算・乗算も出来ません)");
+                }
+                else
+                {
+                    WindowFunctions.Logging("(+/-)");
                 }
             }
             catch (Exception ex)
@@ -219,7 +252,9 @@ namespace CalcInt
                 }
                 else 
                 {
-                    PreviousResult.Content = (-int.Parse((string)PreviousResult.Content)).ToString();
+                    MainWindow.temp = -int.Parse((string)PreviousResult.Content);
+                    PreviousResult.Content = MainWindow.temp.ToString();
+                    WindowFunctions.Logging("(+/-)");
                 }
                 
             }
@@ -242,8 +277,12 @@ namespace CalcInt
         //四則演算キー
         internal void sum_Click(object sender, RoutedEventArgs e)
         {
-            var s = Result.Content + "+";
-            WindowFunctions.Logging(s);
+            if (!isOperatorEntered)
+            {
+                var s = Result.Content + "+";
+                WindowFunctions.Logging(s);
+            }
+            isOperatorEntered = true;
             BringInEntry();
             isEqualEntered = false;
             calc = new Sum();
@@ -251,8 +290,12 @@ namespace CalcInt
 
         internal void diff_Click(object sender, RoutedEventArgs e)
         {
-            var s = Result.Content + "-";
-            WindowFunctions.Logging(s);
+            if (!isOperatorEntered)
+            {
+                var s = Result.Content + "-";
+                WindowFunctions.Logging(s);
+            }
+            isOperatorEntered = true;
             BringInEntry();
             isEqualEntered = false;
             calc = new Diff();
@@ -260,8 +303,12 @@ namespace CalcInt
 
         internal void multip_Click(object sender, RoutedEventArgs e)
         {
-            var s = Result.Content + "×";
-            WindowFunctions.Logging(s);
+            if (!isOperatorEntered)
+            {
+                var s = Result.Content + "×";
+                WindowFunctions.Logging(s);
+            }
+            isOperatorEntered = true;
             BringInEntry();
             isEqualEntered = false;
             calc = new Multip();
@@ -269,8 +316,12 @@ namespace CalcInt
 
         internal void div_Click(object sender, RoutedEventArgs e)
         {
-            var s = Result.Content + "÷";
-            WindowFunctions.Logging(s);
+            if (!isOperatorEntered)
+            {
+                var s = Result.Content + "÷";
+                WindowFunctions.Logging(s);
+            }
+            isOperatorEntered = true;
             BringInEntry();
             isEqualEntered = false;
             calc = new Div();
@@ -281,14 +332,21 @@ namespace CalcInt
         {
             try
             {
+                isOperatorEntered = false;
                 var onePrevious = (string)Result.Content;
                 Result.Content = calc.Calculate(onePrevious).ToString();
                 ToBinary();
                 ToHex();
-                var s = onePrevious + " = " + Result.Content + Environment.NewLine;
-                WindowFunctions.Logging(s);
-                if (!isEqualEntered)
+                if (isEqualEntered) 
                 {
+                    string oprt = WindowFunctions.oparatorReturn(calc);
+                    var s = onePrevious +oprt + MainWindow.temp.ToString() + " = " + Result.Content + Environment.NewLine;
+                    WindowFunctions.Logging(s);
+                }
+                else
+                {
+                    var s = onePrevious + " = " + Result.Content + Environment.NewLine;
+                    WindowFunctions.Logging(s);
                     MainWindow.temp = int.Parse(onePrevious);
                 }
                 isEqualEntered = true;
@@ -314,33 +372,43 @@ namespace CalcInt
             switch (e.Key)
             {
                 case Key.NumPad0:
+                    isOperatorEntered = false;
                     ButtonInput((string)zero.Content);
                     break;
                 case Key.NumPad1:
+                    isOperatorEntered = false;
                     ButtonInput((string)one.Content);
                     break;
                 case Key.NumPad2:
+                    isOperatorEntered = false;
                     ButtonInput((string)two.Content);
                     break;
                 case Key.NumPad3:
+                    isOperatorEntered = false;
                     ButtonInput((string)three.Content);
                     break;
                 case Key.NumPad4:
+                    isOperatorEntered = false;
                     ButtonInput((string)four.Content);
                     break;
                 case Key.NumPad5:
+                    isOperatorEntered = false;
                     ButtonInput((string)five.Content);
                     break;
                 case Key.NumPad6:
+                    isOperatorEntered = false;
                     ButtonInput((string)six.Content);
                     break;
                 case Key.NumPad7:
+                    isOperatorEntered = false;
                     ButtonInput((string)seven.Content);
                     break;
                 case Key.NumPad8:
+                    isOperatorEntered = false;
                     ButtonInput((string)eight.Content);
                     break;
                 case Key.NumPad9:
+                    isOperatorEntered = false;
                     ButtonInput((string)nine.Content);
                     break;
                 case Key.Add:
