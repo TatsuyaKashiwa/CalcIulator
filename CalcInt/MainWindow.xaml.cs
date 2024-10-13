@@ -131,6 +131,7 @@ namespace CalcInt
                   "CEを押してリセットしていただくか" + Environment.NewLine +
                   "再び数字を入力してください");
                     HexaDecimalResult.Content = "hex:0";
+                    Result.Content = "0";
                 }
                 else
                 {
