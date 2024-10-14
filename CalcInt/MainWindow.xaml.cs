@@ -247,7 +247,7 @@ namespace CalcInt
             }
             catch (Exception ex)
             {
-                if (PreviousResult.Content is null)
+                if (PreviousResult.Content is "")
                 {
                     WindowFunctions.ShowErrorMessage(ex);
                 }
