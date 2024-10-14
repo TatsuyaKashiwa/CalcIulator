@@ -35,11 +35,6 @@ namespace CalcInt
         //入力値をintに変換し変数tempに代入します
         void BringInEntry()
         {
-            string prevResult ="";
-            if (PreviousResult.Content is not null)
-            {
-                prevResult = (string)PreviousResult.Content;
-            }
             try
             {
                 PreviousResult.Content = Result.Content;
