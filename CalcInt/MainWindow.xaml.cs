@@ -71,7 +71,7 @@ namespace CalcInt
         //メソッド実行時の前回入力値と現在入力値でボタンに応じた演算を行う
         internal void ContinuousCalc() 
         {
-            int calcResult = checked(calc.Calculate((string)PreviousResult.Content));
+            int calcResult = calc.Calculate((string)PreviousResult.Content);
             PreviousResult.Content = calcResult.ToString();
 
         }
@@ -260,19 +260,19 @@ namespace CalcInt
             }
         }
 
-       //CEボタンに対応するメソッドです。
-        private void clear_Click(object sender, RoutedEventArgs e)
-        {
-            Result.Content = "0";
-        }
+        //CEボタンに対応するメソッド。
+        //表示値のみを0にして残りの値を保持した状態にするため
+        //表示値を0に変更するのみの記述とした
+        private void clear_Click(object sender, RoutedEventArgs e) => Result.Content = "0";
+        
 
-        //cボタンクリックに対応するメソッドです。
-        //すべての入力を取り消します
-        //isTempEnterdも初期値に戻します
-        private void c_Click(object sender, RoutedEventArgs e)
-        {
-            allReset();
-        }
+        //cボタンクリックに対応するメソッド。
+        //すべての入力を取り消すため
+        //allResetメソッドを呼び出す。
+        private void c_Click(object sender, RoutedEventArgs e) => allReset();
+        
+
+        
 
         //四則演算キー
         internal void sum_Click(object sender, RoutedEventArgs e)
@@ -366,7 +366,9 @@ namespace CalcInt
             }
         }
 
-        //テンキー入力とアプリ内キーを連動させるメソッドです
+        //テンキー入力とアプリ内キーを連動させるメソッド
+        //テンキー入力とアプリ内キーが一対一で対応する必要があるため
+        //押下されたキーに対して対応するアプリ内キー押下時メソッドを呼び出すようにした
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.Key)
