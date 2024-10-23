@@ -30,8 +30,10 @@ namespace CalcInt
         static internal bool isEqualEntered = false;
         //演算子が押されたかを示します
         static internal bool isOperatorEntered = false;
+        
 
-        //四則演算キー押下時に入力値の表示位置を前回入力値の部分に変更します
+        //四則演算キー押下→次の数字キーを押下までの間に入力値を前回入力値表示欄に移動する必要がある
+        //
         //入力値をintに変換し変数tempに代入します
         void BringInEntry()
         {
@@ -156,6 +158,8 @@ namespace CalcInt
         }
 
         //数字キー
+        //数値が入力される時点で演算子過剰押下防止のフラグを倒す必要があるため
+        //演算子押下のフラグをfalseに戻して、押下した数字と表示値を対応させる
         private void seven_Click(object sender, RoutedEventArgs e)
         {
             isOperatorEntered = false;
@@ -368,44 +372,34 @@ namespace CalcInt
             switch (e.Key)
             {
                 case Key.NumPad0:
-                    isOperatorEntered = false;
-                    ButtonInput((string)zero.Content);
+                    zero_Click(sender, e);
                     break;
                 case Key.NumPad1:
-                    isOperatorEntered = false;
-                    ButtonInput((string)one.Content);
+                    one_Click(sender, e);
                     break;
                 case Key.NumPad2:
-                    isOperatorEntered = false;
-                    ButtonInput((string)two.Content);
+                    two_Click(sender, e);
                     break;
                 case Key.NumPad3:
-                    isOperatorEntered = false;
-                    ButtonInput((string)three.Content);
+                    three_Click(sender, e);
                     break;
                 case Key.NumPad4:
-                    isOperatorEntered = false;
-                    ButtonInput((string)four.Content);
+                    four_Click(sender, e);
                     break;
                 case Key.NumPad5:
-                    isOperatorEntered = false;
-                    ButtonInput((string)five.Content);
+                    five_Click(sender, e);
                     break;
                 case Key.NumPad6:
-                    isOperatorEntered = false;
-                    ButtonInput((string)six.Content);
+                    six_Click(sender, e);
                     break;
                 case Key.NumPad7:
-                    isOperatorEntered = false;
-                    ButtonInput((string)seven.Content);
+                    seven_Click(sender, e);
                     break;
                 case Key.NumPad8:
-                    isOperatorEntered = false;
-                    ButtonInput((string)eight.Content);
+                    eight_Click(sender, e);
                     break;
                 case Key.NumPad9:
-                    isOperatorEntered = false;
-                    ButtonInput((string)nine.Content);
+                    nine_Click(sender, e);
                     break;
                 case Key.Add:
                     sum_Click(sender, e);

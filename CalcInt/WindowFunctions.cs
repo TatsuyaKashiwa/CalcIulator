@@ -17,7 +17,9 @@ namespace CalcInt
 {
     internal class WindowFunctions
     {
-        static bool isTempEnterd = false;
+        //例外発生に伴うエラー表示の統一を行うべく
+        //一つの事象（例外を受け取る）に対し4個の分岐があるため
+        //switch文により処理を分岐させた
         internal static void ShowErrorMessage(Exception e) 
         {
             switch (e)
@@ -48,11 +50,15 @@ namespace CalcInt
         }
 
         /*log.txtは絶対パスを記載してください*/
-        internal static void Logging(string s)
-        {
-            File.AppendAllText(@".\log.txt", s);
-        }
+        //入力値をログとして記録するべく
+        //適切なタイミングで(演算子や＝押下時等)で記録できるよう
+        //入力値（と演算子）をまとめて引数で受け取り記録できるようにした
+        internal static void Logging(string s) => File.AppendAllText(@".\log.txt", s);
+        
 
+        //連続＝押下での演算時にログに演算子が記録されない事象を解決するため
+        //直前の四則演算キー押下により生成されたインスタンスに対応した演算子を記録させるため
+        //よりわかりやすく書くことのできるif文で各演算子に対応する分岐を書いた
         internal static string oparatorReturn(Calculatable calc)
         {
             if (calc.GetType() == typeof(Sum))
@@ -69,7 +75,7 @@ namespace CalcInt
             }
             if (calc.GetType() == typeof(Div))
             {
-                return "÷6";
+                return "÷";
             }
             else
             {
