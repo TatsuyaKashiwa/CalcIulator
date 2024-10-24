@@ -400,44 +400,6 @@ namespace CalcInt
             }
         }
 
-        void equal() 
-        {
-            try
-            {
-                isOperatorEntered = false;
-                var onePrevious = (string)Result.Content;
-                Result.Content = calc.Calculate(onePrevious).ToString();
-                ToBinary();
-                ToHex();
-                //PreviousResult.Content = Result.Content;
-                if (isEqualEntered)
-                {
-                    string oprt = WindowFunctions.oparatorReturn(calc);
-                    var s = onePrevious + oprt + MainWindow.temp.ToString() + " = " + Result.Content + Environment.NewLine;
-                    WindowFunctions.Logging(s);
-                }
-                else
-                {
-                    var s = onePrevious + " = " + Result.Content + Environment.NewLine;
-                    WindowFunctions.Logging(s);
-                    MainWindow.temp = int.Parse(onePrevious);
-                }
-                isEqualEntered = true;
-                PreviousResult.Content = Result.Content;
-            }
-            catch (Exception ex)
-            {
-                WindowFunctions.ShowErrorMessage(ex);
-                if (ex is not NullReferenceException)
-                {
-                    Result.Content = "";
-                }
-                if (ex is OverflowException || ex is DivideByZeroException)
-                {
-                    allReset();
-                }
-            }
-        }
 
         //テンキー入力とアプリ内キーを連動させるメソッド
         //テンキー入力とアプリ内キーが一対一で対応する必要があるため
