@@ -21,25 +21,38 @@ namespace CalcInt
         {
             InitializeComponent();
         }
-
+        //演算は多相性を用いるため別クラスとして、前回入力値と引数で与えられた現在の入力値で行う
+        //前回入力値は各演算クラスで利用できる必要があるため
+        //前回入力値をstatic変数として受ける
         internal static int temp;
+        
         internal Calculatable calc;
-        //２回目以降の演算かを示します。２回目以降の演算であればTrueとなります。
+        
+        //前回入力値があるときには連続計算(演算子押下時に演算がなされる)可能としたい
+        //連続計算(前回入力値に対する演算)できるかを区別する必要があるため
+        //前回入力値が表示されるタイミングでtrueとなり、Cボタンや例外で前回入力値がリセットされる際にfalseになるフラグを導入した
         bool isTempEnterd = false;
-        //＝が押されたかを示します。
+        
+        //＝連続押下と通常の演算で演算手法に差があり、＝が押される前後でオペランドの向きが変わる演算がある
+        //＝連続押下の演算であるかどうかの判別が必要となるため
+        //＝押下でtrueになり、演算子が押される(通常の演算に戻る)時falseに戻るフラグを導入した
         static internal bool isEqualEntered = false;
-        //演算子が押されたかを示します
-        static internal bool isOperatorEntered = false;
+        
+        //演算キー過剰押下による演算がなされない演算子がログに記録されるのを防ぎたい
+        //演算キー連続押下時に演算子のログ記録を防ぐために
+        //演算キーが押されるとtrueになり、数字キー・＝キーが押されるとfalseに戻るフラグを導入した
+        bool isOperatorEntered = false;
         
 
-        //四則演算キー押下→次の数字キーを押下までの間に入力値を前回入力値表示欄に移動する必要がある
-        //
-        //入力値をintに変換し変数tempに代入します
+        //四則演算キー押下時に入力値を前回入力値表示へと移動し、計算される値を受け入れる状態とする必要がある
+        //値を前回入力値に取り込んでから表示をリセットする必要があるため
+        //前回入力値に現在値を代入→temp変数へその値を代入→現在値表示をリセットの順で処理を行う
         void BringInEntry()
         {
             try
             {
                 PreviousResult.Content = Result.Content;
+                //
                 if (isTempEnterd && !isEqualEntered)
                 {
                     ContinuousCalc();
@@ -96,7 +109,8 @@ namespace CalcInt
         }
 
         //現在入力値を2進表記に変換し2進表記部に表示
-
+        //下記の16進数と常にペアで運用されるため
+        //両者共通の操作(エラーメッセージ表示・現在入力値を0にする)は16進数のメソッドにまとめた。
         void ToBinary()
         {
             try
@@ -112,11 +126,12 @@ namespace CalcInt
                 }
                 else {
                     WindowFunctions.ShowErrorMessage(ex);
-                    Result.Content = "0";
                 }
             }
         }
         //現在入力値を16進表記に変換し16進表記部に表示
+        //OverflowExceptionは致命的でなく現在入力値を再入力すれば良いので
+        //通常とは別個の処理とした
         void ToHex()
         {
             try
@@ -230,13 +245,22 @@ namespace CalcInt
         {
             try
             {
+                //演算キーが初期状態から一回も押されていない状態では入力値は記録されない
+                //当該条件時かつ+/-ボタン押下時に数値を記録するため
+                //この条件分岐を導入した
                 if (PreviousResult.Content is null)
                 {
                     WindowFunctions.Logging((string)Result.Content);
                     PreviousResult.Content = Result.Content;
                 }
+                //符号反転のためint32型として表示値を扱いたい
+                //現在表示値のint型への変換はキャストとPerseを伴い記述量が多く、さらに後記の最小値の処理の関係で
+                //仮置変数(result変数)を導入した
                 var result = int.Parse((string)Result.Content);
                 Result.Content = (-result).ToString();
+                //int32型最小値はint32型最大値に符号を付けたものに比べて1小さい
+                //しかし上記符号反転では例外が発生せず何も動作が行われないため
+                //そのことを示すメッセージボックスを表示させるようにした。
                 if (result == Int32.MinValue)
                 {
                     MessageBox.Show("入力下限値です。" + Environment.NewLine
@@ -248,6 +272,9 @@ namespace CalcInt
                     WindowFunctions.Logging("(+/-)");
                 }
             }
+            //例外に対する捕捉を行う
+            //発生しうる例外がFormatExceptionのみで、前回入力値があれば前回入力値に対して符号反転させたいので
+            //例外の種類ではなく前回入力値があるかどうかで条件分けを行った
             catch (Exception ex)
             {
                 if (PreviousResult.Content is "")
@@ -278,7 +305,9 @@ namespace CalcInt
 
         
 
-        //四則演算キー
+        //四則演算キー 前回入力値がない場合は実際の演算が行われない準備段階となる
+        //演算される値の受け入れならびに演算の準備を行うため
+        //現在入力値を前回入力値として取り込み、演算に対応するインスタンス生成を行う
         internal void sum_Click(object sender, RoutedEventArgs e)
         {
             if (!isOperatorEntered)
@@ -341,10 +370,50 @@ namespace CalcInt
                 Result.Content = calc.Calculate(onePrevious).ToString();
                 ToBinary();
                 ToHex();
+                //PreviousResult.Content = Result.Content;
                 if (isEqualEntered) 
                 {
                     string oprt = WindowFunctions.oparatorReturn(calc);
                     var s = onePrevious +oprt + MainWindow.temp.ToString() + " = " + Result.Content + Environment.NewLine;
+                    WindowFunctions.Logging(s);
+                }
+                else
+                {
+                    var s = onePrevious + " = " + Result.Content + Environment.NewLine;
+                    WindowFunctions.Logging(s);
+                    MainWindow.temp = int.Parse(onePrevious);
+                }
+                isEqualEntered = true;
+                PreviousResult.Content = Result.Content;
+            }
+            catch (Exception ex)
+            {
+                WindowFunctions.ShowErrorMessage(ex);
+                if (ex is not NullReferenceException)
+                {
+                    Result.Content = "";
+                }
+                if (ex is OverflowException || ex is DivideByZeroException)
+                {
+                    allReset();
+                }
+            }
+        }
+
+        void equal() 
+        {
+            try
+            {
+                isOperatorEntered = false;
+                var onePrevious = (string)Result.Content;
+                Result.Content = calc.Calculate(onePrevious).ToString();
+                ToBinary();
+                ToHex();
+                //PreviousResult.Content = Result.Content;
+                if (isEqualEntered)
+                {
+                    string oprt = WindowFunctions.oparatorReturn(calc);
+                    var s = onePrevious + oprt + MainWindow.temp.ToString() + " = " + Result.Content + Environment.NewLine;
                     WindowFunctions.Logging(s);
                 }
                 else
