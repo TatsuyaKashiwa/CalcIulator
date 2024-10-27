@@ -374,7 +374,7 @@ namespace CalcInt
                 if (isEqualEntered) 
                 {
                     string oprt = WindowFunctions.oparatorReturn(calc);
-                    var s = onePrevious +oprt + MainWindow.temp.ToString() + " = " + Result.Content + Environment.NewLine;
+                    var s = @$"{onePrevious} {oprt} {MainWindow.temp.ToString()} =  {Result.Content}  Environment.NewLine";
                     WindowFunctions.Logging(s);
                 }
                 else
@@ -457,6 +457,6 @@ namespace CalcInt
                     break;
             }
 
-        }   
+        }
     }
 }
