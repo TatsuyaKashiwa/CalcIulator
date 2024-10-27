@@ -27,10 +27,10 @@
             <RowDefinition Height="2*"/>
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
-        <Label Name="BinaryResult" Content="bin:" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Background="White"/>
-        <Label Name="HexaDecimalResult" Content="hex:" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Background="White"/>
-        <Label Name="PreviousResult" Content="" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Background="White"/>
-        <Label Name="Result" Content="" Grid.Row="2" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="4" FontSize="36" Padding="5,40,5,10" Background="Azure"/>
+        <Label Name="BinaryResult" Content="{Binding BinaryResultContent,UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Background="White"/>
+        <Label Name="HexaDecimalResult" Content="{Binding HexaDecimalResultContent,UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Background="White"/>
+        <Label Name="PreviousResult" Content="{Binding PreviousResultContent,UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Background="White"/>
+        <Label Name="Result" Content="{Binding ResultContentt,UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="4" FontSize="36" Padding="5,40,5,10" Background="Azure"/>
         <Button x:Name="seven" Content="7" Grid.Row="4" Grid.Column="0" FontSize="24" Click="seven_Click"/>
         <Button x:Name="eight" Content="8" Grid.Row="4" Grid.Column="1" FontSize="24" Click="eight_Click"/>
         <Button x:Name="nine" Content="9" Grid.Row="4" Grid.Column="2" FontSize="24" Click="nine_Click"/>
