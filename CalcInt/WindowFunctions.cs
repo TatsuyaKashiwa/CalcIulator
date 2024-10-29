@@ -32,22 +32,22 @@ namespace CalcInt
             {
                 case DivideByZeroException:
                     Logging("DivideByZeroException");
-                    MessageBox.Show("ゼロ除算です！" + Environment.NewLine +
-                  "値をリセットいたします。");
+                    MessageBox.Show(@"ゼロ除算です！
+値をリセットいたします。");
                     break;
                 case OverflowException:
                     Logging("OverflowException");
-                    MessageBox.Show("値が許容範囲を超えています" + Environment.NewLine +
-                 "値をリセットいたします。");
+                    MessageBox.Show(@"値が許容範囲を超えています
+値をリセットいたします。");
                     break;
                 case FormatException:
-                    MessageBox.Show("値の入力を忘れています" + Environment.NewLine +
-                  "Cを押してリセットしていただくか" + Environment.NewLine +
-                  "再び数字を入力してください");
+                    MessageBox.Show(@"値の入力を忘れています
+Cを押してリセットしていただくか
+再び数字を入力してください");
                     break;
                 case NullReferenceException:
-                    MessageBox.Show("演算が選択されていません" + Environment.NewLine +
-                  "演算を選択してください。");
+                    MessageBox.Show(@"演算が選択されていません
+演算を選択してください。");
                     break;
                 default:
                     break;
