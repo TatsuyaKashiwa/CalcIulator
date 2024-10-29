@@ -373,7 +373,7 @@ namespace CalcInt
                 //PreviousResult.Content = Result.Content;
                 if (isEqualEntered) 
                 {
-                    string oprt = WindowFunctions.oparatorReturn(calc);
+                    string oprt = WindowFunctions.OparatorReturn(calc);
                     var s = onePrevious +oprt + MainWindow.temp.ToString() + " = " + Result.Content + Environment.NewLine;
                     WindowFunctions.Logging(s);
                 }
