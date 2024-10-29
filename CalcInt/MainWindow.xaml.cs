@@ -42,7 +42,33 @@ namespace CalcInt
         //演算キー連続押下時に演算子のログ記録を防ぐために
         //演算キーが押されるとtrueになり、数字キー・＝キーが押されるとfalseに戻るフラグを導入した
         bool isOperatorEntered = false;
-        
+
+        /// <summary>
+        /// BringInEntry()メソッドの例外の処理を行うメソッド
+        /// </summary>
+        /// <param name="ex">catchされた例外</param>
+        /// <remarks>
+        /// BringInEntry()メソッドの例外に対応する部分が煩雑となっていたため分離
+        /// FormatException(入力忘れ)は前回入力値に値を収納し、
+        /// 演算不可能な例外は値をリセット
+        /// </remarks>
+        private void CorrespondExceptionWhenEnter(Exception ex) 
+        {
+            WindowFunctions.ShowErrorMessage(ex);
+            switch (ex)
+            {
+                case FormatException:
+                    PreviousResult.Content = MainWindow.temp.ToString();
+                    break;
+                case DivideByZeroException:
+                case OverflowException:
+                    allReset();
+                    break;
+                default:
+                    break;
+
+            }
+        }
 
         //四則演算キー押下時に入力値を前回入力値表示へと移動し、計算される値を受け入れる状態とする必要がある
         //値を前回入力値に取り込んでから表示をリセットする必要があるため
@@ -52,7 +78,7 @@ namespace CalcInt
             try
             {
                 PreviousResult.Content = Result.Content;
-                //
+                
                 if (isTempEnterd && !isEqualEntered)
                 {
                     ContinuousCalc();
@@ -62,21 +88,7 @@ namespace CalcInt
             }
             catch (Exception ex)
             {
-                WindowFunctions.ShowErrorMessage(ex);
-                switch (ex) 
-                {
-                    case FormatException:
-                        PreviousResult.Content = MainWindow.temp.ToString();
-                        break;
-                    case DivideByZeroException:
-                    case OverflowException:
-                        allReset();
-                        break;
-                    default:
-                        break;
-
-                }
-
+                CorrespondExceptionWhenEnter(ex);
             }
             Result.Content = "";
         }
@@ -143,9 +155,9 @@ namespace CalcInt
             {
                 if (ex is OverflowException)
                 {
-                    MessageBox.Show("値が許容範囲を超えています" + Environment.NewLine +
-                  "CEを押してリセットしていただくか" + Environment.NewLine +
-                  "再び数字を入力してください");
+                    MessageBox.Show(@"値が許容範囲を超えています
+CEを押してリセットしていただくか
+再び数字を入力してください");
                     HexaDecimalResult.Content = "hex:0";
                     Result.Content = "0";
                 }

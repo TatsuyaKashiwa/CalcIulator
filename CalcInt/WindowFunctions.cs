@@ -26,14 +26,14 @@ namespace CalcInt
         ///一つの事象（例外を受け取る）に対し4個の分岐があるため
         ///switch文により処理を分岐させた
         ///</remarks>
-        internal static void ShowErrorMessage(Exception e) 
+        internal static void ShowErrorMessage(Exception e)
         {
             switch (e)
             {
                 case DivideByZeroException:
                     Logging("DivideByZeroException");
                     MessageBox.Show("ゼロ除算です！" + Environment.NewLine +
-                  "値をリセットいたします。" );
+                  "値をリセットいたします。");
                     break;
                 case OverflowException:
                     Logging("OverflowException");
@@ -47,7 +47,7 @@ namespace CalcInt
                     break;
                 case NullReferenceException:
                     MessageBox.Show("演算が選択されていません" + Environment.NewLine +
-                  "演算を選択してください。" );
+                  "演算を選択してください。");
                     break;
                 default:
                     break;
@@ -100,9 +100,6 @@ namespace CalcInt
             {
                 return "";
             }
-        }
-        
-
-       
+        }       
     }
 }
