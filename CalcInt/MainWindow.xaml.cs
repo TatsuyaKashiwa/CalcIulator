@@ -75,32 +75,32 @@ namespace CalcInt
         //前回入力値に現在値を代入→temp変数へその値を代入→現在値表示をリセットの順で処理を行う
         void BringInEntry()
         {
+            this.isOperatorEntered = true;
             try
             {
-                this.PreviousResult.Content = this.Result.Content;
-                
-                if (this.isTempEnterd && !isEqualEntered)
-                {
-                    this.ContinuousCalc();
-                }
-                this.isTempEnterd = true;
-                MainWindow.temp = int.Parse((string)this.PreviousResult.Content);
+                 this.ContinuousCalc();
             }
             catch (Exception ex)
             {
                 this.CorrespondExceptionWhenEnter(ex);
             }
+            isEqualEntered = false;
             this.Result.Content = "";
         }
 
         //連続演算時は＝押下時でなくて演算子押下のタイミングで演算を行いたい
         //演算関連の処理を分離するため
         //前回作成インスタンスに応じた演算を行い結果を前回表示値に表示する部分をメソッド化
-        internal void ContinuousCalc() 
+        internal void ContinuousCalc()
         {
-            int calcResult = this.calc.Calculate((string)this.PreviousResult.Content);
-            this.PreviousResult.Content = calcResult.ToString();
-
+            var previousResult = (string)Result.Content;
+            this.PreviousResult.Content= previousResult;
+            if (this.isTempEnterd && !isEqualEntered)
+            {
+                this.PreviousResult.Content = this.calc.Calculate((string)this.PreviousResult.Content).ToString();
+            }
+                this.isTempEnterd = true;
+                MainWindow.temp = int.Parse(previousResult);
         }
 
         //cボタン押下時と再計算不可の例外に対してはすべての入力を取り消すようにしたい
@@ -174,6 +174,7 @@ CEを押してリセットしていただくか
         //0のみが入力されていたら入力値で上書き、それ以外は左端から右へ入力値が押下ごとに表示されるようにした
         internal void ButtonInput(string s)
         {
+            this.isOperatorEntered = false;
             if (this.Result.Content is "0")
             {
                 this.Result.Content = s;
@@ -193,61 +194,61 @@ CEを押してリセットしていただくか
         //演算子押下のフラグをfalseに戻して、押下した数字と表示値を対応させる
         private void seven_Click(object sender, RoutedEventArgs e)
         {
-            this.isOperatorEntered = false;
+            //this.isOperatorEntered = false;
             this.ButtonInput((string)this.seven.Content);
         }
 
         private void eight_Click(object sender, RoutedEventArgs e)
         {
-            this.isOperatorEntered = false;
+            //this.isOperatorEntered = false;
             this.ButtonInput((string)this.eight.Content);
         }
 
         private void nine_Click(object sender, RoutedEventArgs e)
         {
-            this.isOperatorEntered = false;
+            //this.isOperatorEntered = false;
             this.ButtonInput((string)this.nine.Content);
         }
 
         private void four_Click(object sender, RoutedEventArgs e)
         {
-            this.isOperatorEntered = false;
+            //this.isOperatorEntered = false;
             this.ButtonInput((string)this.four.Content);
         }
 
         private void five_Click(object sender, RoutedEventArgs e)
         {
-            this.isOperatorEntered = false;
+            //this.isOperatorEntered = false;
             this.ButtonInput((string)this.five.Content);
         }
 
         private void six_Click(object sender, RoutedEventArgs e)
         {
-            this.isOperatorEntered = false;
+            //this.isOperatorEntered = false;
             this.ButtonInput((string)this.six.Content);
         }
 
         private void one_Click(object sender, RoutedEventArgs e)
         {
-            this.isOperatorEntered = false;
+            //this.isOperatorEntered = false;
             this.ButtonInput((string)this.one.Content);
         }
 
         private void two_Click(object sender, RoutedEventArgs e)
         {
-            this.isOperatorEntered = false;
+            //this.isOperatorEntered = false;
             this.ButtonInput((string)this.two.Content);
         }
 
         private void three_Click(object sender, RoutedEventArgs e)
         {
-            this.isOperatorEntered = false;
+            //this.isOperatorEntered = false;
             this.ButtonInput((string)this.three.Content);
         }
 
         private void zero_Click(object sender, RoutedEventArgs e)
         {
-            this.isOperatorEntered = false;
+            //this.isOperatorEntered = false;
             this.ButtonInput((string)this.zero.Content);
         }
 
@@ -327,9 +328,7 @@ CEを押してリセットしていただくか
                 var s = this.Result.Content + "+";
                 WindowFunctions.Logging(s);
             }
-            this.isOperatorEntered = true;
             this.BringInEntry();
-            isEqualEntered = false;
             this.calc = new Sum();
         }
 
@@ -340,9 +339,7 @@ CEを押してリセットしていただくか
                 var s = this.Result.Content + "-";
                 WindowFunctions.Logging(s);
             }
-            this.isOperatorEntered = true;
             this.BringInEntry();
-            isEqualEntered = false;
             this.calc = new Diff();
         }
 
@@ -353,9 +350,7 @@ CEを押してリセットしていただくか
                 var s = this.Result.Content + "×";
                 WindowFunctions.Logging(s);
             }
-            this.isOperatorEntered = true;
             this.BringInEntry();
-            isEqualEntered = false;
             this.calc = new Multip();
         }
 
@@ -366,9 +361,7 @@ CEを押してリセットしていただくか
                 var s = this.Result.Content + "÷";
                 WindowFunctions.Logging(s);
             }
-            this.isOperatorEntered = true;
             this.BringInEntry();
-            isEqualEntered = false;
             this.calc = new Div();
         }
 
