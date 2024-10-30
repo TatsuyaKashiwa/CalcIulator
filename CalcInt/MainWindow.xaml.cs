@@ -192,65 +192,29 @@ CEを押してリセットしていただくか
         //数字キー
         //数値が入力される時点で演算子過剰押下防止のフラグを倒す必要があるため
         //演算子押下のフラグをfalseに戻して、押下した数字と表示値を対応させる
-        private void seven_Click(object sender, RoutedEventArgs e)
-        {
-            //this.isOperatorEntered = false;
-            this.ButtonInput((string)this.seven.Content);
-        }
+        private void seven_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.seven.Content);
+        
 
-        private void eight_Click(object sender, RoutedEventArgs e)
-        {
-            //this.isOperatorEntered = false;
-            this.ButtonInput((string)this.eight.Content);
-        }
+        private void eight_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.eight.Content);
 
-        private void nine_Click(object sender, RoutedEventArgs e)
-        {
-            //this.isOperatorEntered = false;
-            this.ButtonInput((string)this.nine.Content);
-        }
 
-        private void four_Click(object sender, RoutedEventArgs e)
-        {
-            //this.isOperatorEntered = false;
-            this.ButtonInput((string)this.four.Content);
-        }
+        private void nine_Click(object sender, RoutedEventArgs e)=> this.ButtonInput((string)this.nine.Content);
 
-        private void five_Click(object sender, RoutedEventArgs e)
-        {
-            //this.isOperatorEntered = false;
-            this.ButtonInput((string)this.five.Content);
-        }
 
-        private void six_Click(object sender, RoutedEventArgs e)
-        {
-            //this.isOperatorEntered = false;
-            this.ButtonInput((string)this.six.Content);
-        }
+        private void four_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.four.Content);
 
-        private void one_Click(object sender, RoutedEventArgs e)
-        {
-            //this.isOperatorEntered = false;
-            this.ButtonInput((string)this.one.Content);
-        }
 
-        private void two_Click(object sender, RoutedEventArgs e)
-        {
-            //this.isOperatorEntered = false;
-            this.ButtonInput((string)this.two.Content);
-        }
+        private void five_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.five.Content);
 
-        private void three_Click(object sender, RoutedEventArgs e)
-        {
-            //this.isOperatorEntered = false;
-            this.ButtonInput((string)this.three.Content);
-        }
+        private void six_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.six.Content);
 
-        private void zero_Click(object sender, RoutedEventArgs e)
-        {
-            //this.isOperatorEntered = false;
-            this.ButtonInput((string)this.zero.Content);
-        }
+        private void one_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.one.Content);
+
+        private void two_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.two.Content);
+
+        private void three_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.three.Content);
+
+        private void zero_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.zero.Content);
 
        //機能キー
        //+/-キーに対応するメソッドです。
