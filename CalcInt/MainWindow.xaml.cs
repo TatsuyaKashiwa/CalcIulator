@@ -58,11 +58,11 @@ namespace CalcInt
             switch (ex)
             {
                 case FormatException:
-                    PreviousResult.Content = MainWindow.temp.ToString();
+                    this.PreviousResult.Content = MainWindow.temp.ToString();
                     break;
                 case DivideByZeroException:
                 case OverflowException:
-                    allReset();
+                    this.allReset();
                     break;
                 default:
                     break;
@@ -77,20 +77,20 @@ namespace CalcInt
         {
             try
             {
-                PreviousResult.Content = Result.Content;
+                this.PreviousResult.Content = this.Result.Content;
                 
-                if (isTempEnterd && !isEqualEntered)
+                if (this.isTempEnterd && !isEqualEntered)
                 {
-                    ContinuousCalc();
+                    this.ContinuousCalc();
                 }
-                isTempEnterd = true;
-                MainWindow.temp = int.Parse((string)PreviousResult.Content);
+                this.isTempEnterd = true;
+                MainWindow.temp = int.Parse((string)this.PreviousResult.Content);
             }
             catch (Exception ex)
             {
-                CorrespondExceptionWhenEnter(ex);
+                this.CorrespondExceptionWhenEnter(ex);
             }
-            Result.Content = "";
+            this.Result.Content = "";
         }
 
         //連続演算時は＝押下時でなくて演算子押下のタイミングで演算を行いたい
@@ -98,8 +98,8 @@ namespace CalcInt
         //前回作成インスタンスに応じた演算を行い結果を前回表示値に表示する部分をメソッド化
         internal void ContinuousCalc() 
         {
-            int calcResult = calc.Calculate((string)PreviousResult.Content);
-            PreviousResult.Content = calcResult.ToString();
+            int calcResult = this.calc.Calculate((string)this.PreviousResult.Content);
+            this.PreviousResult.Content = calcResult.ToString();
 
         }
 
@@ -109,14 +109,14 @@ namespace CalcInt
         //すべての入力を初期値に戻す
         void allReset()
         {
-            Result.Content = "";
-            calc = null;
-            ToBinary();
-            ToHex();
-            PreviousResult.Content = "";
-            isTempEnterd = false;
+            this.Result.Content = "";
+            this.calc = null;
+            this.ToBinary();
+            this.ToHex();
+            this.PreviousResult.Content = "";
+            this.isTempEnterd = false;
             isEqualEntered = false;
-            isOperatorEntered = false;
+            this.isOperatorEntered = false;
             WindowFunctions.Logging(Environment.NewLine);
         }
 
@@ -127,14 +127,14 @@ namespace CalcInt
         {
             try
             {
-                BinaryResult.Content = ((string)Result.Content == "") ?
-                 "bin:" : "bin:" + Convert.ToString(int.Parse((string)Result.Content), 2);
+                this.BinaryResult.Content = ((string)this.Result.Content == "") ?
+                 "bin:" : "bin:" + Convert.ToString(int.Parse((string)this.Result.Content), 2);
             }
             catch (Exception ex)
             {
                 if (ex is OverflowException)
                 {
-                    BinaryResult.Content = "bin:0";
+                    this.BinaryResult.Content = "bin:0";
                 }
                 else {
                     WindowFunctions.ShowErrorMessage(ex);
@@ -148,8 +148,8 @@ namespace CalcInt
         {
             try
             {
-                HexaDecimalResult.Content = ((string)Result.Content == "") ?
-                "hex:" : "hex:" + Convert.ToString(int.Parse((string)Result.Content), 16);
+                this.HexaDecimalResult.Content = ((string)this.Result.Content == "") ?
+                "hex:" : "hex:" + Convert.ToString(int.Parse((string)this.Result.Content), 16);
             }
             catch (Exception ex)
             {
@@ -158,13 +158,13 @@ namespace CalcInt
                     MessageBox.Show(@"値が許容範囲を超えています
 CEを押してリセットしていただくか
 再び数字を入力してください");
-                    HexaDecimalResult.Content = "hex:0";
-                    Result.Content = "0";
+                    this.HexaDecimalResult.Content = "hex:0";
+                    this.Result.Content = "0";
                 }
                 else
                 {
                     WindowFunctions.ShowErrorMessage(ex);
-                    Result.Content = "0";
+                    this.Result.Content = "0";
                 }
             }
         }
@@ -174,17 +174,17 @@ CEを押してリセットしていただくか
         //0のみが入力されていたら入力値で上書き、それ以外は左端から右へ入力値が押下ごとに表示されるようにした
         internal void ButtonInput(string s)
         {
-            if (Result.Content is "0")
+            if (this.Result.Content is "0")
             {
-                Result.Content = s;
-                ToBinary();
-                ToHex();
+                this.Result.Content = s;
+                this.ToBinary();
+                this.ToHex();
             }
             else
             {
-                Result.Content += s;
-                ToBinary();
-                ToHex();
+                this.Result.Content += s;
+                this.ToBinary();
+                this.ToHex();
             }
         }
 
@@ -193,62 +193,62 @@ CEを押してリセットしていただくか
         //演算子押下のフラグをfalseに戻して、押下した数字と表示値を対応させる
         private void seven_Click(object sender, RoutedEventArgs e)
         {
-            isOperatorEntered = false;
-            ButtonInput((string)seven.Content);
+            this.isOperatorEntered = false;
+            this.ButtonInput((string)this.seven.Content);
         }
 
         private void eight_Click(object sender, RoutedEventArgs e)
         {
-            isOperatorEntered = false;
-            ButtonInput((string)eight.Content);
+            this.isOperatorEntered = false;
+            this.ButtonInput((string)this.eight.Content);
         }
 
         private void nine_Click(object sender, RoutedEventArgs e)
         {
-            isOperatorEntered = false;
-            ButtonInput((string)nine.Content);
+            this.isOperatorEntered = false;
+            this.ButtonInput((string)this.nine.Content);
         }
 
         private void four_Click(object sender, RoutedEventArgs e)
         {
-            isOperatorEntered = false;
-            ButtonInput((string)four.Content);
+            this.isOperatorEntered = false;
+            this.ButtonInput((string)this.four.Content);
         }
 
         private void five_Click(object sender, RoutedEventArgs e)
         {
-            isOperatorEntered = false;
-            ButtonInput((string)five.Content);
+            this.isOperatorEntered = false;
+            this.ButtonInput((string)this.five.Content);
         }
 
         private void six_Click(object sender, RoutedEventArgs e)
         {
-            isOperatorEntered = false;
-            ButtonInput((string)six.Content);
+            this.isOperatorEntered = false;
+            this.ButtonInput((string)this.six.Content);
         }
 
         private void one_Click(object sender, RoutedEventArgs e)
         {
-            isOperatorEntered = false;
-            ButtonInput((string)one.Content);
+            this.isOperatorEntered = false;
+            this.ButtonInput((string)this.one.Content);
         }
 
         private void two_Click(object sender, RoutedEventArgs e)
         {
-            isOperatorEntered = false;
-            ButtonInput((string)two.Content);
+            this.isOperatorEntered = false;
+            this.ButtonInput((string)this.two.Content);
         }
 
         private void three_Click(object sender, RoutedEventArgs e)
         {
-            isOperatorEntered = false;
-            ButtonInput((string)three.Content);
+            this.isOperatorEntered = false;
+            this.ButtonInput((string)this.three.Content);
         }
 
         private void zero_Click(object sender, RoutedEventArgs e)
         {
-            isOperatorEntered = false;
-            ButtonInput((string)zero.Content);
+            this.isOperatorEntered = false;
+            this.ButtonInput((string)this.zero.Content);
         }
 
        //機能キー
@@ -260,16 +260,16 @@ CEを押してリセットしていただくか
                 //演算キーが初期状態から一回も押されていない状態では入力値は記録されない
                 //当該条件時かつ+/-ボタン押下時に数値を記録するため
                 //この条件分岐を導入した
-                if (PreviousResult.Content is null)
+                if (this.PreviousResult.Content is null)
                 {
-                    WindowFunctions.Logging((string)Result.Content);
-                    PreviousResult.Content = Result.Content;
+                    WindowFunctions.Logging((string)this.Result.Content);
+                    this.PreviousResult.Content = this.Result.Content;
                 }
                 //符号反転のためint32型として表示値を扱いたい
                 //現在表示値のint型への変換はキャストとPerseを伴い記述量が多く、さらに後記の最小値の処理の関係で
                 //仮置変数(result変数)を導入した
-                var result = int.Parse((string)Result.Content);
-                Result.Content = (-result).ToString();
+                var result = int.Parse((string)this.Result.Content);
+                this.Result.Content = (-result).ToString();
                 //int32型最小値はint32型最大値に符号を付けたものに比べて1小さい
                 //しかし上記符号反転では例外が発生せず何も動作が行われないため
                 //そのことを示すメッセージボックスを表示させるようにした。
@@ -289,14 +289,14 @@ CEを押してリセットしていただくか
             //例外の種類ではなく前回入力値があるかどうかで条件分けを行った
             catch (Exception ex)
             {
-                if (PreviousResult.Content is "")
+                if (this.PreviousResult.Content is "")
                 {
                     WindowFunctions.ShowErrorMessage(ex);
                 }
                 else 
                 {
-                    MainWindow.temp = -int.Parse((string)PreviousResult.Content);
-                    PreviousResult.Content = MainWindow.temp.ToString();
+                    MainWindow.temp = -int.Parse((string)this.PreviousResult.Content);
+                    this.PreviousResult.Content = MainWindow.temp.ToString();
                     WindowFunctions.Logging("(+/-)");
                 }
                 
@@ -306,13 +306,13 @@ CEを押してリセットしていただくか
         //CEボタンに対応するメソッド。
         //表示値のみを0にして残りの値を保持した状態にするため
         //表示値を0に変更するのみの記述とした
-        private void clear_Click(object sender, RoutedEventArgs e) => Result.Content = "0";
+        private void clear_Click(object sender, RoutedEventArgs e) => this.Result.Content = "0";
         
 
         //cボタンクリックに対応するメソッド。
         //すべての入力を取り消すため
         //allResetメソッドを呼び出す。
-        private void c_Click(object sender, RoutedEventArgs e) => allReset();
+        private void c_Click(object sender, RoutedEventArgs e) => this.allReset();
         
 
         
@@ -322,54 +322,54 @@ CEを押してリセットしていただくか
         //現在入力値を前回入力値として取り込み、演算に対応するインスタンス生成を行う
         internal void sum_Click(object sender, RoutedEventArgs e)
         {
-            if (!isOperatorEntered)
+            if (!this.isOperatorEntered)
             {
-                var s = Result.Content + "+";
+                var s = this.Result.Content + "+";
                 WindowFunctions.Logging(s);
             }
-            isOperatorEntered = true;
-            BringInEntry();
+            this.isOperatorEntered = true;
+            this.BringInEntry();
             isEqualEntered = false;
-            calc = new Sum();
+            this.calc = new Sum();
         }
 
         internal void diff_Click(object sender, RoutedEventArgs e)
         {
-            if (!isOperatorEntered)
+            if (!this.isOperatorEntered)
             {
-                var s = Result.Content + "-";
+                var s = this.Result.Content + "-";
                 WindowFunctions.Logging(s);
             }
-            isOperatorEntered = true;
-            BringInEntry();
+            this.isOperatorEntered = true;
+            this.BringInEntry();
             isEqualEntered = false;
-            calc = new Diff();
+            this.calc = new Diff();
         }
 
         internal void multip_Click(object sender, RoutedEventArgs e)
         {
-            if (!isOperatorEntered)
+            if (!this.isOperatorEntered)
             {
-                var s = Result.Content + "×";
+                var s = this.Result.Content + "×";
                 WindowFunctions.Logging(s);
             }
-            isOperatorEntered = true;
-            BringInEntry();
+            this.isOperatorEntered = true;
+            this.BringInEntry();
             isEqualEntered = false;
-            calc = new Multip();
+            this.calc = new Multip();
         }
 
         internal void div_Click(object sender, RoutedEventArgs e)
         {
-            if (!isOperatorEntered)
+            if (!this.isOperatorEntered)
             {
-                var s = Result.Content + "÷";
+                var s = this.Result.Content + "÷";
                 WindowFunctions.Logging(s);
             }
-            isOperatorEntered = true;
-            BringInEntry();
+            this.isOperatorEntered = true;
+            this.BringInEntry();
             isEqualEntered = false;
-            calc = new Div();
+            this.calc = new Div();
         }
 
         //＝キー
@@ -377,37 +377,37 @@ CEを押してリセットしていただくか
         {
             try
             {
-                isOperatorEntered = false;
-                var onePrevious = (string)Result.Content;
-                Result.Content = calc.Calculate(onePrevious).ToString();
-                ToBinary();
-                ToHex();
+                this.isOperatorEntered = false;
+                var onePrevious = (string)this.Result.Content;
+                this.Result.Content = this.calc.Calculate(onePrevious).ToString();
+                this.ToBinary();
+                this.ToHex();
                 //PreviousResult.Content = Result.Content;
                 if (isEqualEntered) 
                 {
-                    string oprt = WindowFunctions.OparatorReturn(calc);
-                    var s = onePrevious +oprt + MainWindow.temp.ToString() + " = " + Result.Content + Environment.NewLine;
+                    string oprt = WindowFunctions.OparatorReturn(this.calc);
+                    var s = onePrevious +oprt + MainWindow.temp.ToString() + " = " + this.Result.Content + Environment.NewLine;
                     WindowFunctions.Logging(s);
                 }
                 else
                 {
-                    var s = onePrevious + " = " + Result.Content + Environment.NewLine;
+                    var s = onePrevious + " = " + this.Result.Content + Environment.NewLine;
                     WindowFunctions.Logging(s);
                     MainWindow.temp = int.Parse(onePrevious);
                 }
                 isEqualEntered = true;
-                PreviousResult.Content = Result.Content;
+                this.PreviousResult.Content = this.Result.Content;
             }
             catch (Exception ex)
             {
                 WindowFunctions.ShowErrorMessage(ex);
                 if (ex is not NullReferenceException)
                 {
-                    Result.Content = "";
+                    this.Result.Content = "";
                 }
                 if (ex is OverflowException || ex is DivideByZeroException)
                 {
-                    allReset();
+                    this.allReset();
                 }
             }
         }
@@ -421,49 +421,49 @@ CEを押してリセットしていただくか
             switch (e.Key)
             {
                 case Key.NumPad0:
-                    zero_Click(sender, e);
+                    this.zero_Click(sender, e);
                     break;
                 case Key.NumPad1:
-                    one_Click(sender, e);
+                    this.one_Click(sender, e);
                     break;
                 case Key.NumPad2:
-                    two_Click(sender, e);
+                    this.two_Click(sender, e);
                     break;
                 case Key.NumPad3:
-                    three_Click(sender, e);
+                    this.three_Click(sender, e);
                     break;
                 case Key.NumPad4:
-                    four_Click(sender, e);
+                    this.four_Click(sender, e);
                     break;
                 case Key.NumPad5:
-                    five_Click(sender, e);
+                    this.five_Click(sender, e);
                     break;
                 case Key.NumPad6:
-                    six_Click(sender, e);
+                    this.six_Click(sender, e);
                     break;
                 case Key.NumPad7:
-                    seven_Click(sender, e);
+                    this.seven_Click(sender, e);
                     break;
                 case Key.NumPad8:
-                    eight_Click(sender, e);
+                    this.eight_Click(sender, e);
                     break;
                 case Key.NumPad9:
-                    nine_Click(sender, e);
+                    this.nine_Click(sender, e);
                     break;
                 case Key.Add:
-                    sum_Click(sender, e);
+                    this.sum_Click(sender, e);
                     break;
                 case Key.Subtract:
-                    diff_Click(sender, e);
+                    this.diff_Click(sender, e);
                     break;
                 case Key.Multiply:
-                    multip_Click(sender, e);
+                    this.multip_Click(sender, e);
                     break;
                 case Key.Divide:
-                    div_Click(sender, e);
+                    this.div_Click(sender, e);
                     break;
                 case Key.Enter:
-                    equal_Click(sender, e);
+                    this.equal_Click(sender, e);
                     break;
                 default:
                     break;
