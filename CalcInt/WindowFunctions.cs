@@ -117,5 +117,24 @@ Cを押してリセットしていただくか
                 MainWindow.temp = int.Parse(onePrevious);
             }
         }
+
+        internal static string TurnedResult(string currentResult) 
+        {
+            var result = int.Parse(currentResult);
+
+            if (result == Int32.MinValue)
+            {
+                MessageBox.Show(@"入力下限値です。
+符号反転はできません
+(減算・乗算も出来ません)");
+            }
+            else
+            {
+                WindowFunctions.Logging("(+/-)");
+            }
+
+            return (-result).ToString();
+        }
+    
     }
 }

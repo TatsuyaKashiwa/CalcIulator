@@ -70,6 +70,20 @@ namespace CalcInt
             }
         }
 
+        private void SignException(Exception ex)
+        {
+            if (this.PreviousResult.Content is "")
+            {
+                WindowFunctions.ShowErrorMessage(ex);
+            }
+            else
+            {
+                MainWindow.temp = -int.Parse((string)this.PreviousResult.Content);
+                this.PreviousResult.Content = MainWindow.temp.ToString();
+                WindowFunctions.Logging("(+/-)");
+            }
+        }
+
         //四則演算キー押下時に入力値を前回入力値表示へと移動し、計算される値を受け入れる状態とする必要がある
         //値を前回入力値に取り込んでから表示をリセットする必要があるため
         //前回入力値に現在値を代入→temp変数へその値を代入→現在値表示をリセットの順で処理を行う
@@ -193,16 +207,12 @@ CEを押してリセットしていただくか
         //数値が入力される時点で演算子過剰押下防止のフラグを倒す必要があるため
         //演算子押下のフラグをfalseに戻して、押下した数字と表示値を対応させる
         private void seven_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.seven.Content);
-        
-
+       
         private void eight_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.eight.Content);
-
 
         private void nine_Click(object sender, RoutedEventArgs e)=> this.ButtonInput((string)this.nine.Content);
 
-
         private void four_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.four.Content);
-
 
         private void five_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.five.Content);
 
@@ -222,51 +232,26 @@ CEを押してリセットしていただくか
         {
             try
             {
-                //演算キーが初期状態から一回も押されていない状態では入力値は記録されない
-                //当該条件時かつ+/-ボタン押下時に数値を記録するため
-                //この条件分岐を導入した
+                var currentResult = (string)this.Result.Content;
+
                 if (this.PreviousResult.Content is null)
                 {
-                    WindowFunctions.Logging((string)this.Result.Content);
-                    this.PreviousResult.Content = this.Result.Content;
+                    WindowFunctions.Logging(currentResult);
+                    this.PreviousResult.Content = currentResult;
                 }
-                //符号反転のためint32型として表示値を扱いたい
-                //現在表示値のint型への変換はキャストとPerseを伴い記述量が多く、さらに後記の最小値の処理の関係で
-                //仮置変数(result変数)を導入した
-                var result = int.Parse((string)this.Result.Content);
-                this.Result.Content = (-result).ToString();
-                //int32型最小値はint32型最大値に符号を付けたものに比べて1小さい
-                //しかし上記符号反転では例外が発生せず何も動作が行われないため
-                //そのことを示すメッセージボックスを表示させるようにした。
-                if (result == Int32.MinValue)
-                {
-                    MessageBox.Show(@"入力下限値です。
-符号反転はできません
-(減算・乗算も出来ません)");
-                }
-                else
-                {
-                    WindowFunctions.Logging("(+/-)");
-                }
+
+                this.Result.Content = WindowFunctions.TurnedResult(currentResult);
             }
             //例外に対する捕捉を行う
             //発生しうる例外がFormatExceptionのみで、前回入力値があれば前回入力値に対して符号反転させたいので
             //例外の種類ではなく前回入力値があるかどうかで条件分けを行った
             catch (Exception ex)
             {
-                if (this.PreviousResult.Content is "")
-                {
-                    WindowFunctions.ShowErrorMessage(ex);
-                }
-                else 
-                {
-                    MainWindow.temp = -int.Parse((string)this.PreviousResult.Content);
-                    this.PreviousResult.Content = MainWindow.temp.ToString();
-                    WindowFunctions.Logging("(+/-)");
-                }
-                
+                SignException(ex);
             }
         }
+
+
 
         //CEボタンに対応するメソッド。
         //表示値のみを0にして残りの値を保持した状態にするため
