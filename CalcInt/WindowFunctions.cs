@@ -100,6 +100,22 @@ Cを押してリセットしていただくか
             {
                 return "";
             }
-        }       
+        }
+
+        internal static void LoggingAtEqual(string onePrevious, Calculatable calc,string result) 
+        {
+            if (MainWindow.isEqualEntered)
+            {
+                string oprt = OparatorReturn(calc);
+                var s = onePrevious + oprt + MainWindow.temp.ToString() + " = " + result + Environment.NewLine;
+                Logging(s);
+            }
+            else
+            {
+                var s = onePrevious + " = " + result + Environment.NewLine;
+                Logging(s);
+                MainWindow.temp = int.Parse(onePrevious);
+            }
+        }
     }
 }

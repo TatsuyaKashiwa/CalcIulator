@@ -379,24 +379,13 @@ CEを押してリセットしていただくか
             {
                 this.isOperatorEntered = false;
                 var onePrevious = (string)this.Result.Content;
-                this.Result.Content = this.calc.Calculate(onePrevious).ToString();
+                var result = this.calc.Calculate(onePrevious).ToString();
+                this.Result.Content = result;
                 this.ToBinary();
                 this.ToHex();
-                //PreviousResult.Content = Result.Content;
-                if (isEqualEntered) 
-                {
-                    string oprt = WindowFunctions.OparatorReturn(this.calc);
-                    var s = onePrevious +oprt + MainWindow.temp.ToString() + " = " + this.Result.Content + Environment.NewLine;
-                    WindowFunctions.Logging(s);
-                }
-                else
-                {
-                    var s = onePrevious + " = " + this.Result.Content + Environment.NewLine;
-                    WindowFunctions.Logging(s);
-                    MainWindow.temp = int.Parse(onePrevious);
-                }
+                WindowFunctions.LoggingAtEqual(onePrevious, calc, result);
                 isEqualEntered = true;
-                this.PreviousResult.Content = this.Result.Content;
+                this.PreviousResult.Content = result;
             }
             catch (Exception ex)
             {
