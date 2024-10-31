@@ -75,10 +75,10 @@ Cを押してリセットしていただくか
         /// <returns>演算に対応する演算子</returns>
         /// <remarks>
         /// 連続＝押下での演算時にログに演算子が記録されない事象を解決するため
-        ///直前の四則演算キー押下により生成されたインスタンスに対応した演算子を記録させるため
-        ///switch式で各演算子に対応する分岐を書いた
+        ///直前の四則演算キー押下により生成されたインスタンスに応じて
+        ///分岐するswitch式で各演算子の文字を出力
         ///</remarks>
-        internal static string OparatorReturn(Calculatable calc)
+        private static string OparatorReturn(Calculatable calc)
         {
             return calc switch 
             {
@@ -91,6 +91,18 @@ Cを押してリセットしていただくか
             };
         }
 
+        /// <summary>
+        /// =押下時のログ記録のメソッド
+        /// </summary>
+        /// <param name="onePrevious">最も直近の値</param>
+        /// <param name="calc">現在の演算インスタンス</param>
+        /// <param name="result">計算結果</param>
+        /// <remarks>
+        /// =押下時の直近の入力値・演算インスタンス・演算結果を引数として受け取り=押下による計算を記録する
+        /// =連続押下による演算時は直近値(前回計算結果)と演算子と最初に=を押下した直前に入力した値を
+        /// そうでない(=が最初に押された)時は、直近の入力値を
+        /// それぞれ記録し、その後 = 計算結果 改行を記録する。
+        /// </remarks>
         internal static void LoggingAtEqual(string onePrevious, Calculatable calc,string result) 
         {
             if (MainWindow.isEqualEntered)
@@ -107,6 +119,22 @@ Cを押してリセットしていただくか
             }
         }
 
+        /// <summary>
+        /// 表示値の符号を反転させるメソッド
+        /// </summary>
+        /// <param name="currentResult">現在の表示値</param>
+        /// <returns>符号反転した表示値</returns>
+        /// <remarks>
+        /// <para>
+        /// 現在の表示値を引数に取り、int32型へ変換し符号を反転させて
+        /// string型へ変更した値を変換した値を返す
+        /// 返した先で表示値プロパティに代入され、符号反転した値が表示される
+        /// </para>
+        /// <para>
+        /// int32型最小値であれば例外にならない制限事項があるためメッセージを表示し
+        /// それ以外は(+/-)ボタンが押されたことを示す(+/-)をログに記録する
+        /// </para>
+        /// </remarks>
         internal static string TurnedResult(string currentResult) 
         {
             var result = int.Parse(currentResult);
