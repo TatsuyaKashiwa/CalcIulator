@@ -76,30 +76,19 @@ Cを押してリセットしていただくか
         /// <remarks>
         /// 連続＝押下での演算時にログに演算子が記録されない事象を解決するため
         ///直前の四則演算キー押下により生成されたインスタンスに対応した演算子を記録させるため
-        ///if文で各演算子に対応する分岐を書いた
+        ///switch式で各演算子に対応する分岐を書いた
         ///</remarks>
         internal static string OparatorReturn(Calculatable calc)
         {
-            if (calc.GetType() == typeof(Sum))
+            return calc switch 
             {
-                return "+";
-            }
-            if (calc.GetType() == typeof(Diff))
-            {
-                return "-";
-            }
-            if (calc.GetType() == typeof(Multip))
-            {
-                return "×";
-            }
-            if (calc.GetType() == typeof(Div))
-            {
-                return "÷";
-            }
-            else
-            {
-                return "";
-            }
+                Sum sum => "+",
+                Diff diff =>"-",
+                Multip multip =>"×",
+                Div div =>"÷",
+                _=>""
+                
+            };
         }
 
         internal static void LoggingAtEqual(string onePrevious, Calculatable calc,string result) 
