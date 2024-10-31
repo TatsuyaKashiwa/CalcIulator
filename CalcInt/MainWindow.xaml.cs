@@ -21,26 +21,53 @@ namespace CalcInt
         {
             InitializeComponent();
         }
-        //演算は多相性を用いるため別クラスとして、前回入力値と引数で与えられた現在の入力値で行う
-        //前回入力値は各演算クラスで利用できる必要があるため
-        //前回入力値をstatic変数として受ける
+        /// <summary>
+        /// 前回入力値
+        /// </summary>
+        /// <remarks>
+        /// 演算は多相性を用いるため別クラスとして、前回入力値と引数で与えられた現在の入力値で行う
+        ///前回入力値は各演算クラスで利用できる必要があるため
+        ///前回入力値をstatic変数として受ける
+        ///</remarks>
         internal static int temp;
         
+        /// <summary>
+        /// 演算用インスタンス
+        /// </summary>
+        /// <remarks>
+        /// =押下時に演算キーに対応する演算がなされるようにするインスタンスを受ける変数
+        /// 演算キー押下時に各演算に対応したインスタンスが代入される
+        /// </remarks>
         internal Calculatable calc;
-        
-        //前回入力値があるときには連続計算(演算子押下時に演算がなされる)可能としたい
-        //連続計算(前回入力値に対する演算)できるかを区別する必要があるため
-        //前回入力値が表示されるタイミングでtrueとなり、Cボタンや例外で前回入力値がリセットされる際にfalseになるフラグを導入した
+
+        /// <summary>
+        /// 前回入力値フラグ
+        /// </summary>
+        /// <remarks>
+        /// 前回入力値があるときには連続計算(演算子押下時に演算がなされる)可能としたい
+        ///連続計算(前回入力値に対する演算)できるかを区別する必要があるため
+        ///前回入力値が表示されるタイミングでtrueとなり、Cボタンや例外で前回入力値がリセットされる際にfalseになるフラグを導入した
+        ///</remarks>
         private bool isTempEnterd = false;
 
-        //＝連続押下と通常の演算で演算手法に差があり、＝が押される前後でオペランドの向きが変わる演算がある
-        //＝連続押下の演算であるかどうかの判別が必要となるため
-        //＝押下でtrueになり、演算子が押される(通常の演算に戻る)時falseに戻るフラグを導入した
+        /// <summary>
+        /// =押下フラグ
+        /// </summary>
+        /// <remarks>
+        /// ＝連続押下と通常の演算で演算手法に差があり、＝が押される前後でオペランドの向きが変わる演算がある
+        ///＝連続押下の演算であるかどうかの判別が必要となるため
+        ///＝押下でtrueになり、演算子が押される(通常の演算に戻る)時falseに戻るフラグを導入した
+        ///</remarks>
         internal static bool isEqualEntered = false;
-        
-        //演算キー過剰押下による演算がなされない演算子がログに記録されるのを防ぎたい
-        //演算キー連続押下時に演算子のログ記録を防ぐために
-        //演算キーが押されるとtrueになり、数字キー・＝キーが押されるとfalseに戻るフラグを導入した
+
+        /// <summary>
+        /// 演算キー押下フラグ
+        /// </summary>
+        /// <remarks>
+        /// 演算キー過剰押下による演算がなされない演算子がログに記録されるのを防ぎたい
+        ///演算キー連続押下時に演算子のログ記録を防ぐために
+        ///演算キーが押されるとtrueになり、数字キー・＝キーが押されるとfalseに戻るフラグを導入した
+        ///</remarks>
         private bool isOperatorEntered = false;
 
         /// <summary>
@@ -52,7 +79,7 @@ namespace CalcInt
         /// FormatException(入力忘れ)は前回入力値に値を収納し、
         /// 演算不可能な例外は値をリセット
         /// </remarks>
-        private void CorrespondExceptionWhenEnter(Exception ex) 
+        private void EnterException(Exception ex) 
         {
             WindowFunctions.ShowErrorMessage(ex);
             switch (ex)
@@ -70,6 +97,15 @@ namespace CalcInt
             }
         }
 
+        /// <summary>
+        /// 符号反転時の例外に対応するメソッド
+        /// </summary>
+        /// <param name="ex">catchされた例外</param>
+        /// <remarks>
+        /// 符号反転時に発生しうる例外がFormatExceptionのみなので、
+        /// 前回入力値があれば前回入力値に対して符号反転を行い
+        /// 入力値がなければエラーメッセージを表示させるようにした。
+        /// </remarks>
         private void SignException(Exception ex)
         {
             if (this.PreviousResult.Content is "")
@@ -84,43 +120,63 @@ namespace CalcInt
             }
         }
 
-        //四則演算キー押下時に入力値を前回入力値表示へと移動し、計算される値を受け入れる状態とする必要がある
-        //値を前回入力値に取り込んでから表示をリセットする必要があるため
-        //前回入力値に現在値を代入→temp変数へその値を代入→現在値表示をリセットの順で処理を行う
+        /// <summary>
+        /// 表示値を前回表示値に取り込むメソッド
+        /// </summary>
+        /// <exception cref="FormatException">値未入力時</exception>
+        /// <exception cref="DivideByZeroException">ゼロ除算時(演算不可能)</exception>
+        /// <exception cref="OverflowException">計算値がint32型の限界を超えた時</exception>
+        /// <remarks>
+        ///演算キー押下により現在の表示値の前回表示値へ移動し、現在表示値の表示をリセットする
+        ///演算キー押下により呼び出されるため演算キー押下フラグはtrueになり
+        ///処理後に=連続押下フラグはfalseとなる
+        ///</remarks>
         void BringInEntry()
         {
             this.isOperatorEntered = true;
             try
             {
-                 this.ContinuousCalc();
+                 this.EntryPrevious();
             }
             catch (Exception ex)
             {
-                this.CorrespondExceptionWhenEnter(ex);
+                this.EnterException(ex);
             }
             isEqualEntered = false;
             this.Result.Content = "";
         }
 
-        //連続演算時は＝押下時でなくて演算子押下のタイミングで演算を行いたい
-        //演算関連の処理を分離するため
-        //前回作成インスタンスに応じた演算を行い結果を前回表示値に表示する部分をメソッド化
-        internal void ContinuousCalc()
+        /// <summary>
+        /// 値の取り込み・四則演算キー押下による演算
+        /// </summary>
+        /// <remarks>
+        /// 現在入力値を前回入力値へ取り込み
+        /// 前回入力値フラグがtrueであれば
+        /// 演算キー押下により前回作成インスタンスに応じた演算を行う
+        /// 前回入力値が取り込まれたため前回入力値フラグをtrueにして
+        /// 演算用の仮置き値に前回入力値を取り込む
+        /// </remarks>
+        internal void EntryPrevious()
         {
             var previousResult = (string)Result.Content;
             this.PreviousResult.Content= previousResult;
-            if (this.isTempEnterd && !isEqualEntered)
+            if (this.isTempEnterd)
             {
-                this.PreviousResult.Content = this.calc.Calculate((string)this.PreviousResult.Content).ToString();
+                this.PreviousResult.Content = this.calc.Calculate(previousResult).ToString();
             }
                 this.isTempEnterd = true;
                 MainWindow.temp = int.Parse(previousResult);
         }
 
-        //cボタン押下時と再計算不可の例外に対してはすべての入力を取り消すようにしたい
-        //共通動作なのでメソッド化を行うべきである
-        //前者はボタンの機能、後者は演算継続不可能なので値を初期値に戻す仕様にしたいため
-        //すべての入力を初期値に戻す
+        /// <summary>
+        /// 全リセットメソッド
+        /// </summary>
+        /// <remarks>
+        /// cボタン押下時と再計算不可の例外に対してはすべての入力を取り消すようにしたい
+        ///共通動作なのでメソッド化を行うべきである
+        ///前者はボタンの機能、後者は演算継続不可能なので値を初期値に戻す仕様にしたいため
+        ///すべての入力を初期値に戻す
+        ///</remarks>
         void allReset()
         {
             this.Result.Content = "";
@@ -134,9 +190,14 @@ namespace CalcInt
             WindowFunctions.Logging(Environment.NewLine);
         }
 
-        //現在入力値を2進表記に変換し2進表記部に表示
-        //下記の16進数と常にペアで運用されるため
-        //両者共通の操作(エラーメッセージ表示・現在入力値を0にする)は16進数のメソッドにまとめた。
+        /// <summary>
+        /// 2進表記部への表示メソッド
+        /// </summary>
+        /// <remarks>
+        /// 現在入力値を2進表記に変換し2進表記部に表示
+        ///下記の16進数と常にペアで運用されるため
+        ///両者共通の操作(エラーメッセージ表示・現在入力値を0にする)は16進数のメソッドにまとめた。
+        ///</remarks>
         void ToBinary()
         {
             try
@@ -155,9 +216,14 @@ namespace CalcInt
                 }
             }
         }
-        //現在入力値を16進表記に変換し16進表記部に表示
-        //OverflowExceptionは致命的でなく現在入力値を再入力すれば良いので
-        //通常とは別個の処理とした
+        /// <summary>
+        /// 16進表記部への表示メソッド
+        /// </summary>
+        /// <remarks>
+        ///現在入力値を16進表記に変換し16進表記部に表示
+        ///OverflowExceptionは致命的でなく現在入力値を再入力すれば良いので
+        ///通常とは別個の処理とした
+        ///</remarks>
         void ToHex()
         {
             try
@@ -183,9 +249,15 @@ CEを押してリセットしていただくか
             }
         }
 
-        //ボタン(テンキー)入力した数字を表示部に反映させるメソッド
-        //int型を対象で0は0その者以外で先頭に立ってはならないので
-        //0のみが入力されていたら入力値で上書き、それ以外は左端から右へ入力値が押下ごとに表示されるようにした
+        /// <summary>
+        /// 数値表示メソッド
+        /// </summary>
+        /// <param name="s"></param>
+        /// <remarks>
+        /// ボタン(テンキー)入力した数字を表示部に反映させるメソッド
+        ///int型を対象で0は0その者以外で先頭に立ってはならないので
+        ///0のみが入力されていたら入力値で上書き、それ以外は左端から右へ入力値が押下ごとに表示されるようにした
+        ///</remarks>
         internal void ButtonInput(string s)
         {
             this.isOperatorEntered = false;
@@ -203,9 +275,13 @@ CEを押してリセットしていただくか
             }
         }
 
-        //数字キー
-        //数値が入力される時点で演算子過剰押下防止のフラグを倒す必要があるため
-        //演算子押下のフラグをfalseに戻して、押下した数字と表示値を対応させる
+        /// <summary>
+        /// 数字キー
+        /// </summary>
+        /// <remarks>
+        ///数字キー押下に対応するメソッド
+        ///数字キー押下時に各数字キーに対応する値を数値表示メソッドへ渡す
+        ///</remarks>
         private void Seven_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.Seven.Content);
        
         private void Eight_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.Eight.Content);
@@ -226,15 +302,23 @@ CEを押してリセットしていただくか
 
         private void Zero_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.Zero.Content);
 
-       //機能キー
-       //+/-キーに対応するメソッドです。
+        //機能キー
+        /// <summary>
+        /// +/-キーに対応するメソッド
+        /// </summary>
+        /// <exception cref="FormatException">現在表示値未入力の際に発生</exception>
+        /// <remarks>
+        /// 現在入力値を符号反転メソッドに渡すことで符号を反転
+        /// 前回入力値がない状態だと押下時の現在表示値が記録されないため
+        /// 現在表示値を記録して、値は前回表示値へ取り込むこととした。
+        /// </remarks>
         private void Sign_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 var currentResult = (string)this.Result.Content;
 
-                if (this.PreviousResult.Content is null)
+                if (this.PreviousResult.Content is "")
                 {
                     WindowFunctions.Logging(currentResult);
                     this.PreviousResult.Content = currentResult;
@@ -250,23 +334,38 @@ CEを押してリセットしていただくか
 
 
 
-        //CEボタンに対応するメソッド。
-        //表示値のみを0にして残りの値を保持した状態にするため
-        //表示値を0に変更するのみの記述とした
+        /// <summary>
+        /// CEボタンに対応するメソッド。
+        /// </summary>
+        /// <remarks>
+        /// 表示値のみを0にして残りの値を保持した状態にするため
+        ///表示値を0に変更するのみの記述とした
+        /// </remarks>
         private void Clear_Click(object sender, RoutedEventArgs e) => this.Result.Content = "0";
-        
 
-        //cボタンクリックに対応するメソッド。
-        //すべての入力を取り消すため
-        //allResetメソッドを呼び出す。
+
+        /// <summary>
+        /// cボタンクリックに対応するメソッド。
+        /// </summary>
+        /// <remarks>
+        /// すべての入力を取り消すため
+        /// 押下に対応して
+        /// allResetメソッドを呼び出す。
+        /// </remarks>
         private void C_Click(object sender, RoutedEventArgs e) => this.allReset();
-        
 
-        
 
-        //四則演算キー 前回入力値がない場合は実際の演算が行われない準備段階となる
-        //演算される値の受け入れならびに演算の準備を行うため
-        //現在入力値を前回入力値として取り込み、演算に対応するインスタンス生成を行う
+
+
+        /// <summary>
+        /// 四則演算キー
+        /// </summary>
+        /// <remarks>
+        ///前回入力値がない場合は実際の演算が行われない準備段階となる
+        ///演算される値の受け入れならびに演算の準備を行うため
+        ///現在入力値を前回入力値として取り込み、演算に対応するインスタンス生成を行う
+        ///演算キー押下フラグにより過剰に演算子文字が記録されないようにする
+        ///</remarks>
         internal void Sum_Click(object sender, RoutedEventArgs e)
         {
             if (!this.isOperatorEntered)
@@ -311,7 +410,21 @@ CEを押してリセットしていただくか
             this.calc = new Div();
         }
 
-        //＝キー
+        /// <summary>
+        /// ＝キー
+        /// </summary>
+        /// <exception cref="FormatException">現在表示値がないときに押下された時</exception>
+        /// <exception cref="NullReferenceException">演算キー押下前に=が押下された時</exception>
+        /// <exception cref="DivideByZeroException">ゼロ除算時(再計算不可)</exception>
+        /// <exception cref="OverflowException">計算結果がint32型の範囲を超えた時(再計算不可)</exception>
+        /// <remarks>
+        /// =押下時に行う処理のメソッド
+        /// 演算とその結果の表示、2進数・16進数表示の更新、ログ記録を行う
+        /// 例外の処理はエラーメッセージの表示に加えて
+        /// 再計算不可例外は値を全リセットして
+        /// NullReferenceExceptionは表示値リセットすべきでない状況で発生するため
+        /// 表示値リセットは行わない
+        /// </remarks>
         internal void Equal_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -341,9 +454,13 @@ CEを押してリセットしていただくか
         }
 
 
-        //テンキー入力とアプリ内キーを連動させるメソッド
-        //テンキー入力とアプリ内キーが一対一で対応する必要があるため
-        //押下されたキーに対して対応するアプリ内キー押下時メソッドを呼び出すようにした
+        /// <summary>
+        /// テンキー入力とアプリ内キーを連動させるメソッド
+        /// </summary>
+        /// <remarks>
+        ///テンキー入力とアプリ内キーが一対一で対応する必要があるため
+        ///押下されたキーに対して対応するアプリ内キー押下時メソッドを呼び出すようにした
+        /// </remarks>
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.Key)
