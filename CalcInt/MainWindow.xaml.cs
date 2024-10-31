@@ -31,17 +31,17 @@ namespace CalcInt
         //前回入力値があるときには連続計算(演算子押下時に演算がなされる)可能としたい
         //連続計算(前回入力値に対する演算)できるかを区別する必要があるため
         //前回入力値が表示されるタイミングでtrueとなり、Cボタンや例外で前回入力値がリセットされる際にfalseになるフラグを導入した
-        bool isTempEnterd = false;
-        
+        private bool isTempEnterd = false;
+
         //＝連続押下と通常の演算で演算手法に差があり、＝が押される前後でオペランドの向きが変わる演算がある
         //＝連続押下の演算であるかどうかの判別が必要となるため
         //＝押下でtrueになり、演算子が押される(通常の演算に戻る)時falseに戻るフラグを導入した
-        static internal bool isEqualEntered = false;
+        internal static bool isEqualEntered = false;
         
         //演算キー過剰押下による演算がなされない演算子がログに記録されるのを防ぎたい
         //演算キー連続押下時に演算子のログ記録を防ぐために
         //演算キーが押されるとtrueになり、数字キー・＝キーが押されるとfalseに戻るフラグを導入した
-        bool isOperatorEntered = false;
+        private bool isOperatorEntered = false;
 
         /// <summary>
         /// BringInEntry()メソッドの例外の処理を行うメソッド
@@ -206,29 +206,29 @@ CEを押してリセットしていただくか
         //数字キー
         //数値が入力される時点で演算子過剰押下防止のフラグを倒す必要があるため
         //演算子押下のフラグをfalseに戻して、押下した数字と表示値を対応させる
-        private void seven_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.seven.Content);
+        private void Seven_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.Seven.Content);
        
-        private void eight_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.eight.Content);
+        private void Eight_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.Eight.Content);
 
-        private void nine_Click(object sender, RoutedEventArgs e)=> this.ButtonInput((string)this.nine.Content);
+        private void Nine_Click(object sender, RoutedEventArgs e)=> this.ButtonInput((string)this.Nine.Content);
 
-        private void four_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.four.Content);
+        private void Four_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.Four.Content);
 
-        private void five_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.five.Content);
+        private void Five_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.Five.Content);
 
-        private void six_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.six.Content);
+        private void Six_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.Six.Content);
 
-        private void one_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.one.Content);
+        private void One_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.One.Content);
 
-        private void two_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.two.Content);
+        private void Two_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.Two.Content);
 
-        private void three_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.three.Content);
+        private void Three_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.Three.Content);
 
-        private void zero_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.zero.Content);
+        private void Zero_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.Zero.Content);
 
        //機能キー
        //+/-キーに対応するメソッドです。
-        private void sign_Click(object sender, RoutedEventArgs e)
+        private void Sign_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -242,9 +242,6 @@ CEを押してリセットしていただくか
 
                 this.Result.Content = WindowFunctions.TurnedResult(currentResult);
             }
-            //例外に対する捕捉を行う
-            //発生しうる例外がFormatExceptionのみで、前回入力値があれば前回入力値に対して符号反転させたいので
-            //例外の種類ではなく前回入力値があるかどうかで条件分けを行った
             catch (Exception ex)
             {
                 SignException(ex);
@@ -256,13 +253,13 @@ CEを押してリセットしていただくか
         //CEボタンに対応するメソッド。
         //表示値のみを0にして残りの値を保持した状態にするため
         //表示値を0に変更するのみの記述とした
-        private void clear_Click(object sender, RoutedEventArgs e) => this.Result.Content = "0";
+        private void Clear_Click(object sender, RoutedEventArgs e) => this.Result.Content = "0";
         
 
         //cボタンクリックに対応するメソッド。
         //すべての入力を取り消すため
         //allResetメソッドを呼び出す。
-        private void c_Click(object sender, RoutedEventArgs e) => this.allReset();
+        private void C_Click(object sender, RoutedEventArgs e) => this.allReset();
         
 
         
@@ -270,7 +267,7 @@ CEを押してリセットしていただくか
         //四則演算キー 前回入力値がない場合は実際の演算が行われない準備段階となる
         //演算される値の受け入れならびに演算の準備を行うため
         //現在入力値を前回入力値として取り込み、演算に対応するインスタンス生成を行う
-        internal void sum_Click(object sender, RoutedEventArgs e)
+        internal void Sum_Click(object sender, RoutedEventArgs e)
         {
             if (!this.isOperatorEntered)
             {
@@ -281,7 +278,7 @@ CEを押してリセットしていただくか
             this.calc = new Sum();
         }
 
-        internal void diff_Click(object sender, RoutedEventArgs e)
+        internal void Diff_Click(object sender, RoutedEventArgs e)
         {
             if (!this.isOperatorEntered)
             {
@@ -292,7 +289,7 @@ CEを押してリセットしていただくか
             this.calc = new Diff();
         }
 
-        internal void multip_Click(object sender, RoutedEventArgs e)
+        internal void Multip_Click(object sender, RoutedEventArgs e)
         {
             if (!this.isOperatorEntered)
             {
@@ -303,7 +300,7 @@ CEを押してリセットしていただくか
             this.calc = new Multip();
         }
 
-        internal void div_Click(object sender, RoutedEventArgs e)
+        internal void Div_Click(object sender, RoutedEventArgs e)
         {
             if (!this.isOperatorEntered)
             {
@@ -315,7 +312,7 @@ CEを押してリセットしていただくか
         }
 
         //＝キー
-        internal void equal_Click(object sender, RoutedEventArgs e)
+        internal void Equal_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -352,49 +349,49 @@ CEを押してリセットしていただくか
             switch (e.Key)
             {
                 case Key.NumPad0:
-                    this.zero_Click(sender, e);
+                    this.Zero_Click(sender, e);
                     break;
                 case Key.NumPad1:
-                    this.one_Click(sender, e);
+                    this.One_Click(sender, e);
                     break;
                 case Key.NumPad2:
-                    this.two_Click(sender, e);
+                    this.Two_Click(sender, e);
                     break;
                 case Key.NumPad3:
-                    this.three_Click(sender, e);
+                    this.Three_Click(sender, e);
                     break;
                 case Key.NumPad4:
-                    this.four_Click(sender, e);
+                    this.Four_Click(sender, e);
                     break;
                 case Key.NumPad5:
-                    this.five_Click(sender, e);
+                    this.Five_Click(sender, e);
                     break;
                 case Key.NumPad6:
-                    this.six_Click(sender, e);
+                    this.Six_Click(sender, e);
                     break;
                 case Key.NumPad7:
-                    this.seven_Click(sender, e);
+                    this.Seven_Click(sender, e);
                     break;
                 case Key.NumPad8:
-                    this.eight_Click(sender, e);
+                    this.Eight_Click(sender, e);
                     break;
                 case Key.NumPad9:
-                    this.nine_Click(sender, e);
+                    this.Nine_Click(sender, e);
                     break;
                 case Key.Add:
-                    this.sum_Click(sender, e);
+                    this.Sum_Click(sender, e);
                     break;
                 case Key.Subtract:
-                    this.diff_Click(sender, e);
+                    this.Diff_Click(sender, e);
                     break;
                 case Key.Multiply:
-                    this.multip_Click(sender, e);
+                    this.Multip_Click(sender, e);
                     break;
                 case Key.Divide:
-                    this.div_Click(sender, e);
+                    this.Div_Click(sender, e);
                     break;
                 case Key.Enter:
-                    this.equal_Click(sender, e);
+                    this.Equal_Click(sender, e);
                     break;
                 default:
                     break;

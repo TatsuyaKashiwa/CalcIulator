@@ -28,23 +28,23 @@
         <Label Name="HexaDecimalResult" Content="hex:" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Background="White"/>
         <Label Name="PreviousResult" Content="" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Background="White"/>
         <Label Name="Result" Content="" Grid.Row="2" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="4" FontSize="36" Padding="5,40,5,10" Background="Azure"/>
-        <Button x:Name="seven" Content="7" Grid.Row="4" Grid.Column="0" FontSize="24" Click="seven_Click"/>
-        <Button x:Name="eight" Content="8" Grid.Row="4" Grid.Column="1" FontSize="24" Click="eight_Click"/>
-        <Button x:Name="nine" Content="9" Grid.Row="4" Grid.Column="2" FontSize="24" Click="nine_Click"/>
-        <Button x:Name="sum" Content="+" Grid.Row="4" Grid.Column="3" FontSize="24" Click="sum_Click"/>
-        <Button x:Name="four" Content="4" Grid.Row="5" Grid.Column="0" FontSize="24" Click="four_Click"/>
-        <Button x:Name="five" Content="5" Grid.Row="5" Grid.Column="1" FontSize="24" Click="five_Click"/>
-        <Button x:Name="six" Content="6" Grid.Row="5" Grid.Column="2" FontSize="24" Click="six_Click"/>
-        <Button x:Name="diff" Content="-" Grid.Row="5" Grid.Column="3" FontSize="24" Click="diff_Click"/>
-        <Button x:Name="one" Content="1" Grid.Row="6" Grid.Column="0" FontSize="24" Click="one_Click"/>
-        <Button x:Name="two" Content="2" Grid.Row="6" Grid.Column="1" FontSize="24" Click="two_Click"/>
-        <Button x:Name="three" Content="3" Grid.Row="6" Grid.Column="2" FontSize="24" Click="three_Click"/>
-        <Button x:Name="multip" Content="×" Grid.Row="6" Grid.Column="3" FontSize="24" Click="multip_Click"/>
-        <Button x:Name="sign" Content="+/-" Grid.Row="7" Grid.Column="0" FontSize="24" Click="sign_Click"/>
-        <Button x:Name="zero" Content="0" Grid.Row="7" Grid.Column="1" FontSize="24" Click="zero_Click"/>
-        <Button x:Name="c" Content="C" Grid.Row="7" Grid.Column="2" FontSize="24" Click="c_Click"/>
-        <Button x:Name="div" Content="÷" Grid.Row="7" Grid.Column="3" FontSize="24" Click="div_Click"/>
-        <Button x:Name="equal" Content="=" Grid.Row="8" Grid.Column="3" FontSize="24" Click="equal_Click"/>
-        <Button x:Name="clear" Content="CE" Grid.Row="8" Grid.Column="2" FontSize="24" Click="clear_Click"/>
+        <Button x:Name="Seven" Content="7" Grid.Row="4" Grid.Column="0" FontSize="24" Click="Seven_Click"/>
+        <Button x:Name="Eight" Content="8" Grid.Row="4" Grid.Column="1" FontSize="24" Click="Eight_Click"/>
+        <Button x:Name="Nine" Content="9" Grid.Row="4" Grid.Column="2" FontSize="24" Click="Nine_Click"/>
+        <Button x:Name="Sum" Content="+" Grid.Row="4" Grid.Column="3" FontSize="24" Click="Sum_Click"/>
+        <Button x:Name="Four" Content="4" Grid.Row="5" Grid.Column="0" FontSize="24" Click="Four_Click"/>
+        <Button x:Name="Five" Content="5" Grid.Row="5" Grid.Column="1" FontSize="24" Click="Five_Click"/>
+        <Button x:Name="Six" Content="6" Grid.Row="5" Grid.Column="2" FontSize="24" Click="Six_Click"/>
+        <Button x:Name="Diff" Content="-" Grid.Row="5" Grid.Column="3" FontSize="24" Click="Diff_Click"/>
+        <Button x:Name="One" Content="1" Grid.Row="6" Grid.Column="0" FontSize="24" Click="One_Click"/>
+        <Button x:Name="Two" Content="2" Grid.Row="6" Grid.Column="1" FontSize="24" Click="Two_Click"/>
+        <Button x:Name="Three" Content="3" Grid.Row="6" Grid.Column="2" FontSize="24" Click="Three_Click"/>
+        <Button x:Name="Multip" Content="×" Grid.Row="6" Grid.Column="3" FontSize="24" Click="Multip_Click"/>
+        <Button x:Name="Sign" Content="+/-" Grid.Row="7" Grid.Column="0" FontSize="24" Click="Sign_Click"/>
+        <Button x:Name="Zero" Content="0" Grid.Row="7" Grid.Column="1" FontSize="24" Click="Zero_Click"/>
+        <Button x:Name="C" Content="C" Grid.Row="7" Grid.Column="2" FontSize="24" Click="C_Click"/>
+        <Button x:Name="Div" Content="÷" Grid.Row="7" Grid.Column="3" FontSize="24" Click="Div_Click"/>
+        <Button x:Name="Equal" Content="=" Grid.Row="8" Grid.Column="3" FontSize="24" Click="Equal_Click"/>
+        <Button x:Name="Clear" Content="CE" Grid.Row="8" Grid.Column="2" FontSize="24" Click="Clear_Click"/>
     </Grid>
 </Window>
