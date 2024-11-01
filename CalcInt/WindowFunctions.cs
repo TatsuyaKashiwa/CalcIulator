@@ -78,7 +78,7 @@ Cを押してリセットしていただくか
         ///直前の四則演算キー押下により生成されたインスタンスに応じて
         ///分岐するswitch式で各演算子の文字を出力
         ///</remarks>
-        private static string OparatorReturn(Calculatable calc)
+        private static string ReturnOparator(Calculatable calc)
         {
             return calc switch 
             {
@@ -107,7 +107,7 @@ Cを押してリセットしていただくか
         {
             if (MainWindow.isEqualEntered)
             {
-                string oprt = OparatorReturn(calc);
+                string oprt = ReturnOparator(calc);
                 var s = onePrevious + oprt + MainWindow.temp.ToString() + " = " + result + Environment.NewLine;
                 Logging(s);
             }
