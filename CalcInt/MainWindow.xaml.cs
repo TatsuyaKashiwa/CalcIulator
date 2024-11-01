@@ -30,7 +30,7 @@ namespace CalcInt
         ///前回入力値をstatic変数として受ける
         ///</remarks>
         internal static int temp;
-        
+
         /// <summary>
         /// 演算用インスタンス
         /// </summary>
@@ -79,7 +79,7 @@ namespace CalcInt
         /// FormatException(入力忘れ)は前回入力値に値を収納し、
         /// 演算不可能な例外は値をリセット
         /// </remarks>
-        private void EnterException(Exception ex) 
+        private void EnterException(Exception ex)
         {
             WindowFunctions.ShowErrorMessage(ex);
             switch (ex)
@@ -89,7 +89,7 @@ namespace CalcInt
                     break;
                 case DivideByZeroException:
                 case OverflowException:
-                    this.allReset();
+                    this.AllReset();
                     break;
                 default:
                     break;
@@ -131,12 +131,12 @@ namespace CalcInt
         ///演算キー押下により呼び出されるため演算キー押下フラグはtrueになり
         ///処理後に=連続押下フラグはfalseとなる
         ///</remarks>
-        void BringInEntry()
+        void BringInEntryValue()
         {
             this.isOperatorEntered = true;
             try
             {
-                 this.EntryPrevious();
+                this.EntryPrevious();
             }
             catch (Exception ex)
             {
@@ -159,13 +159,13 @@ namespace CalcInt
         internal void EntryPrevious()
         {
             var previousResult = (string)Result.Content;
-            this.PreviousResult.Content= previousResult;
+            this.PreviousResult.Content = previousResult;
             if (this.isTempEnterd)
             {
                 this.PreviousResult.Content = this.calc.Calculate(previousResult).ToString();
             }
-                this.isTempEnterd = true;
-                MainWindow.temp = int.Parse(previousResult);
+            this.isTempEnterd = true;
+            MainWindow.temp = int.Parse(previousResult);
         }
 
         /// <summary>
@@ -177,12 +177,12 @@ namespace CalcInt
         ///前者はボタンの機能、後者は演算継続不可能なので値を初期値に戻す仕様にしたいため
         ///すべての入力を初期値に戻す
         ///</remarks>
-        void allReset()
+        void AllReset()
         {
             this.Result.Content = "";
             this.calc = null;
-            this.ToBinary();
-            this.ToHex();
+            this.ShowBinary();
+            this.ShowHex();
             this.PreviousResult.Content = "";
             this.isTempEnterd = false;
             isEqualEntered = false;
@@ -198,7 +198,7 @@ namespace CalcInt
         ///下記の16進数と常にペアで運用されるため
         ///両者共通の操作(エラーメッセージ表示・現在入力値を0にする)は16進数のメソッドにまとめた。
         ///</remarks>
-        void ToBinary()
+        void ShowBinary()
         {
             try
             {
@@ -224,7 +224,7 @@ namespace CalcInt
         ///OverflowExceptionは致命的でなく現在入力値を再入力すれば良いので
         ///通常とは別個の処理とした
         ///</remarks>
-        void ToHex()
+        void ShowHex()
         {
             try
             {
@@ -258,20 +258,20 @@ CEを押してリセットしていただくか
         ///int型を対象で0は0その者以外で先頭に立ってはならないので
         ///0のみが入力されていたら入力値で上書き、それ以外は左端から右へ入力値が押下ごとに表示されるようにした
         ///</remarks>
-        internal void ButtonInput(string s)
+        private void InputButton(string s)
         {
             this.isOperatorEntered = false;
             if (this.Result.Content is "0")
             {
                 this.Result.Content = s;
-                this.ToBinary();
-                this.ToHex();
+                this.ShowBinary();
+                this.ShowHex();
             }
             else
             {
                 this.Result.Content += s;
-                this.ToBinary();
-                this.ToHex();
+                this.ShowBinary();
+                this.ShowHex();
             }
         }
 
@@ -282,25 +282,55 @@ CEを押してリセットしていただくか
         ///数字キー押下に対応するメソッド
         ///数字キー押下時に各数字キーに対応する値を数値表示メソッドへ渡す
         ///</remarks>
-        private void Seven_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.Seven.Content);
-       
-        private void Eight_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.Eight.Content);
+        private void Seven_Click(object sender, RoutedEventArgs e)
+        {
+            this.InputButton((string)this.Seven.Content);
+        }
 
-        private void Nine_Click(object sender, RoutedEventArgs e)=> this.ButtonInput((string)this.Nine.Content);
+        private void Eight_Click(object sender, RoutedEventArgs e)
+        {
+            this.InputButton((string)this.Eight.Content);
+        }
 
-        private void Four_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.Four.Content);
+        private void Nine_Click(object sender, RoutedEventArgs e)
+        {
+            this.InputButton((string)this.Nine.Content);
+        }
 
-        private void Five_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.Five.Content);
+        private void Four_Click(object sender, RoutedEventArgs e)
+        {
+            this.InputButton((string)this.Four.Content);
+        }
 
-        private void Six_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.Six.Content);
+        private void Five_Click(object sender, RoutedEventArgs e)
+        {
+            this.InputButton((string)this.Five.Content);
+        }
 
-        private void One_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.One.Content);
+        private void Six_Click(object sender, RoutedEventArgs e)
+        {
+            this.InputButton((string)this.Six.Content);
+        }
 
-        private void Two_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.Two.Content);
+        private void One_Click(object sender, RoutedEventArgs e)
+        {
+            this.InputButton((string)this.One.Content);
+        }
 
-        private void Three_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.Three.Content);
+        private void Two_Click(object sender, RoutedEventArgs e)
+        {
+            this.InputButton((string)this.Two.Content);
+        }
 
-        private void Zero_Click(object sender, RoutedEventArgs e) => this.ButtonInput((string)this.Zero.Content);
+        private void Three_Click(object sender, RoutedEventArgs e)
+        {
+            this.InputButton((string)this.Three.Content);
+        }
+
+        private void Zero_Click(object sender, RoutedEventArgs e) 
+        { 
+            this.InputButton((string)this.Zero.Content);
+        }
 
         //機能キー
         /// <summary>
@@ -352,7 +382,7 @@ CEを押してリセットしていただくか
         /// 押下に対応して
         /// allResetメソッドを呼び出す。
         /// </remarks>
-        private void C_Click(object sender, RoutedEventArgs e) => this.allReset();
+        private void C_Click(object sender, RoutedEventArgs e) => this.AllReset();
 
 
 
@@ -373,7 +403,7 @@ CEを押してリセットしていただくか
                 var s = this.Result.Content + "+";
                 WindowFunctions.Logging(s);
             }
-            this.BringInEntry();
+            this.BringInEntryValue();
             this.calc = new Sum();
         }
 
@@ -384,7 +414,7 @@ CEを押してリセットしていただくか
                 var s = this.Result.Content + "-";
                 WindowFunctions.Logging(s);
             }
-            this.BringInEntry();
+            this.BringInEntryValue();
             this.calc = new Diff();
         }
 
@@ -395,7 +425,7 @@ CEを押してリセットしていただくか
                 var s = this.Result.Content + "×";
                 WindowFunctions.Logging(s);
             }
-            this.BringInEntry();
+            this.BringInEntryValue();
             this.calc = new Multip();
         }
 
@@ -406,7 +436,7 @@ CEを押してリセットしていただくか
                 var s = this.Result.Content + "÷";
                 WindowFunctions.Logging(s);
             }
-            this.BringInEntry();
+            this.BringInEntryValue();
             this.calc = new Div();
         }
 
@@ -433,8 +463,8 @@ CEを押してリセットしていただくか
                 var onePrevious = (string)this.Result.Content;
                 var result = this.calc.Calculate(onePrevious).ToString();
                 this.Result.Content = result;
-                this.ToBinary();
-                this.ToHex();
+                this.ShowBinary();
+                this.ShowHex();
                 WindowFunctions.LoggingAtEqual(onePrevious, calc, result);
                 isEqualEntered = true;
                 this.PreviousResult.Content = result;
@@ -448,7 +478,7 @@ CEを押してリセットしていただくか
                 }
                 if (ex is OverflowException || ex is DivideByZeroException)
                 {
-                    this.allReset();
+                    this.AllReset();
                 }
             }
         }
