@@ -87,10 +87,12 @@ namespace CalcInt
                 case FormatException:
                     this.PreviousResult.Content = MainWindow.temp.ToString();
                     break;
+
                 case DivideByZeroException:
                 case OverflowException:
                     this.AllReset();
                     break;
+
                 default:
                     break;
 
@@ -98,7 +100,7 @@ namespace CalcInt
         }
 
         /// <summary>
-        /// 符号反転時の例外に対応するメソッド
+        /// 符号反転時の例外に対応するメソッド。
         /// </summary>
         /// <param name="ex">catchされた例外</param>
         /// <remarks>
@@ -160,11 +162,14 @@ namespace CalcInt
         {
             var previousResult = (string)Result.Content;
             this.PreviousResult.Content = previousResult;
+
             if (this.isTempEnterd)
             {
                 this.PreviousResult.Content = this.calc.Calculate(previousResult).ToString();
             }
+
             this.isTempEnterd = true;
+
             MainWindow.temp = int.Parse(previousResult);
         }
 
@@ -263,6 +268,7 @@ namespace CalcInt
         private void InputButton(string s)
         {
             this.isOperatorEntered = false;
+
             if (this.Result.Content is "0")
             {
                 this.Result.Content = s;
@@ -405,7 +411,9 @@ namespace CalcInt
                 var s = this.Result.Content + "+";
                 WindowFunctions.Logging(s);
             }
+
             this.BringInEntryValue();
+
             this.calc = new Sum();
         }
 
@@ -416,7 +424,9 @@ namespace CalcInt
                 var s = this.Result.Content + "-";
                 WindowFunctions.Logging(s);
             }
+
             this.BringInEntryValue();
+
             this.calc = new Diff();
         }
 
@@ -427,7 +437,9 @@ namespace CalcInt
                 var s = this.Result.Content + "×";
                 WindowFunctions.Logging(s);
             }
+
             this.BringInEntryValue();
+
             this.calc = new Multip();
         }
 
@@ -438,7 +450,9 @@ namespace CalcInt
                 var s = this.Result.Content + "÷";
                 WindowFunctions.Logging(s);
             }
+
             this.BringInEntryValue();
+
             this.calc = new Div();
         }
 
@@ -463,17 +477,23 @@ namespace CalcInt
             {
                 this.isOperatorEntered = false;
                 var onePrevious = (string)this.Result.Content;
+
                 var result = this.calc.Calculate(onePrevious).ToString();
                 this.Result.Content = result;
+
                 this.ShowBinary();
                 this.ShowHex();
+
                 WindowFunctions.LoggingAtEqual(onePrevious, calc, result);
+
                 isEqualEntered = true;
+
                 this.PreviousResult.Content = result;
             }
             catch (Exception ex)
             {
                 WindowFunctions.ShowErrorMessage(ex);
+
                 if (ex is not NullReferenceException)
                 {
                     this.Result.Content = "";
