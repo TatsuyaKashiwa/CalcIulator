@@ -32,22 +32,30 @@ namespace CalcInt
             {
                 case DivideByZeroException:
                     Logging("DivideByZeroException");
-                    MessageBox.Show(@"ゼロ除算です！
-値をリセットいたします。");
+                    MessageBox.Show("""
+                                        ゼロ除算です！
+                                        値をリセットいたします。
+                                    """);
                     break;
                 case OverflowException:
                     Logging("OverflowException");
-                    MessageBox.Show(@"値が許容範囲を超えています
-値をリセットいたします。");
+                    MessageBox.Show("""
+                                        値が許容範囲を超えています
+                                        値をリセットいたします。
+                                    """);
                     break;
                 case FormatException:
-                    MessageBox.Show(@"値の入力を忘れています
-Cを押してリセットしていただくか
-再び数字を入力してください");
+                    MessageBox.Show("""
+                                        値の入力を忘れています
+                                        Cを押してリセットしていただくか
+                                        再び数字を入力してください
+                                    """);
                     break;
                 case NullReferenceException:
-                    MessageBox.Show(@"演算が選択されていません
-演算を選択してください。");
+                    MessageBox.Show("""
+                                        演算が選択されていません
+                                        演算を選択してください。
+                                    """);
                     break;
                 default:
                     break;
@@ -77,6 +85,7 @@ Cを押してリセットしていただくか
         /// 連続＝押下での演算時にログに演算子が記録されない事象を解決するため
         ///直前の四則演算キー押下により生成されたインスタンスに応じて
         ///分岐するswitch式で各演算子の文字を出力
+        ///返すものは演算子記号のみのためswitch式で表現
         ///</remarks>
         private static string ReturnOparator(Calculatable calc)
         {
@@ -141,9 +150,11 @@ Cを押してリセットしていただくか
 
             if (result == Int32.MinValue)
             {
-                MessageBox.Show(@"入力下限値です。
-符号反転はできません
-(減算・乗算も出来ません)");
+                MessageBox.Show("""
+                                    入力下限値です。
+                                    符号反転はできません
+                                    (減算・乗算も出来ません)
+                                """);
             }
             else
             {

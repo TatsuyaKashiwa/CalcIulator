@@ -235,9 +235,11 @@ namespace CalcInt
             {
                 if (ex is OverflowException)
                 {
-                    MessageBox.Show(@"値が許容範囲を超えています
-CEを押してリセットしていただくか
-再び数字を入力してください");
+                    MessageBox.Show("""
+                                        値が許容範囲を超えています
+                                        CEを押してリセットしていただくか
+                                        再び数字を入力してください
+                                    """);
                     this.HexaDecimalResult.Content = "hex:0";
                     this.Result.Content = "0";
                 }
