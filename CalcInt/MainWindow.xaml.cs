@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,31 +14,32 @@ using System.Windows.Shapes;
 
 namespace CalcInt
 {
+
+    public enum Nums
+    {
+        ZERO,
+        ONE,
+        TWO,
+        THREE,
+        FOUR,
+        FIVE,
+        SIX,
+        SEVEN,
+        EIGHT,
+        NINE,
+    }
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
-    {
+    public partial class MainWindow : Window    {
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private enum Nums 
-        {
-            ZERO,
-            ONE,
-            TWO,
-            THREE,
-            FOUR,
-            FIVE,
-            SIX,
-            SEVEN,
-            EIGHT,
-            NINE
-        }
+        public int Eight { get; set; } = 8;
 
-        
         /// <summary>
         /// 前回入力値
         /// </summary>
@@ -282,19 +284,20 @@ namespace CalcInt
         ///int型を対象で0は0その者以外で先頭に立ってはならないので
         ///0のみが入力されていたら入力値で上書き、それ以外は左端から右へ入力値が押下ごとに表示されるようにした
         ///</remarks>
-        private void InputButton(string s)
+        private void InputButton(int s)
         {
             this.isOperatorEntered = false;
+            int result = int.Parse((string)this.Result.Content);
 
             if (this.Result.Content is "0")
             {
-                this.Result.Content = s;
+                this.Result.Content =( s + 10 *result).ToString();
                 this.ShowBinary();
                 this.ShowHex();
             }
             else
             {
-                this.Result.Content += s;
+                this.Result.Content =( s + 10 *result).ToString();
                 this.ShowBinary();
                 this.ShowHex();
             }
@@ -309,52 +312,52 @@ namespace CalcInt
         ///</remarks>
         private void Seven_Click(object sender, RoutedEventArgs e)
         {
-            this.InputButton((int)this.Seven.Tag);
+            this.InputButton((int)Nums.SEVEN);
         }
 
         private void Eight_Click(object sender, RoutedEventArgs e)
         {
-            this.InputButton((string)this.Eight.Content);
+            //this.InputButton(this.btnEight.Content);
         }
 
         private void Nine_Click(object sender, RoutedEventArgs e)
         {
-            this.InputButton((string)this.Nine.Content);
+            this.InputButton((int)this.Nine.Tag);
         }
 
         private void Four_Click(object sender, RoutedEventArgs e)
         {
-            this.InputButton((string)this.Four.Content);
+            this.InputButton((int)Nums.FOUR);
         }
 
         private void Five_Click(object sender, RoutedEventArgs e)
         {
-            this.InputButton((string)this.Five.Content);
+            this.InputButton((int)this.Five.Tag);
         }
 
         private void Six_Click(object sender, RoutedEventArgs e)
         {
-            this.InputButton((string)this.Six.Content);
+            this.InputButton((int)this.Six.Tag);
         }
 
         private void One_Click(object sender, RoutedEventArgs e)
         {
-            this.InputButton((string)this.One.Content);
+            this.InputButton((int)this.One.Tag);
         }
 
         private void Two_Click(object sender, RoutedEventArgs e)
         {
-            this.InputButton((string)this.Two.Content);
+            this.InputButton((int)this.Two.Tag);
         }
 
         private void Three_Click(object sender, RoutedEventArgs e)
         {
-            this.InputButton((string)this.Three.Content);
+            this.InputButton((int)this.Three.Tag);
         }
 
         private void Zero_Click(object sender, RoutedEventArgs e) 
         { 
-            this.InputButton((string)this.Zero.Content);
+            this.InputButton((int)this.Zero.Tag);
         }
 
         //機能キー
