@@ -2,6 +2,7 @@
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Ribbon;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -21,6 +22,22 @@ namespace CalcInt
         {
             InitializeComponent();
         }
+
+        private enum Nums 
+        {
+            ZERO,
+            ONE,
+            TWO,
+            THREE,
+            FOUR,
+            FIVE,
+            SIX,
+            SEVEN,
+            EIGHT,
+            NINE
+        }
+
+        
         /// <summary>
         /// 前回入力値
         /// </summary>
@@ -292,7 +309,7 @@ namespace CalcInt
         ///</remarks>
         private void Seven_Click(object sender, RoutedEventArgs e)
         {
-            this.InputButton((string)this.Seven.Content);
+            this.InputButton((int)this.Seven.Tag);
         }
 
         private void Eight_Click(object sender, RoutedEventArgs e)
