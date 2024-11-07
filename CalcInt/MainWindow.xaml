@@ -12,75 +12,44 @@
 
     <Grid Background="DarkGray">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="24*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="32*"/>
+            <RowDefinition Height="46*"/>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="51*"/>
+            <RowDefinition Height="51*"/>
+            <RowDefinition Height="51*"/>
+            <RowDefinition Height="51*"/>
+            <RowDefinition Height="51*"/>
+            <RowDefinition Height="51*"/>
         </Grid.RowDefinitions>
-        <Label Name="BinaryResult" Content="bin:" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Background="White"/>
-        <Label Name="HexaDecimalResult" Content="hex:" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Background="White"/>
-        <Label Name="PreviousResult" Content="" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Background="White"/>
-        <Label Name="Result" Content="0" Grid.Row="2" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="4" FontSize="36" Padding="5,40,5,10" Background="Azure"/>
-        <Button x:Name="Seven" Content="{Binding Seven}" Grid.Row="4" Grid.Column="0" FontSize="24" Click="Seven_Click"/>
-
-
-        <Button x:Name="Eight" Content="{Binding Eight}" Grid.Row="4" Grid.Column="1" FontSize="24" Click="Eight_Click"/>
-
-        <Button x:Name="Nine" Content="{Binding Nine}" Grid.Row="4" Grid.Column="2" FontSize="24" Click="Nine_Click"/>
-
-        <Button x:Name="Sum" Content="+" Tag="+"  Grid.Row="4" Grid.Column="3" FontSize="24" Click="Sum_Click"/>
-        <Button x:Name="Four" Content="{Binding Four}"  Grid.Row="5" Grid.Column="0" FontSize="24" Click="Four_Click">
-            <Button.Tag>
-                FOUR 
-            </Button.Tag>
-        </Button>
-        <Button x:Name="Five" Content="{Binding Five}"  Grid.Row="5" Grid.Column="1" FontSize="24" Click="Five_Click">
-            <Button.Tag>
-                Nums.FIVE
-            </Button.Tag>
-        </Button>
-        <Button x:Name="Six" Content="{Binding Six}"  Grid.Row="5" Grid.Column="2" FontSize="24" Click="Six_Click">
-            <Button.Tag>
-                Nums.SIX
-            </Button.Tag>
-        </Button>
-        <Button x:Name="Diff" Content="-" Tag="-" Grid.Row="5" Grid.Column="3" FontSize="24" Click="Diff_Click"/>
-        <Button x:Name="One" Content="{Binding One}"  Grid.Row="6" Grid.Column="0" FontSize="24" Click="One_Click">
-            <Button.Tag>
-                Nums.ONE
-            </Button.Tag>
-        </Button>
-        <Button x:Name="Two" Content="{Binding Two}"  Grid.Row="6" Grid.Column="1" FontSize="24" Click="Two_Click">
-            <Button.Tag>
-                Nums.TWO
-            </Button.Tag>
-        </Button>
-        <Button x:Name="Three" Content="{Binding Three}"  Grid.Row="6" Grid.Column="2" FontSize="24" Click="Three_Click">
-            <Button.Tag>
-                Nums.THREE
-            </Button.Tag>
-        </Button>
-        <Button x:Name="Multip" Content="×" Tag="*" Grid.Row="6" Grid.Column="3" FontSize="24" Click="Multip_Click"/>
-        <Button x:Name="Sign" Content="+/-" Tag="+/-" Grid.Row="7" Grid.Column="0" FontSize="24" Click="Sign_Click"/>
-        <Button x:Name="Zero" Content="{Binding Zero}"  Grid.Row="7" Grid.Column="1" FontSize="24" Click="Zero_Click">
-            <Button.Tag>
-                Nums.ZERO
-            </Button.Tag>
-        </Button>
-        <Button x:Name="C" Content="C" Tag="C" Grid.Row="7" Grid.Column="2" FontSize="24" Click="C_Click"/>
-        <Button x:Name="Div" Content="÷" Tag="/" Grid.Row="7" Grid.Column="3" FontSize="24" Click="Div_Click"/>
-        <Button x:Name="Equal" Content="=" Tag="=" Grid.Row="8" Grid.Column="3" FontSize="24" Click="Equal_Click"/>
-        <Button x:Name="Clear" Content="CE" Grid.Row="8" Grid.Column="2" FontSize="24" Click="Clear_Click"/>
+        <Label Name="BinaryResult" Content="bin:" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Background="White"/>
+        <Label Name="HexaDecimalResult" Content="hex:" Grid.Column="0" Grid.ColumnSpan="2" Background="White" Margin="0,1,0,0" Grid.Row="1"/>
+        <Label Name="PreviousResult" Content="{Binding PreviousResult}" Grid.Column="2" Grid.ColumnSpan="3" Background="White" Margin="0,1,0,0" Grid.Row="1"/>
+        <Label Name="Result" Content="{Binding Result}"  Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="5" FontSize="36" Padding="5,40,5,10" Background="Azure" Margin="0,27,0,0"/>
+        <Button x:Name="Seven" Content="{Binding Seven}" Grid.Row="3" Grid.Column="0" FontSize="24" Click="Seven_Click" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Eight" Content="{Binding Eight}" Grid.Row="3" Grid.Column="1" FontSize="24" Click="Eight_Click" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Nine" Content="{Binding Nine}" Grid.Row="3" Grid.Column="2" FontSize="24" Click="Nine_Click" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Sum" Content="+" Tag="+"  Grid.Row="3" Grid.Column="3" FontSize="24" Click="Sum_Click" Grid.ColumnSpan="2" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Four" Content="{Binding Four}"  Grid.Row="4" Grid.Column="0" FontSize="24" Click="Four_Click" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Five" Content="{Binding Five}"  Grid.Row="4" Grid.Column="1" FontSize="24" Click="Five_Click" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Six" Content="{Binding Six}"  Grid.Row="4" Grid.Column="2" FontSize="24" Click="Six_Click" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Diff" Content="-" Tag="-" Grid.Row="4" Grid.Column="3" FontSize="24" Click="Diff_Click" Grid.ColumnSpan="2" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="One" Content="{Binding One}"  Grid.Row="5" Grid.Column="0" FontSize="24" Click="One_Click" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Two" Content="{Binding Two}"  Grid.Row="5" Grid.Column="1" FontSize="24" Click="Two_Click" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Three" Content="{Binding Three}"  Grid.Row="5" Grid.Column="2" FontSize="24" Click="Three_Click" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Multip" Content="×" Tag="*" Grid.Row="5" Grid.Column="3" FontSize="24" Click="Multip_Click" Grid.ColumnSpan="2" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Sign" Content="+/-" Tag="+/-" Grid.Row="6" Grid.Column="0" FontSize="24" Click="Sign_Click" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Zero" Content="{Binding Zero}"  Grid.Row="6" Grid.Column="1" FontSize="24" Click="Zero_Click" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="C" Content="C" Tag="C" Grid.Row="6" Grid.Column="2" FontSize="24" Click="C_Click" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Div" Content="÷" Tag="/" Grid.Row="6" Grid.Column="3" FontSize="24" Click="Div_Click" Grid.ColumnSpan="2" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Equal" Content="=" Tag="=" Grid.Row="7" Grid.Column="3" FontSize="24" Click="Equal_Click" Grid.ColumnSpan="2" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Clear" Content="CE" Grid.Row="7" Grid.Column="2" FontSize="24" Click="Clear_Click" Margin="0,51,0,0" Grid.RowSpan="2"/>
     </Grid>
 </Window>

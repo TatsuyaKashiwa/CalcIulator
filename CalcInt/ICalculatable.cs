@@ -14,8 +14,8 @@ namespace CalcInt
     ///各演算に対応するクラスにて実装させてインスタンスの型により演算を区別するために
     ///インタフェースを作成した
     ///</remarks>
-    interface Calculatable
+    interface ICalculatable
     {
-        int Calculate(String s);
+        int Calculate(int x);
     }
 }

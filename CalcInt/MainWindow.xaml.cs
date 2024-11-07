@@ -56,7 +56,7 @@ namespace CalcInt
         /// =押下時に演算キーに対応する演算がなされるようにするインスタンスを受ける変数
         /// 演算キー押下時に各演算に対応したインスタンスが代入される
         /// </remarks>
-        internal Calculatable calc;
+        internal ICalculatable calc;
 
         /// <summary>
         /// 前回入力値フラグ
@@ -66,7 +66,7 @@ namespace CalcInt
         ///連続計算(前回入力値に対する演算)できるかを区別する必要があるため
         ///前回入力値が表示されるタイミングでtrueとなり、Cボタンや例外で前回入力値がリセットされる際にfalseになるフラグを導入した
         ///</remarks>
-        private bool isTempEnterd = false;
+        private bool isTempEntered = false;
 
         /// <summary>
         /// =押下フラグ
@@ -128,14 +128,14 @@ namespace CalcInt
         /// </remarks>
         private void SignException(Exception ex)
         {
-            if (this.PreviousResult.Content is "")
+            if (this.PreviousResult.Content is null)
             {
                 WindowFunctions.ShowErrorMessage(ex);
             }
             else
             {
-                MainWindow.temp = -int.Parse((string)this.PreviousResult.Content);
-                this.PreviousResult.Content = MainWindow.temp.ToString();
+                MainWindow.temp = -(int)this.PreviousResult.Content;
+                this.PreviousResult.Content = MainWindow.temp;
                 WindowFunctions.Logging("(+/-)");
             }
         }
@@ -163,7 +163,7 @@ namespace CalcInt
                 this.EnterException(ex);
             }
             isEqualEntered = false;
-            this.Result.Content = "";
+            this.Result.Content = 0;
         }
 
         /// <summary>
@@ -178,17 +178,17 @@ namespace CalcInt
         /// </remarks>
         internal void EntryPrevious()
         {
-            var previousResult = (string)Result.Content;
+            var previousResult = (int)Result.Content;
             this.PreviousResult.Content = previousResult;
 
-            if (this.isTempEnterd)
+            if (this.isTempEntered)
             {
                 this.PreviousResult.Content = this.calc.Calculate(previousResult).ToString();
             }
 
-            this.isTempEnterd = true;
+            this.isTempEntered = true;
 
-            MainWindow.temp = int.Parse(previousResult);
+            MainWindow.temp = previousResult;
         }
 
         /// <summary>
@@ -207,7 +207,7 @@ namespace CalcInt
             this.ShowBinary();
             this.ShowHex();
             this.PreviousResult.Content = "";
-            this.isTempEnterd = false;
+            this.isTempEntered = false;
             isEqualEntered = false;
             this.isOperatorEntered = false;
             WindowFunctions.Logging(Environment.NewLine);
@@ -225,8 +225,8 @@ namespace CalcInt
         {
             try
             {
-                this.BinaryResult.Content = ((string)this.Result.Content == "") ?
-                 "bin:" : "bin:" + Convert.ToString(int.Parse((string)this.Result.Content), 2);
+                this.BinaryResult.Content = ((int)this.Result.Content == 0) ?
+                 "bin:" : "bin:" + Convert.ToString((int)this.Result.Content, 2);
             }
             catch (Exception ex)
             {
@@ -251,8 +251,8 @@ namespace CalcInt
         {
             try
             {
-                this.HexaDecimalResult.Content = ((string)this.Result.Content == "") ?
-                "hex:" : "hex:" + Convert.ToString(int.Parse((string)this.Result.Content), 16);
+                this.HexaDecimalResult.Content = ((int)this.Result.Content == 0) ?
+                "hex:" : "hex:" + Convert.ToString((int)this.Result.Content, 16);
             }
             catch (Exception ex)
             {
@@ -264,12 +264,12 @@ namespace CalcInt
                                         再び数字を入力してください
                                     """);
                     this.HexaDecimalResult.Content = "hex:0";
-                    this.Result.Content = "0";
+                    this.Result.Content = 0;
                 }
                 else
                 {
                     WindowFunctions.ShowErrorMessage(ex);
-                    this.Result.Content = "0";
+                    this.Result.Content = 0;
                 }
             }
         }
@@ -286,19 +286,17 @@ namespace CalcInt
         private void InputButton(int s)
         {
             this.isOperatorEntered = false;
-            int result = int.Parse((string)this.Result.Content);
+            int result = (int)this.Result.Content;
 
-            if (this.Result.Content is "0")
+            try
             {
-                this.Result.Content =( s + 10 *result).ToString();
+                this.Result.Content = checked(s + 10 * result);
                 this.ShowBinary();
                 this.ShowHex();
             }
-            else
+            catch (Exception ex) 
             {
-                this.Result.Content =( s + 10 *result).ToString();
-                this.ShowBinary();
-                this.ShowHex();
+                WindowFunctions.ShowErrorMessage(ex);
             }
         }
 
@@ -317,6 +315,7 @@ namespace CalcInt
         private void Eight_Click(object sender, RoutedEventArgs e)
         {
             this.InputButton((int)this.Eight.Content);
+            int s = 0;
         }
 
         private void Nine_Click(object sender, RoutedEventArgs e)
@@ -373,11 +372,11 @@ namespace CalcInt
         {
             try
             {
-                var currentResult = (string)this.Result.Content;
+                var currentResult = (int)this.Result.Content;
 
-                if (this.PreviousResult.Content is "")
+                if (this.PreviousResult.Content is 0)
                 {
-                    WindowFunctions.Logging(currentResult);
+                    WindowFunctions.Logging(currentResult.ToString());
                     this.PreviousResult.Content = currentResult;
                 }
 
@@ -495,9 +494,9 @@ namespace CalcInt
             try
             {
                 this.isOperatorEntered = false;
-                var onePrevious = (string)this.Result.Content;
+                var onePrevious = (int)this.Result.Content;
 
-                var result = this.calc.Calculate(onePrevious).ToString();
+                var result = this.calc.Calculate(onePrevious);
                 this.Result.Content = result;
 
                 this.ShowBinary();
@@ -515,7 +514,7 @@ namespace CalcInt
 
                 if (ex is not NullReferenceException)
                 {
-                    this.Result.Content = "";
+                    this.Result.Content = 0;
                 }
                 if (ex is OverflowException || ex is DivideByZeroException)
                 {

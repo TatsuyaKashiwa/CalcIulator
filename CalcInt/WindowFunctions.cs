@@ -87,7 +87,7 @@ namespace CalcInt
         ///分岐するswitch式で各演算子の文字を出力
         ///返すものは演算子記号のみのためswitch式で表現
         ///</remarks>
-        private static string ReturnOparator(Calculatable calc)
+        private static string ReturnOparator(ICalculatable calc)
         {
             return calc switch 
             {
@@ -112,7 +112,7 @@ namespace CalcInt
         /// そうでない(=が最初に押された)時は、直近の入力値を
         /// それぞれ記録し、その後 = 計算結果 改行を記録する。
         /// </remarks>
-        internal static void LoggingAtEqual(string onePrevious, Calculatable calc,string result) 
+        internal static void LoggingAtEqual(int onePrevious, ICalculatable calc,int result) 
         {
             if (MainWindow.isEqualEntered)
             {
@@ -124,7 +124,7 @@ namespace CalcInt
             {
                 var s = onePrevious + " = " + result + Environment.NewLine;
                 Logging(s);
-                MainWindow.temp = int.Parse(onePrevious);
+                MainWindow.temp = onePrevious;
             }
         }
 
@@ -144,11 +144,10 @@ namespace CalcInt
         /// それ以外は(+/-)ボタンが押されたことを示す(+/-)をログに記録する
         /// </para>
         /// </remarks>
-        internal static string TurnedResult(string currentResult) 
+        internal static int TurnedResult(int currentResult) 
         {
-            var result = int.Parse(currentResult);
-
-            if (result == Int32.MinValue)
+   
+            if (currentResult == Int32.MinValue)
             {
                 MessageBox.Show("""
                                     入力下限値です。
@@ -161,7 +160,7 @@ namespace CalcInt
                 WindowFunctions.Logging("(+/-)");
             }
 
-            return (-result).ToString();
+            return -currentResult;
         }
     
     }

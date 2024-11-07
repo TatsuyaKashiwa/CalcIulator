@@ -14,13 +14,13 @@ namespace CalcInt
     ///そのままでは例外が発生せず異常な計算値として表示されるため、
     ///演算をcheckedで囲み、例外をMainWindow側でまとめて処理するためthrowした（他の演算も同様）
     ///</remarks>
-    public class Sum : Calculatable
+    public class Sum : ICalculatable
     {
-        int Calculatable.Calculate(string s)
+        int ICalculatable.Calculate(int x)
         {
             try
             {
-                return checked((MainWindow.temp) + (int.Parse(s)));
+                return checked(MainWindow.temp + x);
             }
             catch(Exception) 
             {
@@ -38,14 +38,14 @@ namespace CalcInt
     ///すなわち前回入力値のオペランドの位置が＝連続押下時かどうかで変化するため
     ///三項演算子でオペランドの配置を入れ替えた
     ///</remarks>
-    public class Diff : Calculatable
+    public class Diff : ICalculatable
     {
-        int Calculatable.Calculate(string s)
+        int ICalculatable.Calculate(int x)
         {
             try
             {
                 return checked(MainWindow.isEqualEntered ?
-                (int.Parse(s)) - (MainWindow.temp) : (MainWindow.temp) - (int.Parse(s)));
+                x - MainWindow.temp : MainWindow.temp - x);
             }
             catch (Exception)
             {
@@ -61,13 +61,13 @@ namespace CalcInt
     /// multipクラスのインスタンス(×押下時に作成)があるとき積の演算作用を行う
     /// 演算をcheckedで囲み、例外をMainWindow側でまとめて処理するためthrowした
     /// </remarks>
-    public class Multip : Calculatable
+    public class Multip : ICalculatable
     {
-        int Calculatable.Calculate(string s)
+        int ICalculatable.Calculate(int x)
         {
             try
             {
-                return checked((MainWindow.temp) * (int.Parse(s)));
+                return checked(MainWindow.temp * x);
             }
             catch (Exception)
             {
@@ -75,7 +75,7 @@ namespace CalcInt
             }
         }
     }
-
+    
     /// <summary>
     /// 除算と除算に対応するインスタンス生成のためのクラス
     /// </summary>
@@ -84,14 +84,14 @@ namespace CalcInt
     ///すなわち前回入力値のオペランドの位置が＝連続押下時かどうかで変化するため
     ///三項演算子でオペランドの配置を入れ替えた
     ///</remarks>
-    public class Div : Calculatable
+    public class Div : ICalculatable
     {
-        int Calculatable.Calculate(string s)
+        int ICalculatable.Calculate(int x)
         {
             try
             {
                 return checked(MainWindow.isEqualEntered ?
-                (int.Parse(s)) / (MainWindow.temp) : (MainWindow.temp) / (int.Parse(s)));
+                x / MainWindow.temp : MainWindow.temp / x);
             }
             catch (Exception)
             {

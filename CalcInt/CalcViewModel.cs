@@ -11,7 +11,11 @@ namespace CalcInt
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         public CalcViewModel() { }
- 
+
+        public int PreviousResult{get; set;}=0;
+
+        public int Result{get; set; }=0;
+
         public int Zero { get; set; } = 0;
         public int One { get; set; } = 1; 
         public int Two { get; set; } = 2;
