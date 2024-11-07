@@ -44,8 +44,8 @@ namespace CalcInt
         {
             try
             {
-                return checked(MainWindow.isEqualEntered ?
-                x - MainWindow.temp : MainWindow.temp - x);
+                return checked(MainWindow.isEqualEntered 
+                                ? x - MainWindow.temp : MainWindow.temp - x);
             }
             catch (Exception)
             {
@@ -90,8 +90,8 @@ namespace CalcInt
         {
             try
             {
-                return checked(MainWindow.isEqualEntered ?
-                x / MainWindow.temp : MainWindow.temp / x);
+                return checked(MainWindow.isEqualEntered 
+                                ? x / MainWindow.temp : MainWindow.temp / x);
             }
             catch (Exception)
             {
