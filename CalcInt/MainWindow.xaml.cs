@@ -56,7 +56,7 @@ namespace CalcInt
         /// =押下時に演算キーに対応する演算がなされるようにするインスタンスを受ける変数
         /// 演算キー押下時に各演算に対応したインスタンスが代入される
         /// </remarks>
-        internal ICalculatable calc;
+        internal ICalculatable Calc;
 
         /// <summary>
         /// 前回入力値フラグ
@@ -108,7 +108,7 @@ namespace CalcInt
 
                 case DivideByZeroException:
                 case OverflowException:
-                    this.AllReset();
+                    this.ResetAll();
                     break;
 
                 default:
@@ -183,7 +183,7 @@ namespace CalcInt
 
             if (this.isTempEntered)
             {
-                this.PreviousResult.Content = this.calc.Calculate(previousResult);
+                this.PreviousResult.Content = this.Calc.Calculate(previousResult);
             }
 
             this.isTempEntered = true;
@@ -203,7 +203,7 @@ namespace CalcInt
         void ResetAll()
         {
             this.Result.Content = "";
-            this.calc = null;
+            this.Calc = null;
             this.ShowBinaryNotation();
             this.ShowHexadecimalNotation();
             this.PreviousResult.Content = "";
@@ -315,7 +315,6 @@ namespace CalcInt
         private void Eight_Click(object sender, RoutedEventArgs e)
         {
             this.InputButton((int)this.Eight.Content);
-            int s = 0;
         }
 
         private void Nine_Click(object sender, RoutedEventArgs e)
@@ -408,7 +407,7 @@ namespace CalcInt
         /// 押下に対応して
         /// allResetメソッドを呼び出す。
         /// </remarks>
-        private void C_Click(object sender, RoutedEventArgs e) => this.AllReset();
+        private void C_Click(object sender, RoutedEventArgs e) => this.ResetAll();
 
 
 
@@ -432,7 +431,7 @@ namespace CalcInt
 
             this.BringInEntryValue();
 
-            this.calc = new Sum();
+            this.Calc = new Sum();
         }
 
         internal void Diff_Click(object sender, RoutedEventArgs e)
@@ -445,7 +444,7 @@ namespace CalcInt
 
             this.BringInEntryValue();
 
-            this.calc = new Diff();
+            this.Calc = new Diff();
         }
 
         internal void Multip_Click(object sender, RoutedEventArgs e)
@@ -458,7 +457,7 @@ namespace CalcInt
 
             this.BringInEntryValue();
 
-            this.calc = new Multip();
+            this.Calc = new Multip();
         }
 
         internal void Div_Click(object sender, RoutedEventArgs e)
@@ -471,7 +470,7 @@ namespace CalcInt
 
             this.BringInEntryValue();
 
-            this.calc = new Div();
+            this.Calc = new Div();
         }
 
         /// <summary>
@@ -496,13 +495,13 @@ namespace CalcInt
                 this.isOperatorEntered = false;
                 var onePrevious = (int)this.Result.Content;
 
-                var result = this.calc.Calculate(onePrevious);
+                var result = this.Calc.Calculate(onePrevious);
                 this.Result.Content = result;
 
                 this.ShowBinaryNotation();
                 this.ShowHexadecimalNotation();
 
-                WindowFunctions.LoggingAtEqual(onePrevious, calc, result);
+                WindowFunctions.LoggingAtEqual(onePrevious, Calc, result);
 
                 isEqualEntered = true;
 
@@ -518,7 +517,7 @@ namespace CalcInt
                 }
                 if (ex is OverflowException || ex is DivideByZeroException)
                 {
-                    this.AllReset();
+                    this.ResetAll();
                 }
             }
         }
