@@ -38,7 +38,6 @@ namespace CalcInt
             InitializeComponent();
         }
 
-        public int Eight { get; set; } = 8;
 
         /// <summary>
         /// 前回入力値
@@ -312,52 +311,52 @@ namespace CalcInt
         ///</remarks>
         private void Seven_Click(object sender, RoutedEventArgs e)
         {
-            this.InputButton((int)Nums.SEVEN);
+            this.InputButton((int)this.Seven.Content);
         }
 
         private void Eight_Click(object sender, RoutedEventArgs e)
         {
-            //this.InputButton(this.btnEight.Content);
+            this.InputButton((int)this.Eight.Content);
         }
 
         private void Nine_Click(object sender, RoutedEventArgs e)
         {
-            this.InputButton((int)this.Nine.Tag);
+            this.InputButton((int)this.Nine.Content);
         }
 
         private void Four_Click(object sender, RoutedEventArgs e)
         {
-            this.InputButton((int)Nums.FOUR);
+            this.InputButton((int)this.Four.Content);
         }
 
         private void Five_Click(object sender, RoutedEventArgs e)
         {
-            this.InputButton((int)this.Five.Tag);
+            this.InputButton((int)this.Five.Content);
         }
 
         private void Six_Click(object sender, RoutedEventArgs e)
         {
-            this.InputButton((int)this.Six.Tag);
+            this.InputButton((int)this.Six.Content);
         }
 
         private void One_Click(object sender, RoutedEventArgs e)
         {
-            this.InputButton((int)this.One.Tag);
+            this.InputButton((int)this.One.Content);
         }
 
         private void Two_Click(object sender, RoutedEventArgs e)
         {
-            this.InputButton((int)this.Two.Tag);
+            this.InputButton((int)this.Two.Content);
         }
 
         private void Three_Click(object sender, RoutedEventArgs e)
         {
-            this.InputButton((int)this.Three.Tag);
+            this.InputButton((int)this.Three.Content);
         }
 
         private void Zero_Click(object sender, RoutedEventArgs e) 
-        { 
-            this.InputButton((int)this.Zero.Tag);
+        {
+            this.InputButton((int)this.Zero.Content);
         }
 
         //機能キー

@@ -6,6 +6,9 @@
         xmlns:local="clr-namespace:CalcInt"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="400" KeyDown="Window_KeyDown">
+    <Window.DataContext>
+        <local:CalcViewModel/>
+    </Window.DataContext>
 
     <Grid Background="DarkGray">
         <Grid.ColumnDefinitions>
@@ -29,53 +32,48 @@
         <Label Name="HexaDecimalResult" Content="hex:" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Background="White"/>
         <Label Name="PreviousResult" Content="" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Background="White"/>
         <Label Name="Result" Content="0" Grid.Row="2" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="4" FontSize="36" Padding="5,40,5,10" Background="Azure"/>
-        <Button x:Name="Seven" Content="7" Grid.Row="4" Grid.Column="0" FontSize="24" Click="Seven_Click">
-            <Button.Tag>
-                <local:Nums>SEVEN</local:Nums>
-            </Button.Tag>
-        </Button>
-        <Button x:Name="btnEight" Content="{Binding Eight}" Grid.Row="4" Grid.Column="1" FontSize="24" Click="Eight_Click">
-        </Button>
-         <Button x:Name="Nine" Content="9" Grid.Row="4" Grid.Column="2" FontSize="24" Click="Nine_Click">
-            <Button.Tag>
-                Nums.NINE
-            </Button.Tag>
-        </Button>
+        <Button x:Name="Seven" Content="{Binding Seven}" Grid.Row="4" Grid.Column="0" FontSize="24" Click="Seven_Click"/>
+
+
+        <Button x:Name="Eight" Content="{Binding Eight}" Grid.Row="4" Grid.Column="1" FontSize="24" Click="Eight_Click"/>
+
+        <Button x:Name="Nine" Content="{Binding Nine}" Grid.Row="4" Grid.Column="2" FontSize="24" Click="Nine_Click"/>
+
         <Button x:Name="Sum" Content="+" Tag="+"  Grid.Row="4" Grid.Column="3" FontSize="24" Click="Sum_Click"/>
-        <Button x:Name="Four" Content="4" Grid.Row="5" Grid.Column="0" FontSize="24" Click="Four_Click">
+        <Button x:Name="Four" Content="{Binding Four}"  Grid.Row="5" Grid.Column="0" FontSize="24" Click="Four_Click">
             <Button.Tag>
                 FOUR 
             </Button.Tag>
         </Button>
-        <Button x:Name="Five" Content="5" Grid.Row="5" Grid.Column="1" FontSize="24" Click="Five_Click">
+        <Button x:Name="Five" Content="{Binding Five}"  Grid.Row="5" Grid.Column="1" FontSize="24" Click="Five_Click">
             <Button.Tag>
                 Nums.FIVE
             </Button.Tag>
         </Button>
-        <Button x:Name="Six" Content="6" Grid.Row="5" Grid.Column="2" FontSize="24" Click="Six_Click">
+        <Button x:Name="Six" Content="{Binding Six}"  Grid.Row="5" Grid.Column="2" FontSize="24" Click="Six_Click">
             <Button.Tag>
                 Nums.SIX
             </Button.Tag>
         </Button>
         <Button x:Name="Diff" Content="-" Tag="-" Grid.Row="5" Grid.Column="3" FontSize="24" Click="Diff_Click"/>
-        <Button x:Name="One" Content="1" Grid.Row="6" Grid.Column="0" FontSize="24" Click="One_Click">
+        <Button x:Name="One" Content="{Binding One}"  Grid.Row="6" Grid.Column="0" FontSize="24" Click="One_Click">
             <Button.Tag>
                 Nums.ONE
             </Button.Tag>
         </Button>
-        <Button x:Name="Two" Content="2" Grid.Row="6" Grid.Column="1" FontSize="24" Click="Two_Click">
+        <Button x:Name="Two" Content="{Binding Two}"  Grid.Row="6" Grid.Column="1" FontSize="24" Click="Two_Click">
             <Button.Tag>
                 Nums.TWO
             </Button.Tag>
         </Button>
-        <Button x:Name="Three" Content="3" Grid.Row="6" Grid.Column="2" FontSize="24" Click="Three_Click">
+        <Button x:Name="Three" Content="{Binding Three}"  Grid.Row="6" Grid.Column="2" FontSize="24" Click="Three_Click">
             <Button.Tag>
                 Nums.THREE
             </Button.Tag>
         </Button>
         <Button x:Name="Multip" Content="×" Tag="*" Grid.Row="6" Grid.Column="3" FontSize="24" Click="Multip_Click"/>
         <Button x:Name="Sign" Content="+/-" Tag="+/-" Grid.Row="7" Grid.Column="0" FontSize="24" Click="Sign_Click"/>
-        <Button x:Name="Zero" Content="0" Grid.Row="7" Grid.Column="1" FontSize="24" Click="Zero_Click">
+        <Button x:Name="Zero" Content="{Binding Zero}"  Grid.Row="7" Grid.Column="1" FontSize="24" Click="Zero_Click">
             <Button.Tag>
                 Nums.ZERO
             </Button.Tag>
