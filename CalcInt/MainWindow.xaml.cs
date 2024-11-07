@@ -47,7 +47,7 @@ namespace CalcInt
         ///前回入力値は各演算クラスで利用できる必要があるため
         ///前回入力値をstatic変数として受ける
         ///</remarks>
-        internal static int temp;
+        internal static int Temp;
 
         /// <summary>
         /// 演算用インスタンス
@@ -103,7 +103,7 @@ namespace CalcInt
             switch (ex)
             {
                 case FormatException:
-                    this.PreviousResult.Content = MainWindow.temp.ToString();
+                    this.PreviousResult.Content = MainWindow.Temp.ToString();
                     break;
 
                 case DivideByZeroException:
@@ -134,8 +134,8 @@ namespace CalcInt
             }
             else
             {
-                MainWindow.temp = -(int)this.PreviousResult.Content;
-                this.PreviousResult.Content = MainWindow.temp;
+                MainWindow.Temp = -(int)this.PreviousResult.Content;
+                this.PreviousResult.Content = MainWindow.Temp;
                 WindowFunctions.Logging("(+/-)");
             }
         }
@@ -156,7 +156,7 @@ namespace CalcInt
             this.isOperatorEntered = true;
             try
             {
-                this.EntryPrevious();
+                this.EntryPreviousValue();
             }
             catch (Exception ex)
             {
@@ -176,19 +176,19 @@ namespace CalcInt
         /// 前回入力値が取り込まれたため前回入力値フラグをtrueにして
         /// 演算用の仮置き値に前回入力値を取り込む
         /// </remarks>
-        internal void EntryPrevious()
+        internal void EntryPreviousValue()
         {
             var previousResult = (int)Result.Content;
             this.PreviousResult.Content = previousResult;
 
             if (this.isTempEntered)
             {
-                this.PreviousResult.Content = this.calc.Calculate(previousResult).ToString();
+                this.PreviousResult.Content = this.calc.Calculate(previousResult);
             }
 
             this.isTempEntered = true;
 
-            MainWindow.temp = previousResult;
+            MainWindow.Temp = previousResult;
         }
 
         /// <summary>
@@ -200,12 +200,12 @@ namespace CalcInt
         ///前者はボタンの機能、後者は演算継続不可能なので値を初期値に戻す仕様にしたいため
         ///すべての入力を初期値に戻す
         ///</remarks>
-        void AllReset()
+        void ResetAll()
         {
             this.Result.Content = "";
             this.calc = null;
-            this.ShowBinary();
-            this.ShowHex();
+            this.ShowBinaryNotation();
+            this.ShowHexadecimalNotation();
             this.PreviousResult.Content = "";
             this.isTempEntered = false;
             isEqualEntered = false;
@@ -221,7 +221,7 @@ namespace CalcInt
         ///下記の16進数と常にペアで運用されるため
         ///両者共通の操作(エラーメッセージ表示・現在入力値を0にする)は16進数のメソッドにまとめた。
         ///</remarks>
-        void ShowBinary()
+        void ShowBinaryNotation()
         {
             try
             {
@@ -247,7 +247,7 @@ namespace CalcInt
         ///OverflowExceptionは致命的でなく現在入力値を再入力すれば良いので
         ///通常とは別個の処理とした
         ///</remarks>
-        void ShowHex()
+        void ShowHexadecimalNotation()
         {
             try
             {
@@ -291,8 +291,8 @@ namespace CalcInt
             try
             {
                 this.Result.Content = checked(s + 10 * result);
-                this.ShowBinary();
-                this.ShowHex();
+                this.ShowBinaryNotation();
+                this.ShowHexadecimalNotation();
             }
             catch (Exception ex) 
             {
@@ -499,8 +499,8 @@ namespace CalcInt
                 var result = this.calc.Calculate(onePrevious);
                 this.Result.Content = result;
 
-                this.ShowBinary();
-                this.ShowHex();
+                this.ShowBinaryNotation();
+                this.ShowHexadecimalNotation();
 
                 WindowFunctions.LoggingAtEqual(onePrevious, calc, result);
 

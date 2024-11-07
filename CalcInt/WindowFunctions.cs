@@ -117,14 +117,14 @@ namespace CalcInt
             if (MainWindow.isEqualEntered)
             {
                 string oprt = ReturnOparator(calc);
-                var s = onePrevious + oprt + MainWindow.temp.ToString() + " = " + result + Environment.NewLine;
+                var s = onePrevious + oprt + MainWindow.Temp.ToString() + " = " + result + Environment.NewLine;
                 Logging(s);
             }
             else
             {
                 var s = onePrevious + " = " + result + Environment.NewLine;
                 Logging(s);
-                MainWindow.temp = onePrevious;
+                MainWindow.Temp = onePrevious;
             }
         }
 
