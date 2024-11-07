@@ -92,9 +92,9 @@ namespace CalcInt
             return calc switch 
             {
                 Sum sum => "+",
-                Diff diff =>"-",
-                Multip multip =>"×",
-                Div div =>"÷",
+                Substract diff =>"-",
+                Multiple multip =>"×",
+                Divide div =>"÷",
                 _=>""
                 
             };

@@ -433,7 +433,7 @@ namespace CalcInt
 
             this.BringInEntryValue();
 
-            this.Calc = new Diff();
+            this.Calc = new Substract();
         }
 
         internal void Multiple_OnClick(object sender, RoutedEventArgs e)
@@ -446,7 +446,7 @@ namespace CalcInt
 
             this.BringInEntryValue();
 
-            this.Calc = new Multip();
+            this.Calc = new Multiple();
         }
 
         internal void Divide_OnClick(object sender, RoutedEventArgs e)
@@ -459,7 +459,7 @@ namespace CalcInt
 
             this.BringInEntryValue();
 
-            this.Calc = new Div();
+            this.Calc = new Divide();
         }
 
         /// <summary>

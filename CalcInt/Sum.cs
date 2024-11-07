@@ -38,7 +38,7 @@ namespace CalcInt
     ///すなわち前回入力値のオペランドの位置が＝連続押下時かどうかで変化するため
     ///三項演算子でオペランドの配置を入れ替えた
     ///</remarks>
-    public class Diff : ICalculatable
+    public class Substract : ICalculatable
     {
         int ICalculatable.Calculate(int x)
         {
@@ -61,7 +61,7 @@ namespace CalcInt
     /// multipクラスのインスタンス(×押下時に作成)があるとき積の演算作用を行う
     /// 演算をcheckedで囲み、例外をMainWindow側でまとめて処理するためthrowした
     /// </remarks>
-    public class Multip : ICalculatable
+    public class Multiple : ICalculatable
     {
         int ICalculatable.Calculate(int x)
         {
@@ -84,7 +84,7 @@ namespace CalcInt
     ///すなわち前回入力値のオペランドの位置が＝連続押下時かどうかで変化するため
     ///三項演算子でオペランドの配置を入れ替えた
     ///</remarks>
-    public class Div : ICalculatable
+    public class Divide : ICalculatable
     {
         int ICalculatable.Calculate(int x)
         {

@@ -40,16 +40,16 @@
         <Button x:Name="Four" Content="{Binding Four}"  Grid.Row="4" Grid.Column="0" FontSize="24" Click="Four_OnClick" Margin="0,51,0,0" Grid.RowSpan="2"/>
         <Button x:Name="Five" Content="{Binding Five}"  Grid.Row="4" Grid.Column="1" FontSize="24" Click="Five_OnClick" Margin="0,51,0,0" Grid.RowSpan="2"/>
         <Button x:Name="Six" Content="{Binding Six}"  Grid.Row="4" Grid.Column="2" FontSize="24" Click="Six_OnClick" Margin="0,51,0,0" Grid.RowSpan="2"/>
-        <Button x:Name="Diff" Content="-" Tag="-" Grid.Row="4" Grid.Column="3" FontSize="24" Click="Subtract_OnClick" Grid.ColumnSpan="2" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Subtract" Content="-" Tag="-" Grid.Row="4" Grid.Column="3" FontSize="24" Click="Subtract_OnClick" Grid.ColumnSpan="2" Margin="0,51,0,0" Grid.RowSpan="2"/>
         <Button x:Name="One" Content="{Binding One}"  Grid.Row="5" Grid.Column="0" FontSize="24" Click="One_OnClick" Margin="0,51,0,0" Grid.RowSpan="2"/>
         <Button x:Name="Two" Content="{Binding Two}"  Grid.Row="5" Grid.Column="1" FontSize="24" Click="Two_OnClick" Margin="0,51,0,0" Grid.RowSpan="2"/>
         <Button x:Name="Three" Content="{Binding Three}"  Grid.Row="5" Grid.Column="2" FontSize="24" Click="Three_OnClick" Margin="0,51,0,0" Grid.RowSpan="2"/>
-        <Button x:Name="Multip" Content="×" Tag="*" Grid.Row="5" Grid.Column="3" FontSize="24" Click="Multiple_OnClick" Grid.ColumnSpan="2" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Multiple" Content="×" Tag="*" Grid.Row="5" Grid.Column="3" FontSize="24" Click="Multiple_OnClick" Grid.ColumnSpan="2" Margin="0,51,0,0" Grid.RowSpan="2"/>
         <Button x:Name="Sign" Content="+/-" Tag="+/-" Grid.Row="6" Grid.Column="0" FontSize="24" Click="Sign_OnClick" Margin="0,51,0,0" Grid.RowSpan="2"/>
         <Button x:Name="Zero" Content="{Binding Zero}"  Grid.Row="6" Grid.Column="1" FontSize="24" Click="Zero_OnClick" Margin="0,51,0,0" Grid.RowSpan="2"/>
         <Button x:Name="C" Content="C" Tag="C" Grid.Row="6" Grid.Column="2" FontSize="24" Click="C_OnClick" Margin="0,51,0,0" Grid.RowSpan="2"/>
-        <Button x:Name="Div" Content="÷" Tag="/" Grid.Row="6" Grid.Column="3" FontSize="24" Click="Divide_OnClick" Grid.ColumnSpan="2" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Divide" Content="÷" Tag="/" Grid.Row="6" Grid.Column="3" FontSize="24" Click="Divide_OnClick" Grid.ColumnSpan="2" Margin="0,51,0,0" Grid.RowSpan="2"/>
         <Button x:Name="Equal" Content="=" Tag="=" Grid.Row="7" Grid.Column="3" FontSize="24" Click="Equal_OnClick" Grid.ColumnSpan="2" Margin="0,51,0,0" Grid.RowSpan="2"/>
-        <Button x:Name="Clear" Content="CE" Grid.Row="7" Grid.Column="2" FontSize="24" Click="CE_OnClick" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="CE" Content="CE" Grid.Row="7" Grid.Column="2" FontSize="24" Click="CE_OnClick" Margin="0,51,0,0" Grid.RowSpan="2"/>
     </Grid>
 </Window>
