@@ -16,7 +16,8 @@ charset = utf-8-bom
 
 # 改行設定
 end_of_line = crlf
-insert_final_newline = false
+insert_final_newline = true
+trim_trailing_whitespace = true
 
 #### .NET コーディング規則 ####
 
