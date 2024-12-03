@@ -27,4 +27,6 @@ public class CalcViewModel : INotifyPropertyChanged
     public ReactiveProperty<int> Seven { get; } = new ReactiveProperty<int>(7);
     public ReactiveProperty<int> Eight { get; } = new ReactiveProperty<int>(8);
     public ReactiveProperty<int> Nine { get; } = new ReactiveProperty<int>(9);
+
+    public ReactivePropertySlim<bool> CanEnter { get; } = new ReactivePropertySlim<bool>(true);
 }
