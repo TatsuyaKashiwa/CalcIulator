@@ -1,8 +1,10 @@
 ﻿using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,11 +13,11 @@ namespace CalcInt;
 public class CalcViewModel : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
-    public CalcViewModel() { }
 
-    public ReactiveProperty<int> PreviousResult { get; } = new ReactiveProperty<int>(0);
+    public ReactiveCommandSlim AddNum { get; }
+    public ReactiveProperty<int> PreviousResult { get; set; } = new ReactiveProperty<int>(0);
 
-    public ReactiveProperty<int> Result { get; } = new ReactiveProperty<int>(0);
+    public ReactiveProperty<int> Result { get; set; } = new ReactiveProperty<int>(0);
 
     public ReactiveProperty<int> Zero { get; } = new ReactiveProperty<int>(0);
     public ReactiveProperty<int> One { get; } = new ReactiveProperty<int>(1);
@@ -29,4 +31,14 @@ public class CalcViewModel : INotifyPropertyChanged
     public ReactiveProperty<int> Nine { get; } = new ReactiveProperty<int>(9);
 
     public ReactivePropertySlim<bool> CanEnter { get; } = new ReactivePropertySlim<bool>(true);
+
+    //TODO 引数が欲しい… => RSC<T>を使おう！
+    public CalcViewModel()
+    {
+        AddNum = CanEnter.ToReactiveCommandSlim().WithSubscribe(() =>
+        {
+            this.Result.Value = this.Result.Value * 10 + 1;
+        });
+    }
+
 }

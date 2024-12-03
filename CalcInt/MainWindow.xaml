@@ -33,7 +33,7 @@
         <Label Name="HexaDecimalResult" Content="hex:" Grid.Column="0" Grid.ColumnSpan="2" Background="White" Margin="0,1,0,0" Grid.Row="1"/>
         <Label Name="PreviousResult" Content="{Binding PreviousResult.Value}" Grid.Column="2" Grid.ColumnSpan="3" Background="White" Margin="0,1,0,0" Grid.Row="1"/>
         <Label Name="Result" Content="{Binding Result.Value}"  Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="5" FontSize="36" Padding="5,40,5,10" Background="Azure" Margin="0,27,0,0"/>
-        <Button x:Name="Seven" Content="{Binding Seven.Value}" Grid.Row="3" Grid.Column="0" FontSize="24" Click="Seven_OnClick" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Seven" Content="{Binding Seven.Value}" Command="{Binding AddNum}" Grid.Row="3" Grid.Column="0" FontSize="24" Click="Seven_OnClick" Margin="0,51,0,0" Grid.RowSpan="2"/>
         <Button x:Name="Eight" Content="{Binding Eight.Value}" Grid.Row="3" Grid.Column="1" FontSize="24" Click="Eight_OnClick" Margin="0,51,0,0" Grid.RowSpan="2"/>
         <Button x:Name="Nine" Content="{Binding Nine.Value}" Grid.Row="3" Grid.Column="2" FontSize="24" Click="Nine_OnClick" Margin="0,51,0,0" Grid.RowSpan="2"/>
         <Button x:Name="Sum" Content="+" Tag="+"  Grid.Row="3" Grid.Column="3" FontSize="24" Click="Sum_OnClick" Grid.ColumnSpan="2" Margin="0,51,0,0" Grid.RowSpan="2"/>
