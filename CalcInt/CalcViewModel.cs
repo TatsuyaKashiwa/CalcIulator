@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Reactive.Bindings;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -12,18 +13,18 @@ public class CalcViewModel : INotifyPropertyChanged
     public event PropertyChangedEventHandler? PropertyChanged;
     public CalcViewModel() { }
 
-    public int PreviousResult{get; set;}=0;
+    public ReactiveProperty<int> PreviousResult { get; } = new ReactiveProperty<int>(0);
 
-    public int Result{get; set; }=0;
+    public ReactiveProperty<int> Result { get; } = new ReactiveProperty<int>(0);
 
-    public int Zero { get; set; } = 0;
-    public int One { get; set; } = 1; 
-    public int Two { get; set; } = 2;
-    public int Three { get; set; } = 3; 
-    public int Four { get; set; } = 4;
-    public int Five { get; set; } = 5;
-    public int Six { get; set; } = 6;
-    public int Seven { get; set; } = 7;
-    public int Eight { get; set; } = 8;
-    public int Nine { get; set; } = 9;
+    public ReactiveProperty<int> Zero { get; } = new ReactiveProperty<int>(0);
+    public ReactiveProperty<int> One { get; } = new ReactiveProperty<int>(1);
+    public ReactiveProperty<int> Two { get; } = new ReactiveProperty<int>(2);
+    public ReactiveProperty<int> Three { get; } = new ReactiveProperty<int>(3);
+    public ReactiveProperty<int> Four { get; } = new ReactiveProperty<int>(4);
+    public ReactiveProperty<int> Five { get; } = new ReactiveProperty<int>(5);
+    public ReactiveProperty<int> Six { get; } = new ReactiveProperty<int>(6);
+    public ReactiveProperty<int> Seven { get; } = new ReactiveProperty<int>(7);
+    public ReactiveProperty<int> Eight { get; } = new ReactiveProperty<int>(8);
+    public ReactiveProperty<int> Nine { get; } = new ReactiveProperty<int>(9);
 }
