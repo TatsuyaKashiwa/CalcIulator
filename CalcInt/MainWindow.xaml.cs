@@ -296,10 +296,10 @@ public partial class MainWindow : Window    {
     ///数字キー押下に対応するメソッド
     ///数字キー押下時に各数字キーに対応する値を数値表示メソッドへ渡す
     ///</remarks>
-    private void Seven_OnClick(object sender, RoutedEventArgs e)
-    {
-        this.InputButton((int)this.Seven.Content);
-    }
+    //private void Seven_OnClick(object sender, RoutedEventArgs e)
+    //{
+    //    this.InputButton((int)this.Seven.Content);
+    //}
 
     private void Eight_OnClick(object sender, RoutedEventArgs e)
     {
@@ -523,36 +523,36 @@ public partial class MainWindow : Window    {
     {
         switch (e.Key)
         {
-            case Key.NumPad0:
-                this.Zero_OnClick(sender, e);
-                break;
-            case Key.NumPad1:
-                this.One_OnClick(sender, e);
-                break;
-            case Key.NumPad2:
-                this.Two_OnClick(sender, e);
-                break;
-            case Key.NumPad3:
-                this.Three_OnClick(sender, e);
-                break;
-            case Key.NumPad4:
-                this.Four_OnClick(sender, e);
-                break;
-            case Key.NumPad5:
-                this.Five_OnClick(sender, e);
-                break;
-            case Key.NumPad6:
-                this.Six_OnClick(sender, e);
-                break;
-            case Key.NumPad7:
-                this.Seven_OnClick(sender, e);
-                break;
-            case Key.NumPad8:
-                this.Eight_OnClick(sender, e);
-                break;
-            case Key.NumPad9:
-                this.Nine_OnClick(sender, e);
-                break;
+            //case Key.NumPad0:
+            //    this.Zero_OnClick(sender, e);
+            //    break;
+            //case Key.NumPad1:
+            //    this.One_OnClick(sender, e);
+            //    break;
+            //case Key.NumPad2:
+            //    this.Two_OnClick(sender, e);
+            //    break;
+            //case Key.NumPad3:
+            //    this.Three_OnClick(sender, e);
+            //    break;
+            //case Key.NumPad4:
+            //    this.Four_OnClick(sender, e);
+            //    break;
+            //case Key.NumPad5:
+            //    this.Five_OnClick(sender, e);
+            //    break;
+            //case Key.NumPad6:
+            //    this.Six_OnClick(sender, e);
+            //    break;
+            //case Key.NumPad7:
+            //    this.Seven_OnClick(sender, e);
+            //    break;
+            //case Key.NumPad8:
+            //    this.Eight_OnClick(sender, e);
+            //    break;
+            //case Key.NumPad9:
+            //    this.Nine_OnClick(sender, e);
+            //    break;
             case Key.Add:
                 this.Sum_OnClick(sender, e);
                 break;
@@ -572,5 +572,5 @@ public partial class MainWindow : Window    {
                 break;
         }
 
-    }   
+    }
 }

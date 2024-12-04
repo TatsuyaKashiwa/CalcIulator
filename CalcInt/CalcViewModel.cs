@@ -14,7 +14,7 @@ public class CalcViewModel : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    public ReactiveCommandSlim AddNum { get; }
+    public ReactiveCommand<int> AddNum { get; }
     public ReactiveProperty<int> PreviousResult { get; set; } = new ReactiveProperty<int>(0);
 
     public ReactiveProperty<int> Result { get; set; } = new ReactiveProperty<int>(0);
@@ -32,13 +32,17 @@ public class CalcViewModel : INotifyPropertyChanged
 
     public ReactivePropertySlim<bool> CanEnter { get; } = new ReactivePropertySlim<bool>(true);
 
-    //TODO 引数が欲しい… => RSC<T>を使おう！
+    
     public CalcViewModel()
     {
-        AddNum = CanEnter.ToReactiveCommandSlim().WithSubscribe(() =>
-        {
-            this.Result.Value = this.Result.Value * 10 + 1;
-        });
+        AddNum = CanEnter
+            .ToReactiveCommand<int>()
+            .WithSubscribe<int>(x =>
+            {
+                this.Result.Value = this.Result.Value * 10 + x;
+            });
+
+
     }
 
 }

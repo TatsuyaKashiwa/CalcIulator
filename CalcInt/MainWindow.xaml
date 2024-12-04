@@ -33,20 +33,20 @@
         <Label Name="HexaDecimalResult" Content="hex:" Grid.Column="0" Grid.ColumnSpan="2" Background="White" Margin="0,1,0,0" Grid.Row="1"/>
         <Label Name="PreviousResult" Content="{Binding PreviousResult.Value}" Grid.Column="2" Grid.ColumnSpan="3" Background="White" Margin="0,1,0,0" Grid.Row="1"/>
         <Label Name="Result" Content="{Binding Result.Value}"  Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="5" FontSize="36" Padding="5,40,5,10" Background="Azure" Margin="0,27,0,0"/>
-        <Button x:Name="Seven" Content="{Binding Seven.Value}" Command="{Binding AddNum}" Grid.Row="3" Grid.Column="0" FontSize="24" Click="Seven_OnClick" Margin="0,51,0,0" Grid.RowSpan="2"/>
-        <Button x:Name="Eight" Content="{Binding Eight.Value}" Grid.Row="3" Grid.Column="1" FontSize="24" Click="Eight_OnClick" Margin="0,51,0,0" Grid.RowSpan="2"/>
-        <Button x:Name="Nine" Content="{Binding Nine.Value}" Grid.Row="3" Grid.Column="2" FontSize="24" Click="Nine_OnClick" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Seven" Content="{Binding Seven.Value}" Command="{Binding AddNum}" CommandParameter="{Binding Seven.Value}" Grid.Row="3" Grid.Column="0" FontSize="24" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Eight" Content="{Binding Eight.Value}" Command="{Binding AddNum}" CommandParameter="{Binding Eight.Value}" Grid.Row="3" Grid.Column="1" FontSize="24" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Nine" Content="{Binding Nine.Value}" Command="{Binding AddNum}" CommandParameter="{Binding Nine.Value}" Grid.Row="3" Grid.Column="2" FontSize="24" Margin="0,51,0,0" Grid.RowSpan="2"/>
         <Button x:Name="Sum" Content="+" Tag="+"  Grid.Row="3" Grid.Column="3" FontSize="24" Click="Sum_OnClick" Grid.ColumnSpan="2" Margin="0,51,0,0" Grid.RowSpan="2"/>
-        <Button x:Name="Four" Content="{Binding Four.Value}"  Grid.Row="4" Grid.Column="0" FontSize="24" Click="Four_OnClick" Margin="0,51,0,0" Grid.RowSpan="2"/>
-        <Button x:Name="Five" Content="{Binding Five.Value}"  Grid.Row="4" Grid.Column="1" FontSize="24" Click="Five_OnClick" Margin="0,51,0,0" Grid.RowSpan="2"/>
-        <Button x:Name="Six" Content="{Binding Six.Value}"  Grid.Row="4" Grid.Column="2" FontSize="24" Click="Six_OnClick" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Four" Content="{Binding Four.Value}" Command="{Binding AddNum}" CommandParameter="{Binding Four.Value}" Grid.Row="4" Grid.Column="0" FontSize="24" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Five" Content="{Binding Five.Value}" Command="{Binding AddNum}" CommandParameter="{Binding Five.Value}" Grid.Row="4" Grid.Column="1" FontSize="24" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Six" Content="{Binding Six.Value}" Command="{Binding AddNum}" CommandParameter="{Binding Six.Value}" Grid.Row="4" Grid.Column="2" FontSize="24" Margin="0,51,0,0" Grid.RowSpan="2"/>
         <Button x:Name="Subtract" Content="-" Tag="-" Grid.Row="4" Grid.Column="3" FontSize="24" Click="Subtract_OnClick" Grid.ColumnSpan="2" Margin="0,51,0,0" Grid.RowSpan="2"/>
-        <Button x:Name="One" Content="{Binding One.Value}"  Grid.Row="5" Grid.Column="0" FontSize="24" Click="One_OnClick" Margin="0,51,0,0" Grid.RowSpan="2"/>
-        <Button x:Name="Two" Content="{Binding Two.Value}"  Grid.Row="5" Grid.Column="1" FontSize="24" Click="Two_OnClick" Margin="0,51,0,0" Grid.RowSpan="2"/>
-        <Button x:Name="Three" Content="{Binding Three.Value}"  Grid.Row="5" Grid.Column="2" FontSize="24" Click="Three_OnClick" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="One" Content="{Binding One.Value}" Command="{Binding AddNum}" CommandParameter="{Binding One.Value}" Grid.Row="5" Grid.Column="0" FontSize="24" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Two" Content="{Binding Two.Value}" Command="{Binding AddNum}" CommandParameter="{Binding Two.Value}" Grid.Row="5" Grid.Column="1" FontSize="24" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Three" Content="{Binding Three.Value}" Command="{Binding AddNum}" CommandParameter="{Binding Three.Value}" Grid.Row="5" Grid.Column="2" FontSize="24" Margin="0,51,0,0" Grid.RowSpan="2"/>
         <Button x:Name="Multiple" Content="×" Tag="*" Grid.Row="5" Grid.Column="3" FontSize="24" Click="Multiple_OnClick" Grid.ColumnSpan="2" Margin="0,51,0,0" Grid.RowSpan="2"/>
         <Button x:Name="Sign" Content="+/-" Tag="+/-" Grid.Row="6" Grid.Column="0" FontSize="24" Click="Sign_OnClick" Margin="0,51,0,0" Grid.RowSpan="2"/>
-        <Button x:Name="Zero" Content="{Binding Zero.Value}"  Grid.Row="6" Grid.Column="1" FontSize="24" Click="Zero_OnClick" Margin="0,51,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="Zero" Content="{Binding Zero.Value}" Command="{Binding AddNum}" CommandParameter="{Binding Zero.Value}" Grid.Row="6" Grid.Column="1" FontSize="24" Margin="0,51,0,0" Grid.RowSpan="2"/>
         <Button x:Name="C" Content="C" Tag="C" Grid.Row="6" Grid.Column="2" FontSize="24" Click="C_OnClick" Margin="0,51,0,0" Grid.RowSpan="2"/>
         <Button x:Name="Divide" Content="÷" Tag="/" Grid.Row="6" Grid.Column="3" FontSize="24" Click="Divide_OnClick" Grid.ColumnSpan="2" Margin="0,51,0,0" Grid.RowSpan="2"/>
         <Button x:Name="Equal" Content="=" Tag="=" Grid.Row="7" Grid.Column="3" FontSize="24" Click="Equal_OnClick" Grid.ColumnSpan="2" Margin="0,51,0,0" Grid.RowSpan="2"/>
